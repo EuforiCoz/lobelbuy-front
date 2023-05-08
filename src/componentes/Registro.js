@@ -56,11 +56,11 @@ const Registro = () => {
                 </div>
                 <div class="form-group">
                     <label for="name">Correo electrónico</label>
-                    <input type="text" id="name" name="correoRegistro" required onChange={inputChangeRegistro}/>
+                    <input type="text" id="email" name="correoRegistro" required onChange={inputChangeRegistro}/>
                 </div>
                 <div class="form-group">
                     <label for="email">Contraseña</label>
-                    <input type="password" id="email" name="contrasenaRegistro" required onChange={inputChangeRegistro}/>
+                    <input type="password" id="password" name="contrasenaRegistro" required onChange={inputChangeRegistro}/>
                 </div>
                 <div className="d-flex justify-content-center align-items-center">
                     <button type="button"  onClick={enviarDatosRegistro}>Crear cuenta</button>
