@@ -86,7 +86,7 @@ function Chats() {
       conversacion: sala
     }
     
-    axios.post("http://localhost:5000/obtenerMensajes", datos)
+    axios.post("https://backend-lobelbuy.onrender.com/obtenerMensajes", datos)
     .then(res => {
         setMessages(res.data);
     })
