@@ -5,7 +5,7 @@ import { useAppContext } from "../AppProvider";
 import Sidebar from "./Sidebar";
 import imagenPerfil from "./iconos/carrito.jpg"
 import axios from "axios"
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./styles/sidebar.css"
 import imgProducto from "./iconos/crash.jpg";
 import {fill} from "@cloudinary/url-gen/actions/resize";
