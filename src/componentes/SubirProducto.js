@@ -56,7 +56,7 @@ const SubirProducto = () => {
 
         
 
-        axios.post("http://localhost:5000/subirProducto", formSubir)
+        axios.post("https://backend-lobelbuy.onrender.com/subirProducto", formSubir)
         .then(({data}) => {
             console.log(data)
             if(data == "Subido correctamente") {

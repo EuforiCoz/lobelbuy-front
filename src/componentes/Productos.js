@@ -28,7 +28,7 @@ const Productos = () => {
             usuario: usuarioConectado.usuario_id
         }
 
-        axios.post("http://localhost:5000/mostrarProductos", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/mostrarProductos", datos)
         .then(res => {
 
             setProductos(res.data)

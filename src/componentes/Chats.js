@@ -27,7 +27,7 @@ function Chats() {
         usuario_id: usuarioConectado.usuario_id
     }
 
-    axios.post("http://localhost:5000/obtenerConversaciones", datos)
+    axios.post("https://backend-lobelbuy.onrender.com/obtenerConversaciones", datos)
     .then(res => {
 
         //setProductos(res.data)

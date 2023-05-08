@@ -64,7 +64,7 @@ const EditarProducto = () => {
             id: params.id
         }
 
-        axios.post("http://localhost:5000/mostrarFichaProducto", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/mostrarFichaProducto", datos)
         .then(res => {
             setProducto(res.data);
         })

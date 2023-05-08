@@ -31,7 +31,7 @@ const FichaProducto = () => {
             id: params.id
         }
 
-        axios.post("http://localhost:5000/mostrarFichaProducto", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/mostrarFichaProducto", datos)
         .then(res => {
             setProducto(res.data) 
         })
@@ -46,7 +46,7 @@ const FichaProducto = () => {
             usuario2_id: producto.usuario_id
         }
 
-        axios.post("http://localhost:5000/crearConversacion", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/crearConversacion", datos)
         .then(res => {
            
                 navigate("/cuenta/chats");

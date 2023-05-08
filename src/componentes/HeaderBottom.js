@@ -28,7 +28,7 @@ const HeaderBottom = () => {
 
     
     useEffect(()=>{
-        if(currentUrl == "http://localhost:3000/"){
+        if(currentUrl == "https://frontend-lobelbuy.onrender.com/"){
             console.log("inicio")
             document.getElementById("busca").hidden = true;
             document.getElementById("nombreBuscador").hidden = true;
