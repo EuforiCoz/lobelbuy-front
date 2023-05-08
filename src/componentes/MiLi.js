@@ -11,14 +11,14 @@ const Sidebar = (props) => {
     return(
 
         <li class="nav-item">
-            <a class={props.clase} href={props.enlace}>
+            <Link class={props.clase} to={props.enlace}>
                 <i class="fa fa-home"></i>
                 {props.nombre == "Perfil" && <BsFillPersonFill/>}
                 {props.nombre == "Chats" && <RiMessage2Fill/>}
                
                
                 {props.nombre}
-            </a>
+            </Link>
         </li>
                        
     )
