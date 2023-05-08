@@ -2,6 +2,7 @@ import React from "react"
 import "./styles/sidebar.css"
 import {BsFillPersonFill} from 'react-icons/bs';
 import {RiMessage2Fill} from 'react-icons/ri';
+import {Link} from "react-router-dom"
 
 
 const Sidebar = (props) => {
