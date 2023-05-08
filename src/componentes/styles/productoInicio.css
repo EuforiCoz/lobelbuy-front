@@ -1,0 +1,45 @@
+/* Animacion solo imagen
+.card {
+    position: relative;
+  }
+  
+  .img-overlay {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .img-overlay img {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .img-overlay:hover img {
+    transform: scale(1.1);
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .img-overlay:hover img:not(:hover) {
+    transform: scale(1);
+    box-shadow: none;
+  }
+  
+  .btnVerProducto {
+    position: relative;
+    z-index: 1;
+  }*/
+
+  .tarjeta {
+    transition: all 0.3s ease; /* agrega una transición suave de 0.3 segundos */
+  }
+  
+  .tarjeta:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8); /* aumenta la intensidad de la sombra al pasar el ratón por encima */
+    transform: translateY(-10px); /* levanta la tarjeta 10px hacia arriba */
+  }
+  
+  .tarjeta:not(:hover) {
+    transform: translateY(0); /* devuelve la tarjeta a su posición original cuando el ratón no está sobre ella */
+  }
+  .card .product .tarjeta .img-container{
+    height: 200px;
+
+  }

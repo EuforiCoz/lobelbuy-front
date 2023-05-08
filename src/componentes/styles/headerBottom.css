@@ -1,0 +1,22 @@
+#headerBottom{
+    /*background-color: #376fa8;*/
+    /*background-color: #2A93C9;*/
+    /*background-color: #013467;*/
+    /*background-color: #1E90FF;*/
+    background-color: #4283ec;
+    font-weight: 600;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+    height: 50px;
+    border-top: 1px solid white;
+    box-shadow: 10px 5px 10px rgba(0.5, 0, 0, 0.5);
+    visibility: hidden;
+}
+
+@media (max-width: 768px) {
+    /* Estilos específicos para ancho de pantalla de 1024px o menos */
+    /* Por ejemplo: */
+    #headerBottom{
+       
+       visibility: visible;
+    }
+  }

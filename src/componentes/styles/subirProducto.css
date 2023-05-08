@@ -1,0 +1,20 @@
+/*
+.formSubirProducto{
+    width: 50%;
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.formSubirProducto:hover {
+    background-color: #2980b9;
+  }*/
+
+#subirProducto .container{
+    border-radius: 10px;
+}

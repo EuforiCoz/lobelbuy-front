@@ -1,0 +1,85 @@
+#login{
+    /*background-color: #4286ca;*/
+    background: linear-gradient(to bottom, #1E90FF,#87CEEB);
+    height: 80vh;
+    position: relative;
+}
+
+/*
+.container{
+    
+    background-color: #3498db;
+    color: white;
+}*/
+
+/*
+.inputIniciar{
+    background-color: #e02d88;
+    background-color: #3D7C9E;
+}
+*/
+
+.inputs{
+    border: 2px solid #3D7C9E;
+}
+
+.inputIniciarSesion{
+    /*background-color: #e02d88;*/
+    background-color: #3D7C9E;
+}
+
+    .titulo{
+        
+    }
+
+  #login form {
+    width: 40%;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(to bottom, #e6f2ff, #99ccff);
+  }
+  
+  #login .form-group {
+    margin-bottom: 20px;
+  }
+  
+  #login .form-group label {
+    display: block;
+    /*font-weight: bold;*/
+    float: left;
+    margin-bottom: 5px;
+  }
+  
+  #login .form-group input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+  }
+  
+  #login .form-group input:focus {
+    outline: none;
+    border-color: #3498db;
+  }
+  
+  #login button[type="button"] {
+    width: 50%;
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  #login button[type="button"]:hover {
+    background-color: #2980b9;
+  }

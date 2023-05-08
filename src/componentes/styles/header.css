@@ -1,0 +1,107 @@
+#header{
+    /*background-color: #376fa8;*/
+    /*background-color: #2A93C9;*/
+    /*background-color: #013467;*/
+    /*background-color: #1E90FF;*/
+    background-color: #4283ec;
+    border-bottom: 2px solid #ccc;
+    font-weight: 600;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.logo{
+    cursor: pointer;
+    display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 40px;
+  background-color: #1E90FF;
+  color: #ffffff;
+  font-family: sans-serif;
+  font-size: 24px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+  text-decoration: none;
+}
+
+.buscador{
+    position: relative;
+}
+
+.iconoBuscar{
+    width: 35px;
+    height: 35px;
+    opacity: 0.6;
+    cursor: pointer;
+    position: absolute;  
+}
+
+.botonCuenta{
+    cursor: pointer;
+}
+
+.botonMensajes{
+    cursor: pointer;
+}
+
+.inputSubir{
+    /*background-color: #e02d88;*/
+    background-color: #3D7C9E;
+    font-weight: 600;
+}
+
+.inputBuscar{
+    /*border: 2px solid #e02d88;*/
+    border: 2px solid #3D7C9E;
+}
+
+.cuenta:hover{
+    color: #dcdbdb;
+}
+
+.iconoUsuario{
+    width: 30px;
+    height: 30px;
+}
+
+.iconoUsuario:hover{
+    fill: #e02d88;
+}
+
+.iconoChat{
+    width: 28px;
+    height: 28px; 
+}
+
+@media (max-width: 768px) {
+    /* Estilos específicos para ancho de pantalla de 1024px o menos */
+    /* Por ejemplo: */
+    #header .cuenta{
+       
+       display: none;
+    }
+
+    #header .subirProducto{
+       
+        display: none;
+     }
+
+     #header .iconoUsuario{
+        display: none;
+     }
+
+     #header .buscador{
+    
+        
+       
+        
+     }
+
+     
+  }

@@ -1,0 +1,85 @@
+#inicio{
+    /*background-color:  #528cff;*/
+    background: linear-gradient(to bottom, #1E90FF,#87CEEB);
+   
+}
+
+.busqueda{
+    background: linear-gradient(to bottom, #87CEEB, #1E90FF);
+}
+
+.productosPorCategorias{
+    background: linear-gradient(to bottom, #1E90FF,#87CEEB);
+}
+
+.buscadorInicio{
+    width: 40%;
+    height: 50px;
+}
+
+.cajaCategoria{
+    width: 130px;
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 20px;
+    background: linear-gradient(to bottom, #e6f2ff, #99ccff);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: all 0.2s ease-in-out;
+}
+
+.cajaCategoria:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+}
+
+.imgIcono{
+    width: 70px;
+    height: 70px;
+}
+
+.enlaceInicio{
+    display: inline-block;
+    text-decoration: none;
+    color: black;
+}
+
+.enlaceInicio:hover{
+    text-decoration: none;
+    color: black;
+}
+
+/*
+.botonCategorias{
+    border-color: #a7c4ff;
+    background-color: #4286ca;
+   
+}
+
+.imagen{
+    width:450px;
+    height: 550px;
+}
+
+.imagenRegistrarse{
+    width:250px;
+    height: 250px;
+}
+
+.inputVerProductos{
+    text-size-adjust: 250px;
+    
+}
+
+.titulos{
+    color:#ecd100;
+}
+
+.enlace{
+    color: white;
+    text-decoration: none;
+}
+*/
