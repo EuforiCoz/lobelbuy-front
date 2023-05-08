@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import "./styles/chats.css"
 import axios from "axios"
 
-const socket = io('http://localhost:5000');
+const socket = io('https://backend-lobelbuy.onrender.com/');
 
 function Chats() {
   const usuarioConectado = JSON.parse(window.localStorage.getItem('usuario'));
