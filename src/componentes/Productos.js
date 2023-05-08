@@ -92,8 +92,8 @@ const Productos = () => {
                                                 <h5 class="card-title">{producto.nombre}</h5>
                                                 <p class="card-text"><span class="fs-5">Precio: {producto.precio}€</span></p>
                                                 <div className="d-flex flex-column">
-                                                    <button className="btn btn-primary"><a href={"/producto/" + producto.id} className="text-white text-decoration-none">Ver producto</a></button>
-                                                    <button className="btn btn-success my-2"><a href={"/editarProducto/" + producto.id} className="text-white text-decoration-none">Editar</a></button>
+                                                    <button className="btn btn-primary"><Link to={"/producto/" + producto.id} className="text-white text-decoration-none">Ver producto</Link></button>
+                                                    <button className="btn btn-success my-2"><Link to={"/editarProducto/" + producto.id} className="text-white text-decoration-none">Editar</Link></button>
                                                     <button className="btn btn-danger" onClick={eliminarProducto}>Eliminar</button>
                                                 </div>
                                             </div>
