@@ -55,8 +55,8 @@ const HeaderBottom = () => {
         <div id="headerBottom" className="position-fixed d-flex align-items-center" style={{width: "100%",bottom: 0}}>
             <div className="container-fluid text-white">
                 <div className="d-flex flex-row justify-content-between align-items-center">
-                    <div className=""><a href="/" className="text-white text-decoration-none">Inicio</a></div>
-                    <div className=""><a href="/subirProducto" className="text-white text-decoration-none">Subir</a></div>
+                    <div className=""><Link to="/" className="text-white text-decoration-none">Inicio</Link></div>
+                    <div className=""><Link to="/subirProducto" className="text-white text-decoration-none">Subir</Link></div>
                     <div className="">
                     {usuario != null ?
                         (
