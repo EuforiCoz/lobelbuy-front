@@ -1,4 +1,4 @@
-.card {
+#chats .card {
     background: #fff;
     transition: .5s;
     border: 0;
@@ -8,7 +8,7 @@
     
     box-shadow: 0 1px 2px 0 rgb(0 0 0 / 10%);
 }
-.chat-app .people-list {
+#chats  .chat-app .people-list {
    
 
     left: 0;
@@ -17,117 +17,117 @@
     
 }
 
-.chat{
+#chats  .chat{
     height: 100%;
 }
 
 
-.people-list .chat-list img {
+#chats  .people-list .chat-list img {
     width: 45px;
     border-radius: 50%
 }
 
-.chat .chat-history .message-data img {
+#chats  .chat .chat-history .message-data img {
     border-radius: 40px;
     width: 40px
 }
 
-.people-list {
+#chats .people-list {
     -moz-transition: .5s;
     -o-transition: .5s;
     -webkit-transition: .5s;
     transition: .5s
 }
 
-.people-list .chat-list li {
+#chats .people-list .chat-list li {
     padding: 10px 15px;
     list-style: none;
     border-radius: 3px
 }
 
-.people-list .chat-list li:hover {
+#chats .people-list .chat-list li:hover {
     background: #efefef;
     cursor: pointer
 }
 
-.people-list .chat-list li.active {
+#chats .people-list .chat-list li.active {
     background: #efefef
 }
 
-.people-list .chat-list li .name {
+#chats .people-list .chat-list li .name {
     font-size: 15px
 }
 
-.people-list .chat-list img {
+#chats .people-list .chat-list img {
     width: 45px;
     border-radius: 50%
 }
 
-.people-list img {
+#chats .people-list img {
     float: left;
     border-radius: 50%
 }
 
-.people-list .about {
+#chats .people-list .about {
     float: left;
     padding-left: 8px
 }
 
-.people-list .status {
+#chats .people-list .status {
     color: #999;
     font-size: 13px
 }
 
-.chat .chat-header {
+#chats .chat .chat-header {
     padding: 15px 20px;
     border-bottom: 2px solid #f4f7f6
 }
 
-.chat .chat-header img {
+#chats .chat .chat-header img {
     float: left;
     border-radius: 40px;
     width: 40px
 }
 
-.chat .chat-header .chat-about {
+#chats .chat .chat-header .chat-about {
     
     float: left;
     padding-left: 10px
 }
 
-.chat .chat-history {
+#chats .chat .chat-history {
     padding: 20px;
     border-bottom: 2px solid #fff
 }
 
-.chat .chat-history ul {
+#chats .chat .chat-history ul {
     padding: 0
 }
 
-.chat .chat-history ul li {
+#chats .chat .chat-history ul li {
     list-style: none;
     margin-bottom: 30px
 }
 
-.chat .chat-history ul li:last-child {
+#chats .chat .chat-history ul li:last-child {
     margin-bottom: 0px
 }
 
-.chat .chat-history .message-data {
+#chats .chat .chat-history .message-data {
     margin-bottom: 15px
 }
 
-.chat .chat-history .message-data img {
+#chats .chat .chat-history .message-data img {
     border-radius: 40px;
     width: 40px
 }
 
-.chat .chat-history .message-data-time {
+#chats .chat .chat-history .message-data-time {
     color: #434651;
     padding-left: 6px
 }
 
-.chat .chat-history .message {
+#chats .chat .chat-history .message {
     color: #444;
     padding: 18px 20px;
     line-height: 26px;
@@ -137,7 +137,7 @@
     position: relative
 }
 
-.chat .chat-history .message:after {
+#chats .chat .chat-history .message:after {
     bottom: 100%;
     left: 7%;
     border: solid transparent;
@@ -151,11 +151,11 @@
     margin-left: -10px
 }
 
-.chat .chat-history .my-message {
+#chats .chat .chat-history .my-message {
     background: #efefef
 }
 
-.chat .chat-history .my-message:after {
+#chats .chat .chat-history .my-message:after {
     bottom: 100%;
     left: 30px;
     border: solid transparent;
@@ -169,21 +169,21 @@
     margin-left: -10px
 }
 
-.chat .chat-history .other-message {
+#chats .chat .chat-history .other-message {
     background: #e8f1f3;
     text-align: right
 }
 
-.chat .chat-history .other-message:after {
+#chats .chat .chat-history .other-message:after {
     border-bottom-color: #e8f1f3;
     left: 93%
 }
 
-.chat .chat-message {
+#chats .chat .chat-message {
     padding: 20px
 }
 
-.online,
+#chats .online,
 .offline,
 .me {
     margin-right: 2px;
@@ -191,23 +191,23 @@
     vertical-align: middle
 }
 
-.online {
+#chats .online {
     color: #86c541
 }
 
-.offline {
+#chats .offline {
     color: #e47297
 }
 
-.me {
+#chats .me {
     color: #1d8ecd
 }
 
-.float-right {
+#chats .float-right {
     float: right
 }
 
-.clearfix:after {
+#chats .clearfix:after {
     visibility: hidden;
     display: block;
     font-size: 0;
