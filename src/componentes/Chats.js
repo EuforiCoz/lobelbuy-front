@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import "./styles/chats.css"
 import axios from "axios"
 
-const socket = io('https://backend-lobelbuy.onrender.com/');
+const socket = io('http://localhost:5000/');
 
 function Chats() {
   const usuarioConectado = JSON.parse(window.localStorage.getItem('usuario'));
@@ -27,11 +27,14 @@ function Chats() {
         usuario_id: usuarioConectado.usuario_id
     }
 
-    axios.post("https://backend-lobelbuy.onrender.com/obtenerConversaciones", datos)
+    axios.post("http://localhost:5000/obtenerConversaciones", datos)
     .then(res => {
 
         //setProductos(res.data)
-        setConversaciones(res.data);
+        if(res.data != "No hay conversaciones"){
+          setConversaciones(res.data);
+        }
+        
         setUsername(usuarioConectado.nombre);
         
     })
@@ -88,7 +91,7 @@ function Chats() {
       conversacion: sala
     }
     
-    axios.post("https://backend-lobelbuy.onrender.com/obtenerMensajes", datos)
+    axios.post("http://localhost:5000/obtenerMensajes", datos)
     .then(res => {
         setMessages(res.data);
         var container = document.getElementById("scrollUl");
@@ -210,33 +213,41 @@ function Chats() {
                           <h2>Chats</h2>
                       </div>
                       <ul class="list-unstyled chat-list mt-2 mb-0">
-                      {conversaciones.map((conversaciones) => {
-                        return (
-                            <div onClick={() => handleJoinRoom(conversaciones, this)}>
-                                {conversaciones.usuario1_id == usuarioConectado.usuario_id &&
-                                  //<span className='mx-2'>Usuario: {conversaciones.nombre_usuario2}</span>
-                                  <li class="clearfix">
-                                      <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar"/>
-                                      <div class="about">
-                                          <div class="name">{conversaciones.nombre_usuario2}</div>
-                                          <div class="status"> <i class="fa fa-circle offline"></i> online </div>                                            
-                                      </div>
-                                  </li>
-                                }
+                        {console.log(conversaciones)}
+                      {conversaciones.length == 0 &&
+                          <h6>No hay conversaciones</h6>
+                      }
 
-                                {conversaciones.usuario2_id == usuarioConectado.usuario_id &&
-                                  <li class="clearfix">
-                                      <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar"/>
-                                      <div class="about">
-                                          <div class="name">{conversaciones.nombre_usuario1}</div>
-                                          <div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>                                            
-                                      </div>
-                                  </li>
-                                }
-                           </div>
-                        )
-                        })
-                        }
+                      {conversaciones.length != 0 &&
+                            conversaciones.map((conversaciones) => {
+                              return (
+                                  <div onClick={() => handleJoinRoom(conversaciones, this)}>
+                                      {conversaciones.usuario1_id == usuarioConectado.usuario_id &&
+                                        //<span className='mx-2'>Usuario: {conversaciones.nombre_usuario2}</span>
+                                        <li class="clearfix">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar"/>
+                                            <div class="about">
+                                                <div class="name">{conversaciones.nombre_usuario2}</div>
+                                                <div class="status"> <i class="fa fa-circle offline"></i> online </div>                                            
+                                            </div>
+                                        </li>
+                                      }
+      
+                                      {conversaciones.usuario2_id == usuarioConectado.usuario_id &&
+                                        <li class="clearfix">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar"/>
+                                            <div class="about">
+                                                <div class="name">{conversaciones.nombre_usuario1}</div>
+                                                <div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>                                            
+                                            </div>
+                                        </li>
+                                      }
+                                 </div>
+                              )
+                              })
+                            
+                      }
+                    
                         
                       </ul>
                   </div>
@@ -256,16 +267,19 @@ function Chats() {
                       </div>
                       <div class="chat-history">
                           <ul id="scrollUl" class="m-b-0" style={{ height: '600px', overflowY: 'scroll' }} ref={messageListRef}>
+                            {messages.length == 0 &&
+                              <h3 className='text-center' style={{lineHeight: "600px"}}>Empiece a chatear</h3>
+                            }
                           {messages.map((messages, index) => (
                             <div className='mt-3'>
                               {messages.recibe == recibe ? (
-                                <li class="clearfix"  key={index}>
-                                  <div class="message my-message float-right">{messages.mensaje}</div>                                    
+                                <li class="clearfix me-2"  key={index}>
+                                  <div class="message other-message float-right">{messages.mensaje}</div>                                    
                                 </li> 
                               
                               ) : (
                                 <li class="clearfix" key={index}>
-                                  <div class="message other-message"> {messages.mensaje}</div>
+                                  <div class="message my-message"> {messages.mensaje}</div>
                               </li>
                               
                                 )
@@ -294,3 +308,4 @@ function Chats() {
 }
 
 export default Chats;
+
