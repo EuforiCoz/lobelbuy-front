@@ -45,6 +45,8 @@ function Chats() {
     socket.on('message', (message) => {
       console.log(message)
       setMessages([...messages, message]);
+      var container = document.getElementById("scrollUl");
+       container.scrollTop = container.scrollHeight - container.clientHeight;
     });
 
   }, [messages]);
@@ -89,6 +91,8 @@ function Chats() {
     axios.post("https://backend-lobelbuy.onrender.com/obtenerMensajes", datos)
     .then(res => {
         setMessages(res.data);
+        var container = document.getElementById("scrollUl");
+        container.scrollTop = container.scrollHeight - container.clientHeight;
     })
     .catch(({response}) => {
       
@@ -251,7 +255,7 @@ function Chats() {
                           </div>
                       </div>
                       <div class="chat-history">
-                          <ul class="m-b-0" style={{ height: '600px', overflowY: 'scroll' }} ref={messageListRef}>
+                          <ul id="scrollUl" class="m-b-0" style={{ height: '600px', overflowY: 'scroll' }} ref={messageListRef}>
                           {messages.map((messages, index) => (
                             <div className='mt-3'>
                               {messages.recibe == recibe ? (
