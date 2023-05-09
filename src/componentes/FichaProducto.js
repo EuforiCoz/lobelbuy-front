@@ -11,11 +11,21 @@ import imgProducto from "./iconos/crash.jpg";
 const FichaProducto = () => {
 
     const navigate = useNavigate()
-
+    const [usuario, setUsuario] = useState();
+    const [producto, setProducto] = useState([]);
     //const usuario = JSON.parse(window.localStorage.getItem("usuario"));
     const usuarioConectado = JSON.parse(window.localStorage.getItem('usuario'));
     
-    const [producto, setProducto] = useState([]);
+
+    useEffect(() => {
+        if(usuarioConectado == null){
+            setUsuario(0)
+        } else{
+            setUsuario(usuarioConectado.usuario_id);
+        }
+    }, [])
+    
+   
 
     const params = useParams();
    
@@ -31,7 +41,7 @@ const FichaProducto = () => {
             id: params.id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/mostrarFichaProducto", datos)
+        axios.post("http://localhost:5000/mostrarFichaProducto", datos)
         .then(res => {
             setProducto(res.data) 
         })
@@ -41,20 +51,36 @@ const FichaProducto = () => {
     }
 
     const crearConversacion = () => {
-        const datos =  {
-            usuario1_id: usuarioConectado.usuario_id,
-            usuario2_id: producto.usuario_id
+        console.log(usuario);
+        if(usuario == 0){
+            navigate("/login");
+        }
+        else{
+            const datos =  {
+                usuario1_id: usuarioConectado.usuario_id,
+                usuario2_id: producto.usuario_id
+            }
+    
+            axios.post("http://localhost:5000/crearConversacion", datos)
+            .then(res => {
+               
+                    navigate("/cuenta/chats");
+                
+            })
+            .catch(res => {
+                console.log(res);
+            })
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/crearConversacion", datos)
-        .then(res => {
-           
-                navigate("/cuenta/chats");
-            
-        })
-        .catch(res => {
-            console.log(res);
-        })
+       
+    }
+
+    const meGusta = (event) => {
+        if (event.target.classList.contains('animacion-me-gusta')) {
+            event.target.classList.remove('animacion-me-gusta');
+          } else {
+            event.target.classList.add('animacion-me-gusta');
+          }
     }
    
     return(
@@ -92,9 +118,10 @@ const FichaProducto = () => {
                 <div className="d-flex flex-row justify-content-between">
                     <h1>{producto.nombre}</h1>
                     <div class="svg-container m-2">
-                        <svg width="55" height="55" className="img-fluid like">
+                        <svg id="boton-me-gusta" onClick={meGusta} width="55" height="55" className="img-fluid like">
                             <image href={imgLike} x="0" y="0" width="55" height="55"/>
                         </svg>
+                        
                     </div>
                 </div>
 				
@@ -107,7 +134,7 @@ const FichaProducto = () => {
 					<li class="categoria"><strong>Categoría:</strong> {producto.categoria}</li>
 				</ul>
 				<hr/>
-                {usuarioConectado.usuario_id !=  producto.usuario_id && 
+                {usuario !=  producto.usuario_id && 
                     <button type="button" class="btn btn-primary mb-3" onClick={crearConversacion}>Hablar con vendedor</button>
                 }
 			</div>
