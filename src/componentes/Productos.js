@@ -28,7 +28,7 @@ const Productos = () => {
             usuario: usuarioConectado.usuario_id
         }
 
-        axios.post("https://backend-lobelbuy.vercel.app/mostrarProductos", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/mostrarProductos", datos)
         .then(res => {
 
             setProductos(res.data)
@@ -52,7 +52,7 @@ const Productos = () => {
 
         console.log(event.target.parentElement.parentElement.firstChild.value)
 
-        axios.post("https://backend-lobelbuy.vercel.app/eliminarProducto", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/eliminarProducto", datos)
         .then(res => {
             if(res.data == "Eliminado") {
                 window.location.reload(true);
