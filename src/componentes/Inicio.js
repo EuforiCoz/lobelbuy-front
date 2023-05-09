@@ -48,7 +48,7 @@ const Inicio = () => {
 
     const obtenerDatos = () => {
 
-        axios.get("https://backend-lobelbuy.onrender.com/buscarProductoInicio")
+        axios.get("https://backend-lobelbuy.vercel.app/buscarProductoInicio")
         .then(res => {
             setProductos(res.data)
             //console.log(res.data) 
