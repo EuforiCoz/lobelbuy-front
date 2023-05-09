@@ -41,7 +41,7 @@ const Perfil = () => {
             id: usuarioConectado.usuario_id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/perfil/obtenerDatos", datos)
+        axios.post("https://backend-lobelbuy.vercel.app/perfil/obtenerDatos", datos)
         .then(({data}) => {
             dispatch({
                 type: "CREAR_USUARIO",
@@ -78,7 +78,7 @@ const Perfil = () => {
         formData.append("direccion", document.getElementById("direccion").value);
         formData.append("file", document.getElementById("imagen").files[0]);
 
-        axios.post("http://localhost:5000/perfil/guardarDatos", formData)
+        axios.post("https://backend-lobelbuy.vercel.app/perfil/guardarDatos", formData)
         .then(({data}) => {
             if(data == "Actualizado") {
                 alert("Se han actualizado los datos")
