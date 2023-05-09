@@ -31,7 +31,7 @@ const FichaProducto = () => {
             id: params.id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/mostrarFichaProducto", datos)
+        axios.post("https://backend-lobelbuy.vercel.app/mostrarFichaProducto", datos)
         .then(res => {
             setProducto(res.data) 
         })
@@ -46,7 +46,7 @@ const FichaProducto = () => {
             usuario2_id: producto.usuario_id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/crearConversacion", datos)
+        axios.post("https://backend-lobelbuy.vercel.app/crearConversacion", datos)
         .then(res => {
            
                 navigate("/cuenta/chats");
