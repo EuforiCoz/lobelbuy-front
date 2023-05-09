@@ -62,7 +62,7 @@ const ListadoProductos = () => {
 
         console.log(datos)
 
-        axios.post("https://backend-lobelbuy.vercel.app/buscarProducto", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/buscarProducto", datos)
         .then(res => {
 
             setProductos(res.data)
