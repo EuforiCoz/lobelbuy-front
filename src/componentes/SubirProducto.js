@@ -56,7 +56,7 @@ const SubirProducto = () => {
 
         
 
-        axios.post("https://backend-lobelbuy.vercel.app/subirProducto", formSubir)
+        axios.post("https://backend-lobelbuy.onrender.com/subirProducto", formSubir)
         .then(({data}) => {
             console.log(data)
             if(data == "Subido correctamente") {
