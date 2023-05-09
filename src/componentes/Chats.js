@@ -193,7 +193,7 @@ function Chats() {
             </div>
         </div>
     </div>*/
-    <div style={{background: "linear-gradient(to bottom, #1E90FF,#87CEEB)"}}>
+    <div id="chats" style={{background: "linear-gradient(to bottom, #1E90FF,#87CEEB)"}}>
       <div class="container pt-5">
       <div class="row clearfix">
           <div class="col-lg-12">
