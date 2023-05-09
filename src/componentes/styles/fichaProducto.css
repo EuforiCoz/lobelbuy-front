@@ -31,3 +31,15 @@ img{
 .cajaImg{
     width: 33%;
 }
+
+.animacion-me-gusta {
+    animation-name: corazon;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+  }
+  
+  @keyframes corazon {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(1); }
+  }
