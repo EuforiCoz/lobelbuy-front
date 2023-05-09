@@ -27,7 +27,7 @@ const Registro = () => {
     }
 
     const enviarDatosRegistro = () => {
-     axios.post("https://backend-lobelbuy.onrender.com/api/registrarse", datosRegistro)
+     axios.post("https://backend-lobelbuy.vercel.app/api/registrarse", datosRegistro)
      .then(({data}) => {
         navigate("/login", {
             state: {
