@@ -22,6 +22,13 @@ const Sidebar = (props) => {
                             <MiLi nombre="Productos" enlace="/cuenta/productos" clase="nav-link"/>
                         )
                     } 
+                     {props.componente === "favoritos" ? 
+                        (
+                            <MiLi nombre="Favoritos" enlace="/cuenta/favoritos" clase="nav-link active"/>
+                         ): (
+                            <MiLi nombre="Favoritos" enlace="/cuenta/favoritos" clase="nav-link"/>
+                        )
+                    } 
                 {props.componente === "chats" ? 
                         (
                             <MiLi nombre="Chats" enlace="/cuenta/chats" clase="nav-link active"/>
