@@ -7,6 +7,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import iconoCarrito from "./iconos/carrito.jpg";
 import imgLike from "./iconos/like.svg";
 import imgProducto from "./iconos/crash.jpg";
+import {AiOutlineHeart} from 'react-icons/ai';
+import {BsFillSuitHeartFill} from 'react-icons/bs';
 
 const FichaProducto = () => {
 
@@ -117,12 +119,9 @@ const FichaProducto = () => {
 			<div className="col-md-8 col-xs-6">
                 <div className="d-flex flex-row justify-content-between">
                     <h1>{producto.nombre}</h1>
-                    <div class="svg-container m-2">
-                        <svg id="boton-me-gusta" onClick={meGusta} width="55" height="55" className="img-fluid like">
-                            <image href={imgLike} x="0" y="0" width="55" height="55"/>
-                        </svg>
-                        
-                    </div>
+                        <div onClick={meGusta} className="">
+                            <BsFillSuitHeartFill id="no-like" style={{width: "40px", height: "40px", marginRight: "50px"}}/>
+                        </div>
                 </div>
 				
 				<p>Vendido por SAPATISA</p>
