@@ -10,6 +10,7 @@ import SubirProducto from "./componentes/SubirProducto"
 import FichaProducto from "./componentes/FichaProducto";
 import ListadoProductos from "./componentes/ListadoProductos";
 import Chats from "./componentes/Chats";
+import Favoritos from "./componentes/Favoritos";
 import EditarProducto from "./componentes/EditarProducto";
 
 const Router = () => {
@@ -23,6 +24,7 @@ const Router = () => {
                 <Route path="/cuenta" element={<Cuenta/>}/>
                 <Route path="/cuenta/perfil" element={<Perfil/>}/>
                 <Route path="/cuenta/productos" element={<Productos/>}/>
+                <Route path="/cuenta/favoritos" element={<Favoritos/>}/>
                 <Route path="/cuenta/chats" element={<Chats/>}/>
                 <Route path="/listadoProductos" element={<ListadoProductos/>}/>
                 {/*<Route path="/listadoProductos/:categoria" element={<ListadoProductos/>}/>*/}    
