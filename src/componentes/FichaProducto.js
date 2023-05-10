@@ -32,7 +32,7 @@ const FichaProducto = () => {
             producto_id: params.id
         }
 
-        axios.post("http://localhost:5000/saberFavorito", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/saberFavorito", datos)
         .then(res => {
             if(res.data.esta_en_favoritos == 1){
                 document.getElementById("boton-me-gusta").classList.add('animacion-me-gusta');
@@ -59,7 +59,7 @@ const FichaProducto = () => {
             id: params.id
         }
 
-        axios.post("http://localhost:5000/mostrarFichaProducto", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/mostrarFichaProducto", datos)
         .then(res => {
             setProducto(res.data) 
         })
@@ -79,7 +79,7 @@ const FichaProducto = () => {
                 usuario2_id: producto.usuario_id
             }
     
-            axios.post("http://localhost:5000/crearConversacion", datos)
+            axios.post("https://backend-lobelbuy.onrender.com/crearConversacion", datos)
             .then(res => {
                
                     navigate("/cuenta/chats");
@@ -110,7 +110,7 @@ const FichaProducto = () => {
             producto_id: producto.id
         }
 
-        axios.post("http://localhost:5000/guardarFavorito", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/guardarFavorito", datos)
         .then(res => {
             //setProducto(res.data) 
         })
@@ -125,7 +125,7 @@ const FichaProducto = () => {
             producto_id: params.id
         }
 
-        axios.post("http://localhost:5000/eliminarFavorito", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/eliminarFavorito", datos)
         .then(res => {
             //setProducto(res.data) 
         })
