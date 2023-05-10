@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 import "./styles/chats.css"
-import axios from "axios"
+import axios from "axios";
+import {AiOutlineSend} from 'react-icons/ai';
 
 const socket = io('http://localhost:5000/');
 
@@ -48,8 +49,11 @@ function Chats() {
     socket.on('message', (message) => {
       console.log(message)
       setMessages([...messages, message]);
-      var container = document.getElementById("scrollUl");
-       container.scrollTop = container.scrollHeight - container.clientHeight;
+      setTimeout(() => {
+        const container = document.getElementById("scrollUl");
+       
+        container.scrollTo(0,  container.scrollHeight);
+      }, 1); 
     });
 
   }, [messages]);
@@ -94,8 +98,14 @@ function Chats() {
     axios.post("http://localhost:5000/obtenerMensajes", datos)
     .then(res => {
         setMessages(res.data);
-        var container = document.getElementById("scrollUl");
-        container.scrollTop = container.scrollHeight - container.clientHeight;
+        setTimeout(() => {
+          const container = document.getElementById("scrollUl");
+          
+            container.scrollTo(0,  container.scrollHeight);
+       
+          
+        }, 1); 
+       
     })
     .catch(({response}) => {
       
@@ -292,7 +302,7 @@ function Chats() {
                       <div class="chat-message clearfix">
                           <div class="input-group mb-0">
                               <div class="input-group-prepend"  onClick={handleSend}>
-                                  <span class="input-group-text"><i class="fa fa-send"></i></span>
+                                  <span class="input-group-text" style={{cursor: "pointer"}}><AiOutlineSend style={{width: "25px", height: "25px"}}/></span>
                               </div>
                               <input type="text" class="form-control" placeholder="Enter text here... " value={messageText} onChange={e => setMessageText(e.target.value)} onKeyPress={handleKeyPress}/>                                    
                           </div>
@@ -308,4 +318,3 @@ function Chats() {
 }
 
 export default Chats;
-
