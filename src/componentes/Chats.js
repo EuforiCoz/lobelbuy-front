@@ -4,7 +4,7 @@ import "./styles/chats.css"
 import axios from "axios";
 import {AiOutlineSend} from 'react-icons/ai';
 
-const socket = io('http://localhost:5000/');
+const socket = io('https://backend-lobelbuy.onrender.com/');
 
 function Chats() {
   const usuarioConectado = JSON.parse(window.localStorage.getItem('usuario'));
@@ -28,7 +28,7 @@ function Chats() {
         usuario_id: usuarioConectado.usuario_id
     }
 
-    axios.post("http://localhost:5000/obtenerConversaciones", datos)
+    axios.post("https://backend-lobelbuy.onrender.com/obtenerConversaciones", datos)
     .then(res => {
 
         //setProductos(res.data)
@@ -95,7 +95,7 @@ function Chats() {
       conversacion: sala
     }
     
-    axios.post("http://localhost:5000/obtenerMensajes", datos)
+    axios.post("https://backend-lobelbuy.onrender.com/obtenerMensajes", datos)
     .then(res => {
         setMessages(res.data);
         setTimeout(() => {
