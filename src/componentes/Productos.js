@@ -31,7 +31,7 @@ const Productos = () => {
         axios.post("https://backend-lobelbuy.onrender.com/mostrarProductos", datos)
         .then(res => {
 
-            setProductos(res.data)
+            setProductos(res.data);
             
         })
         .catch(({response}) => {
@@ -63,7 +63,50 @@ const Productos = () => {
         })
     }
 
-   
+    const reservarProducto = (producto_id, reservado) => {
+
+        
+
+        if(reservado == 0){
+            reservado = 1;
+        } else {
+            reservado = 0;
+        }
+
+        const datos =  {
+            id: producto_id,
+            reservado: reservado
+        }
+
+        console.log(datos);
+        
+        axios.post("https://backend-lobelbuy.onrender.com/reservarProducto", datos)
+        .then(res => {
+            console.log(res.data);
+        })
+        .catch(({response}) => {
+            console.log(response.data);
+        })
+    }
+
+    const venderProducto = (producto_id) => {
+        const datos =  {
+            id: producto_id,
+            //usuario_id: usuarioConectado.usuario_id
+        }
+       
+        axios.post("https://backend-lobelbuy.onrender.com/venderProducto", datos)
+        .then(res => {
+            console.log(res.data)
+            /*
+            if(res.data == "Eliminado") {
+                window.location.reload(true);
+            }*/
+        })
+        .catch(res => {
+            console.log(res);
+        })
+    }
 
     return(
         <div id="productosCuenta" className="productosCuenta position-relative" style={{minHeight: "80%",background: "linear-gradient(to bottom, #1E90FF,#87CEEB)"}}>
@@ -75,26 +118,49 @@ const Productos = () => {
 
                             return (
                                 <div class="card horizontal-card mb-3" style={{width: "50%",background: "linear-gradient(to bottom, #e6f2ff, #99ccff)"}}>
-                                    <div class="row no-gutters">
-                                        <div class="col-md-4 img-container img-overlay">
-                                            {producto.imagen == "" ? (
-                                                <img src={imgProducto} class="card-img  w-100" height="270" alt="Producto"/>
-                                            ) : (
-                                                <img src={producto.imagen} class="card-img  w-100" height="270" alt="Producto"/>
-                                            )
+                                    <div class="row">
+                                        
+                                        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 img-container img-overlay position-relative">
+                                            <Link to={"/producto/" + producto.id} className="text-decoration-none">
+                                                {producto.imagen == "" ? (
+                                                    <img src={imgProducto} class="card-img  w-100" height="240" alt="Producto"/>
+                                                ) : (
+                                                    <div>
+                                                        <img src={producto.imagen} class="card-img  w-100" height="240" alt="Producto"/>
+                                                        {producto.reservado == 0 &&
+                                                            <span id="no-reservado" className="fs-4 bg-white rounded-pill p-1 position-absolute" style={{top: "20px", left: "20px"}} hidden>Reservado</span>
 
-                                            }
-                                            
+                                                        }
+
+                                                        {producto.reservado == 1 &&
+                                                            <span id="reservado" className="fs-4 bg-white rounded-pill p-1 position-absolute" style={{top: "20px", left: "20px"}}>Reservado</span>
+
+                                                        }   
+                                                    </div>
+                                                )
+
+                                                }  
+                                            </Link> 
                                         </div>
-                                        <div class="col-md-8">
-                                            <div class="card-body d-flex flex-column align-items-start justify-content-start">
-                                                <input type="number" value={producto.id} hidden/>
-                                                <h5 class="card-title">{producto.nombre}</h5>
-                                                <p class="card-text"><span class="fs-5">Precio: {producto.precio}€</span></p>
-                                                <div className="d-flex flex-column">
-                                                    <button className="btn btn-primary"><Link to={"/producto/" + producto.id} className="text-white text-decoration-none">Ver producto</Link></button>
-                                                    <button className="btn btn-success my-2"><Link to={"/editarProducto/" + producto.id} className="text-white text-decoration-none">Editar</Link></button>
-                                                    <button className="btn btn-danger" onClick={eliminarProducto}>Eliminar</button>
+                                        
+                                        <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 d-flex justify-content-center align-items-center">
+                                            <div class="card-body">
+                                                <div className="row d-flex flex-row">
+                                                    <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center d-flex flex-column align-items-center justify-content-center">
+                                                        <input type="number" value={producto.id} hidden/>
+                                                        <h5 class="card-title">{producto.nombre}</h5>
+                                                        <p class="card-text"><span class="fs-5">Precio: {producto.precio}€</span></p>
+                                                    </div>
+                                                    <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 d-flex flex-column align-items-center justify-content-center">
+                                                        <span className="fs-5">Publicado:</span>
+                                                        <span className="fs-5 fw-bold">20-05-22</span>
+                                                    </div>
+                                                    <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 d-flex flex-column align-items-center justify-content-center">
+                                                        <button className="btn btn-primary" onClick={() => venderProducto}>Vendido</button>    
+                                                        <button className="btn btn-primary" onClick={() => reservarProducto(producto.id, producto.reservado)}>Reservar</button>                                      
+                                                        <button className="btn btn-danger  my-2" onClick={eliminarProducto}>Eliminar</button>
+                                                        <button className="btn btn-success"><a href={"/editarProducto/" + producto.id} className="text-white text-decoration-none">Editar</a></button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
