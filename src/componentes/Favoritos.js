@@ -27,7 +27,7 @@ const Favoritos = () => {
             usuario_id: usuarioConectado.usuario_id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/mostrarProductosFavoritos", datos)
+        axios.post("http://localhost:5000/mostrarProductosFavoritos", datos)
         .then(res => {
 
             setProductos(res.data);
@@ -50,7 +50,7 @@ const Favoritos = () => {
                         {productos.map((producto) =>{
 
                             return (
-                                <div class="card horizontal-card mb-3" style={{width: "50%",background: "linear-gradient(to bottom, #e6f2ff, #99ccff)"}}>
+                                <div class="card horizontal-card mb-3" key={producto.id} style={{width: "50%",background: "linear-gradient(to bottom, #e6f2ff, #99ccff)"}}>
                                     <div class="row no-gutters">
                                         <div class="col-md-4 img-container img-overlay">
                                             {producto.imagen == "" ? (
@@ -69,8 +69,6 @@ const Favoritos = () => {
                                                 <p class="card-text"><span class="fs-5">Precio: {producto.precio}€</span></p>
                                                 <div className="d-flex flex-column">
                                                     <button className="btn btn-primary"><Link to={"/producto/" + producto.id} className="text-white text-decoration-none">Ver producto</Link></button>
-                                                    <button className="btn btn-success my-2"><Link to={"/editarProducto/" + producto.id} className="text-white text-decoration-none">Editar</Link></button>
-                                                    <button className="btn btn-danger">Eliminar</button>
                                                 </div>
                                             </div>
                                         </div>
