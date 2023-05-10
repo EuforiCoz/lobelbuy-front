@@ -7,8 +7,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import iconoCarrito from "./iconos/carrito.jpg";
 import imgLike from "./iconos/like.svg";
 import imgProducto from "./iconos/crash.jpg";
-import {AiOutlineHeart} from 'react-icons/ai';
-import {BsFillSuitHeartFill} from 'react-icons/bs';
 
 const FichaProducto = () => {
 
@@ -24,8 +22,26 @@ const FichaProducto = () => {
             setUsuario(0)
         } else{
             setUsuario(usuarioConectado.usuario_id);
+            saberFavorito();
         }
     }, [])
+
+    const saberFavorito = () => {
+        const datos =  {
+            usuario_id: usuarioConectado.usuario_id,
+            producto_id: params.id
+        }
+
+        axios.post("http://localhost:5000/saberFavorito", datos)
+        .then(res => {
+            if(res.data.esta_en_favoritos == 1){
+                document.getElementById("boton-me-gusta").classList.add('animacion-me-gusta');
+            }
+        })
+        .catch(res => {
+            console.log(res);
+        })
+    }
     
    
 
@@ -43,7 +59,7 @@ const FichaProducto = () => {
             id: params.id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/mostrarFichaProducto", datos)
+        axios.post("http://localhost:5000/mostrarFichaProducto", datos)
         .then(res => {
             setProducto(res.data) 
         })
@@ -63,7 +79,7 @@ const FichaProducto = () => {
                 usuario2_id: producto.usuario_id
             }
     
-            axios.post("https://backend-lobelbuy.onrender.com/crearConversacion", datos)
+            axios.post("http://localhost:5000/crearConversacion", datos)
             .then(res => {
                
                     navigate("/cuenta/chats");
@@ -78,11 +94,44 @@ const FichaProducto = () => {
     }
 
     const meGusta = (event) => {
-        if (event.target.classList.contains('animacion-me-gusta')) {
-            event.target.classList.remove('animacion-me-gusta');
+        var contiene = document.getElementById("boton-me-gusta").classList.contains('animacion-me-gusta')
+        if (contiene) {
+            document.getElementById("boton-me-gusta").classList.remove('animacion-me-gusta');
+            quitaLike();
           } else {
-            event.target.classList.add('animacion-me-gusta');
+            document.getElementById("boton-me-gusta").classList.add('animacion-me-gusta');
+            darLike();
           }
+    }
+
+    const darLike = () => {
+        const datos =  {
+            usuario_id: usuarioConectado.usuario_id,
+            producto_id: producto.id
+        }
+
+        axios.post("http://localhost:5000/guardarFavorito", datos)
+        .then(res => {
+            //setProducto(res.data) 
+        })
+        .catch(res => {
+            console.log(res);
+        })
+    }
+
+    const quitaLike = () => {
+        const datos =  {
+            usuario_id: usuarioConectado.usuario_id,
+            producto_id: params.id
+        }
+
+        axios.post("http://localhost:5000/eliminarFavorito", datos)
+        .then(res => {
+            //setProducto(res.data) 
+        })
+        .catch(res => {
+            console.log(res);
+        })
     }
    
     return(
@@ -119,9 +168,12 @@ const FichaProducto = () => {
 			<div className="col-md-8 col-xs-6">
                 <div className="d-flex flex-row justify-content-between">
                     <h1>{producto.nombre}</h1>
-                        <div onClick={meGusta} className="">
-                            <BsFillSuitHeartFill id="no-like" style={{width: "40px", height: "40px", marginRight: "50px"}}/>
-                        </div>
+                    <div class="svg-container m-2">
+                        <svg id="boton-me-gusta"  onClick={meGusta} width="55" height="55" className="img-fluid like">
+                            <image href={imgLike} x="0" y="0" width="55" height="55"/>
+                        </svg>
+                        
+                    </div>
                 </div>
 				
 				<p>Vendido por SAPATISA</p>
@@ -182,3 +234,4 @@ const FichaProducto = () => {
 }
 
 export default FichaProducto;
+
