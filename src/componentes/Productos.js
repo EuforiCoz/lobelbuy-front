@@ -15,20 +15,48 @@ const Productos = () => {
     const usuarioConectado = JSON.parse(window.localStorage.getItem('usuario'));
     
     const [productos, setProductos] = useState([]);
+    const [conversaciones, setConversaciones] = useState([]);
+    const [productoSeleccionadoVender, setProductoSeleccionadoVender] = useState();
 
     useEffect(()=>{
 
         obtenerDatos();
-        console.log(productos)
+     
+    }, [productos.length]);
+
+    useEffect(()=>{
+
+        obtenerConversaciones();
         
-    }, [productos.length])
+    }, []);
+
+    const obtenerConversaciones = () => {
+       
+        const datos =  {
+            usuario_id: usuarioConectado.usuario_id
+        }
+    
+        axios.post("http://localhost:5000/obtenerConversaciones", datos)
+        .then(res => {
+
+            if(res.data != "No hay conversaciones"){
+              setConversaciones(res.data);
+            }
+            
+        })
+        .catch(({response}) => {
+          
+        })
+      
+}
+
 
     const obtenerDatos = () => {
         const datos =  {
             usuario: usuarioConectado.usuario_id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/mostrarProductos", datos)
+        axios.post("http://localhost:5000/mostrarProductos", datos)
         .then(res => {
 
             setProductos(res.data);
@@ -52,7 +80,7 @@ const Productos = () => {
 
         console.log(event.target.parentElement.parentElement.firstChild.value)
 
-        axios.post("https://backend-lobelbuy.onrender.com/eliminarProducto", datos)
+        axios.post("http://localhost:5000/eliminarProducto", datos)
         .then(res => {
             if(res.data == "Eliminado") {
                 window.location.reload(true);
@@ -63,24 +91,25 @@ const Productos = () => {
         })
     }
 
-    const reservarProducto = (producto_id, reservado) => {
-
-        
-
-        if(reservado == 0){
-            reservado = 1;
-        } else {
-            reservado = 0;
-        }
+    const reservarProducto = (producto_id, event) => {
 
         const datos =  {
             id: producto_id,
-            reservado: reservado
         }
 
-        console.log(datos);
-        
-        axios.post("https://backend-lobelbuy.onrender.com/reservarProducto", datos)
+        var reservado = event.target.closest("#caja").previousElementSibling.firstChild.firstChild.firstChild.nextElementSibling.firstChild;
+        var input = event.target.closest("#caja").previousElementSibling.firstChild.firstChild.firstChild.nextElementSibling.firstChild.nextElementSibling;
+
+        if(input.value == 0){
+            reservado.hidden = false;
+            input.value = 1;
+            
+        } else {
+            reservado.hidden = true;
+            input.value = 0;
+        }
+
+        axios.post("http://localhost:5000/reservarProducto", datos)
         .then(res => {
             console.log(res.data);
         })
@@ -89,15 +118,22 @@ const Productos = () => {
         })
     }
 
-    const venderProducto = (producto_id) => {
+    const productoElegidoVender = (producto_id) => {
+        setProductoSeleccionadoVender(producto_id)
+    }
+
+    const venderProducto = (vendedor) => {
+
         const datos =  {
-            id: producto_id,
-            //usuario_id: usuarioConectado.usuario_id
+            producto_id: productoSeleccionadoVender,
+            comprador_id: vendedor,
+            vendedor_id: usuarioConectado.usuario_id
         }
        
-        axios.post("https://backend-lobelbuy.onrender.com/venderProducto", datos)
+        axios.post("http://localhost:5000/venderProducto", datos)
         .then(res => {
             console.log(res.data)
+            
             /*
             if(res.data == "Eliminado") {
                 window.location.reload(true);
@@ -108,6 +144,7 @@ const Productos = () => {
         })
     }
 
+
     return(
         <div id="productosCuenta" className="productosCuenta position-relative" style={{minHeight: "80%",background: "linear-gradient(to bottom, #1E90FF,#87CEEB)"}}>
                 <Sidebar componente="productos"/>
@@ -117,24 +154,29 @@ const Productos = () => {
                         {productos.map((producto) =>{
 
                             return (
-                                <div class="card horizontal-card mb-3" style={{width: "50%",background: "linear-gradient(to bottom, #e6f2ff, #99ccff)"}}>
-                                    <div class="row">
+                                <div className="card horizontal-card mb-3" key={producto.id} style={{width: "50%",background: "linear-gradient(to bottom, #e6f2ff, #99ccff)"}}>
+                                    <div className="row">
                                         
-                                        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 img-container img-overlay position-relative">
+                                        <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 img-container img-overlay position-relative">
                                             <Link to={"/producto/" + producto.id} className="text-decoration-none">
                                                 {producto.imagen == "" ? (
-                                                    <img src={imgProducto} class="card-img  w-100" height="240" alt="Producto"/>
+                                                    <img src={imgProducto} className="card-img  w-100" height="240" alt="Producto"/>
                                                 ) : (
                                                     <div>
-                                                        <img src={producto.imagen} class="card-img  w-100" height="240" alt="Producto"/>
+                                                        <img src={producto.imagen} className="card-img  w-100" height="240" alt="Producto"/>
                                                         {producto.reservado == 0 &&
-                                                            <span id="no-reservado" className="fs-4 bg-white rounded-pill p-1 position-absolute" style={{top: "20px", left: "20px"}} hidden>Reservado</span>
+                                                            <div>
+                                                            <span id="reservado" className="fs-4 bg-white rounded-pill p-1 position-absolute" style={{top: "20px", left: "20px"}} hidden>Reservado</span>
+                                                            <input type="number" defaultValue={producto.reservado} hidden/>
+                                                            </div>
 
                                                         }
 
                                                         {producto.reservado == 1 &&
+                                                            <div>
                                                             <span id="reservado" className="fs-4 bg-white rounded-pill p-1 position-absolute" style={{top: "20px", left: "20px"}}>Reservado</span>
-
+                                                            <input type="number" defaultValue={producto.reservado} hidden/>
+                                                            </div>
                                                         }   
                                                     </div>
                                                 )
@@ -143,21 +185,21 @@ const Productos = () => {
                                             </Link> 
                                         </div>
                                         
-                                        <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 d-flex justify-content-center align-items-center">
-                                            <div class="card-body">
+                                        <div id="caja" className="col-lg-8 col-md-12 col-sm-12 col-xs-12 d-flex justify-content-center align-items-center">
+                                            <div className="card-body">
                                                 <div className="row d-flex flex-row">
                                                     <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center d-flex flex-column align-items-center justify-content-center">
-                                                        <input type="number" value={producto.id} hidden/>
-                                                        <h5 class="card-title">{producto.nombre}</h5>
-                                                        <p class="card-text"><span class="fs-5">Precio: {producto.precio}€</span></p>
+                                                        <input type="number" defaultValue={producto.id} hidden/>
+                                                        <h5 className="card-title">{producto.nombre}</h5>
+                                                        <p className="card-text"><span className="fs-5">Precio: {producto.precio}€</span></p>
                                                     </div>
                                                     <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 d-flex flex-column align-items-center justify-content-center">
                                                         <span className="fs-5">Publicado:</span>
                                                         <span className="fs-5 fw-bold">20-05-22</span>
                                                     </div>
                                                     <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 d-flex flex-column align-items-center justify-content-center">
-                                                        <button className="btn btn-primary" onClick={() => venderProducto}>Vendido</button>    
-                                                        <button className="btn btn-primary" onClick={() => reservarProducto(producto.id, producto.reservado)}>Reservar</button>                                      
+                                                        <button className="btn btn-primary" onClick={() => productoElegidoVender(producto.id)} data-bs-toggle="modal" data-bs-target="#exampleModal">Vendido</button>    
+                                                        <button className="btn btn-primary" onClick={(event) => reservarProducto(producto.id, event)}>Reservar</button>                                      
                                                         <button className="btn btn-danger  my-2" onClick={eliminarProducto}>Eliminar</button>
                                                         <button className="btn btn-success"><a href={"/editarProducto/" + producto.id} className="text-white text-decoration-none">Editar</a></button>
                                                     </div>
@@ -168,6 +210,40 @@ const Productos = () => {
                                 </div>
                             )
                         })}
+                    </div>
+                </div>
+                <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="exampleModalLabel">Producto Vendido</h5>
+                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div className="modal-body">
+                                <h6>¿A quien se lo has vendido?</h6>
+
+                                {conversaciones.map((conversaciones) => {
+                                    return (
+                                        <div key={conversaciones.id}>
+                                            {conversaciones.usuario1_id == usuarioConectado.usuario_id &&
+                                                
+                                                <span className="name mt-2" style={{cursor: "pointer"}} onClick={() => venderProducto(conversaciones.usuario2_id)}>{conversaciones.nombre_usuario2}</span>
+                                                    
+                                            }
+            
+                                            {conversaciones.usuario2_id == usuarioConectado.usuario_id &&
+                                            
+                                                <span className="name" style={{cursor: "pointer"}} onClick={() => venderProducto(conversaciones.usuario1_id)}>{conversaciones.nombre_usuario1}</span>
+                                                    
+                                            }
+                                        </div>
+                                    )
+                                    })
+                                
+                                }
+                                <span className="text-danger" style={{cursor: "pointer"}} onClick={() => venderProducto(null)}>Lo he vendido en otro lado</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
