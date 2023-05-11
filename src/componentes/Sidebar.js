@@ -38,9 +38,9 @@ const Sidebar = (props) => {
                     } 
                 {props.componente === "configuración" ? 
                         (
-                            <MiLi nombre="Configuración" enlace="/cuenta/configuracion" clase="nav-link active"/>
+                            <MiLi nombre="Reseñas" enlace="/cuenta/configuracion" clase="nav-link active"/>
                          ): (
-                            <MiLi nombre="Configuración" enlace="/cuenta/configuracion" clase="nav-link"/> 
+                            <MiLi nombre="Reseñas" enlace="/cuenta/configuracion" clase="nav-link"/> 
                         )
                 }  
             </ul>
