@@ -62,7 +62,7 @@ const ListadoProductos = () => {
 
         console.log(datos)
 
-        axios.post("https://backend-lobelbuy.onrender.com/buscarProducto", datos)
+        axios.post("http://localhost:5000/buscarProducto", datos)
         .then(res => {
 
             setProductos(res.data)
@@ -160,15 +160,24 @@ const ListadoProductos = () => {
                                             return (
                                                     <div class="col-md-3 mb-5">
                                                         <div class="card product">
-                                                        {producto.imagen == "" ? (
-                                                            <img id="imgTarjeta" src={imgProducto} alt="Nombre del producto" class="card-img-top "style={{ objectFit: "cover" }}
-                                                            height="250"/>
-
-                                                            ) :(
-                                                                <img id="imgTarjeta" src={producto.imagen} alt="Nombre del producto" class="card-img-top " style={{ objectFit: "cover" }}
-                                                                height="250"/>
-                                                            )
-                                                        }
+                                                            <div className="position-relative">
+                                                                
+                                                                <img src={producto.imagen} class="card-img  w-100" height="240" alt="Producto"/>
+                                                                {producto.reservado == 0 &&
+                                                                <div>
+                                                                    <span id="reservado" className="fs-4 bg-white rounded-pill text-primary p-1 position-absolute" style={{top: "20px", left: "20px"}} hidden>Reservado</span>
+                                                                    <input type="number" value={producto.reservado} hidden/>
+                                                                    </div>
+                                                                }
+            
+                                                                {producto.reservado == 1 &&
+                                                                    <div>
+                                                                    <span id="reservado" className="fs-4 bg-white rounded-pill text-primary p-1 position-absolute" style={{top: "20px", left: "20px"}}>Reservado</span>
+                                                                    <input type="number" value={producto.reservado} hidden/>
+                                                                    </div>
+                                                                }   
+                                                            </div>
+                                                        
                                                             <div class="card-body">
                                                                 <h5 class="card-title">{producto.nombre}</h5>
                                                                 <p class="card-text">Precio: {producto.precio}€</p>
