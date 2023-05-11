@@ -201,7 +201,7 @@ const Productos = () => {
                                                         <button className="btn btn-primary" onClick={() => productoElegidoVender(producto.id)} data-bs-toggle="modal" data-bs-target="#exampleModal">Vendido</button>    
                                                         <button className="btn btn-primary" onClick={(event) => reservarProducto(producto.id, event)}>Reservar</button>                                      
                                                         <button className="btn btn-danger  my-2" onClick={eliminarProducto}>Eliminar</button>
-                                                        <button className="btn btn-success"><a href={"/editarProducto/" + producto.id} className="text-white text-decoration-none">Editar</a></button>
+                                                        <button className="btn btn-success"><LInk to={"/editarProducto/" + producto.id} className="text-white text-decoration-none">Editar</Link></button>
                                                     </div>
                                                 </div>
                                             </div>
