@@ -3,7 +3,7 @@ import "./styles/sidebar.css"
 import {BsFillPersonFill} from 'react-icons/bs';
 import {RiMessage2Fill} from 'react-icons/ri';
 import {BsFillInboxFill} from 'react-icons/bs';
-import {RiSettings4Fill} from 'react-icons/ri';
+import {AiFillStar} from 'react-icons/ai';
 import {AiFillHeart} from 'react-icons/ai';
 import {Link} from "react-router-dom"
 
@@ -21,7 +21,7 @@ const MiLi = (props) => {
                 {props.nombre == "Productos" && <BsFillInboxFill/>}
                 {props.nombre == "Favoritos" && <AiFillHeart/>}
                 {props.nombre == "Chats" && <RiMessage2Fill/>}
-                {props.nombre == "Configuración" && <RiSettings4Fill/>}
+                {props.nombre == "Reseñas" && <AiFillStar/>}
                 <span className="mx-2">{props.nombre}</span>
                 
             </Link>
@@ -32,4 +32,3 @@ const MiLi = (props) => {
 }
 
 export default MiLi;
-
