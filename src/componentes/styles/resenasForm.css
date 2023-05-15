@@ -1,0 +1,19 @@
+#resenaForm .container{
+    border-radius: 5px;;
+}
+
+#resenaForm button[type="button"] {
+    width: 50%;
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  #resenaForm button[type="button"]:hover {
+    background-color: #2980b9;
+  }
