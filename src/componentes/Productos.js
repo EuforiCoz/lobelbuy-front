@@ -42,7 +42,7 @@ const Productos = () => {
             usuario_id: usuarioConectado.usuario_id
         }
     
-        axios.post("http://localhost:5000/obtenerConversaciones", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/obtenerConversaciones", datos)
         .then(res => {
 
             if(res.data != "No hay conversaciones"){
@@ -62,7 +62,7 @@ const Productos = () => {
             usuario_id: usuarioConectado.usuario_id
         }
 
-        axios.post("http://localhost:5000/mostrarProductosEnVenta", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/mostrarProductosEnVenta", datos)
         .then(res => {
 
             setProductosEnVenta(res.data);
@@ -74,7 +74,7 @@ const Productos = () => {
             console.log(response.data);
         })
 
-        axios.post("http://localhost:5000/mostrarProductosVendidos", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/mostrarProductosVendidos", datos)
         .then(res => {
 
             setProductosVendidos(res.data);
@@ -110,7 +110,7 @@ const Productos = () => {
 
         console.log(event.target.parentElement.parentElement.firstChild.value)
 
-        axios.post("http://localhost:5000/eliminarProducto", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/eliminarProducto", datos)
         .then(res => {
             if(res.data == "Eliminado") {
                 window.location.reload(true);
