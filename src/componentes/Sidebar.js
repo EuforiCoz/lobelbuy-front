@@ -36,11 +36,11 @@ const Sidebar = (props) => {
                             <MiLi nombre="Chats" enlace="/cuenta/chats" clase="nav-link"/> 
                         )
                     } 
-                {props.componente === "configuración" ? 
+                {props.componente === "resenas" ? 
                         (
-                            <MiLi nombre="Reseñas" enlace="/cuenta/configuracion" clase="nav-link active"/>
+                            <MiLi nombre="Reseñas" enlace="/cuenta/resenas" clase="nav-link active"/>
                          ): (
-                            <MiLi nombre="Reseñas" enlace="/cuenta/configuracion" clase="nav-link"/> 
+                            <MiLi nombre="Reseñas" enlace="/cuenta/resenas" clase="nav-link"/> 
                         )
                 }  
             </ul>
