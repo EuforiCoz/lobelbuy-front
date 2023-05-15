@@ -30,7 +30,7 @@ const Cuenta = () => {
             usuario_id: usuarioConectado.usuario_id,
         }
 
-        axios.post("http://localhost:5000/enviarResena", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/enviarResena", datos)
         .then(res => {
 
             navigate("/cuenta/productos");
