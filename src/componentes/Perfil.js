@@ -5,11 +5,12 @@ import { useAppContext } from "../AppProvider";
 import Sidebar from "./Sidebar";
 import imagenPerfil from "./iconos/carrito.jpg"
 import axios from "axios"
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./styles/sidebar.css"
 import imgProducto from "./iconos/crash.jpg";
 import {fill} from "@cloudinary/url-gen/actions/resize";
 import {CloudinaryImage} from '@cloudinary/url-gen';
+import {MdModeEditOutline} from 'react-icons/md';
 
 const Perfil = () => {
     const navigate = useNavigate()
@@ -38,10 +39,10 @@ const Perfil = () => {
 
     const obtenerDatos = () => {
         const datos =  {
-            id: usuarioConectado.usuario_id
+            usuario_id: usuarioConectado.usuario_id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/perfil/obtenerDatos", datos)
+        axios.post("http://localhost:5000/perfil/obtenerDatos", datos)
         .then(({data}) => {
             dispatch({
                 type: "CREAR_USUARIO",
@@ -78,7 +79,7 @@ const Perfil = () => {
         formData.append("direccion", document.getElementById("direccion").value);
         formData.append("file", document.getElementById("imagen").files[0]);
 
-        axios.post("https://backend-lobelbuy.vercel.app/perfil/guardarDatos", formData)
+        axios.post("http://localhost:5000/perfil/guardarDatos", formData)
         .then(({data}) => {
             if(data == "Actualizado") {
                 alert("Se han actualizado los datos")
@@ -104,18 +105,21 @@ const Perfil = () => {
             <Sidebar componente="perfil"/>
             <div className="w-75 py-5 mx-auto">
                 <div className="container" style={{background: "linear-gradient(to bottom, #e6f2ff, #99ccff)"}}>
-                    <div class="text-center pt-5 pb-2" >
+                    <div class="pt-5 pb-2 text-center" style={{position: "relative"}}>
+                        
                         {usuario.imagen == "" ? (
-                            <img src={imgProducto} class="rounded-circle" alt="Foto de perfil" width="150" height="150"/>
+                            <img src={imgProducto} class="rounded-circle" alt="Foto de perfil" width="150" height="150" style={{position: "relative"}}/>
                         ) : (
                             <img src={usuario.imagen} class="rounded-circle" alt="Foto de perfil" width="150" height="150"/>
                         )
 
                         }
-                        
-                        <input id="imagen" type="file" name="imagen"/>
-                        <h2 class="mt-3">{usuario.nombre}</h2>
+                         <label for="imagen" style={{position: "absolute", top: "50px", cursor: "pointer"}}>
+                            <MdModeEditOutline style={{width: "40px", height: "40px"}}/>
+                        </label>
                     </div>
+                    <input id="imagen" type="file" name="imagen" style={{display: "none"}}/>
+                    <h2 class="mt-3 text-center">{usuario.nombre}</h2>
                     <hr/>
                     <form className="pb-5 px-5">
                         <input type="text" id="usuario_id" defaultValue={usuario.usuario_id} hidden name="id"/>
