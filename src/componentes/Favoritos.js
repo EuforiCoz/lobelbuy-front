@@ -27,7 +27,7 @@ const Favoritos = () => {
             usuario_id: usuarioConectado.usuario_id
         }
 
-        axios.post("http://localhost:5000/mostrarProductosFavoritos", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/mostrarProductosFavoritos", datos)
         .then(res => {
 
             setProductos(res.data);
