@@ -139,7 +139,7 @@ const Productos = () => {
             input.value = 0;
         }
 
-        axios.post("http://localhost:5000/reservarProducto", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/reservarProducto", datos)
         .then(res => {
             console.log(res.data);
         })
@@ -160,7 +160,7 @@ const Productos = () => {
             vendedor_id: usuarioConectado.usuario_id
         }
        
-        axios.post("http://localhost:5000/venderProducto", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/venderProducto", datos)
         .then(res => {
             console.log(res.data)
             
