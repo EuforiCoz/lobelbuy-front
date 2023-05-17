@@ -42,7 +42,7 @@ const Perfil = () => {
             usuario_id: usuarioConectado.usuario_id
         }
 
-        axios.post("http://localhost:5000/perfil/obtenerDatos", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/perfil/obtenerDatos", datos)
         .then(({data}) => {
             dispatch({
                 type: "CREAR_USUARIO",
