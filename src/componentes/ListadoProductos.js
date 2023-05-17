@@ -10,6 +10,8 @@ import imagenPerfil from "./iconos/carrito.jpg"
 import axios from "axios"
 import { Link,useNavigate, useParams, useLocation} from "react-router-dom";
 import Loader from "./Loader";
+import meGustaOn from "./iconos/me-gusta-on.png"
+import ProductoInicio from "./ProductoInicio";
 
 const ListadoProductos = () => {
 
@@ -62,7 +64,7 @@ const ListadoProductos = () => {
 
         console.log(datos)
 
-        axios.post("https://backend-lobelbuy.onrender.com/buscarProducto", datos)
+        axios.post("http://localhost:5000/buscarProducto", datos)
         .then(res => {
 
             setProductos(res.data)
@@ -97,7 +99,7 @@ const ListadoProductos = () => {
         <div id="listadoProductos" style={{minHeight: "80%"}}>
                 <div className="container-fluid py-5" >
                     <div className="row">
-                        <div className="col-md-3 col-xs-12 mx-auto">
+                        <div className="col-md-4 col-xs-12 mx-auto">
                             
                             <form className="form-control mb-5 mx-auto" style={{width: "60%", background: "linear-gradient(to bottom, #e6f2ff, #99ccff)"}}>
                                 <h3>Filtrar</h3>
@@ -147,7 +149,7 @@ const ListadoProductos = () => {
                             </form>
                         </div>
                     
-                        <div className="container cajaPadre col-md-9 col-xs-12">
+                        <div className="container cajaPadre col-md-8 col-xs-12">
                             {loading && <Loader />}
                             <div id="cajaProductos" className="row cajaProductos">
                                 {productos.length == 0 ? (
@@ -158,33 +160,9 @@ const ListadoProductos = () => {
                                         productos.map((producto) =>{
                                                 
                                             return (
-                                                    <div class="col-md-3 mb-5">
-                                                        <div class="card product">
-                                                            <div className="position-relative">
-                                                                
-                                                                <img src={producto.imagen} class="card-img  w-100" height="240" alt="Producto"/>
-                                                                {producto.reservado == 0 &&
-                                                                <div>
-                                                                    <span id="reservado" className="fs-4 bg-white rounded-pill text-primary p-1 position-absolute" style={{top: "20px", left: "20px"}} hidden>Reservado</span>
-                                                                    <input type="number" value={producto.reservado} hidden/>
-                                                                    </div>
-                                                                }
-            
-                                                                {producto.reservado == 1 &&
-                                                                    <div>
-                                                                    <span id="reservado" className="fs-4 bg-white rounded-pill text-primary p-1 position-absolute" style={{top: "20px", left: "20px"}}>Reservado</span>
-                                                                    <input type="number" value={producto.reservado} hidden/>
-                                                                    </div>
-                                                                }   
-                                                            </div>
-                                                        
-                                                            <div class="card-body">
-                                                                <h5 class="card-title">{producto.nombre}</h5>
-                                                                <p class="card-text">Precio: {producto.precio}€</p>
-                                                                <Link to={"/producto/" + producto.id} className="btnVerProducto btn btn-primary text-decoration-none">Ver Producto</Link>
-                                                            </div>
-                                                        </div>
-                                                    </div>  
+                                               
+                                                <ProductoInicio key={producto.id} id={producto.id} nombre={producto.nombre} precio={producto.precio} categoria={producto.categoria} imagen={producto.imagen} reservado={producto.reservado} tamano={5}/>
+
                                             )
                                         })
                                     )  
