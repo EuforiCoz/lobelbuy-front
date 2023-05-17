@@ -11,6 +11,8 @@ import imgProducto from "./iconos/crash.jpg"
 import {FaRegHandshake} from "react-icons/fa"
 import {BsHandbag} from "react-icons/bs"
 import imgSale from "./iconos/cupon.png"
+import estrella from "./iconos/estrella.png"
+import estrellaOff from "./iconos/estrellaOff.png"
 
 const Resenas = () =>{
 
@@ -32,7 +34,7 @@ const Resenas = () =>{
             usuario_id: usuarioConectado.usuario_id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/resenasPorVentas", datos)
+        axios.post("http://localhost:5000/resenasPorVentas", datos)
         .then(res => {
 
             setResenasPorVentas(res.data);
@@ -44,7 +46,7 @@ const Resenas = () =>{
             console.log(response.data);
         })
 
-        axios.post("https://backend-lobelbuy.onrender.com/resenasPorCompras", datos)
+        axios.post("http://localhost:5000/resenasPorCompras", datos)
         .then(res => {
             setResenasPorCompras(res.data);    
         })
@@ -73,87 +75,89 @@ const Resenas = () =>{
                     <div  className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2" onClick={() => mostrar(resenasPorCompras, "por compras")}><BsHandbag style={{width: "60px", height: "60px"}}/><span className='text-center'>Reseñas por compras</span></div>  
                 </div>
             </div>
-            <div className="misProductosCuenta d-flex flex-column justify-content-center align-items-center mt-5">
-            {resenas.length == 0 ? (
-                            <h1 className="text-white">{mensajeMostrar}</h1>
-                            ) : (
-                                resenas.map((resena) =>{
+            <div className="misProductosCuenta d-flex flex-column justify-content-center align-items-center ">
+                {resenas.length == 0 && 
+                    <h1 className="text-white">{mensajeMostrar}</h1>
+                }
 
-                                    return (
-                                        <div className="card horizontal-card mb-3" key={resena.id} style={{width: "50%",background: "linear-gradient(to bottom, #e6f2ff, #99ccff)"}}>
-                                            <div className="row">
-                                                
-                                                <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 img-container img-overlay position-relative">
-                                                    
-                                                        {resena.imagen == "" ? (
-                                                            <img src={imgProducto} className="card-img  w-100" height="240" alt="Producto"/>
-                                                        ) : (
-                                                            <div>
-                                                                <img src={resena.imagen} className="card-img  w-100" height="240" alt="Producto"/>
-                                                                {resena.reservado == 0 &&
-                                                                    <div>
-                                                                    <span id="reservado" className="fs-4 bg-white rounded-pill p-1 position-absolute" style={{top: "20px", left: "20px"}} hidden>Reservado</span>
-                                                                    <input type="number" defaultValue={resena.reservado} hidden/>
-                                                                    </div>
-        
-                                                                }
-        
-                                                                {resena.reservado == 1 &&
-                                                                    <div>
-                                                                    <span id="reservado" className="fs-4 bg-white rounded-pill p-1 position-absolute" style={{top: "20px", left: "20px"}}>Reservado</span>
-                                                                    <input type="number" defaultValue={resena.reservado} hidden/>
-                                                                    </div>
-                                                                }   
-                                                            </div>
-                                                        )
-        
-                                                        }  
-                                                    
-                                                </div>
-                                                
-                                                <div id="caja" className="col-lg-8 col-md-12 col-sm-12 col-xs-12 d-flex justify-content-center align-items-center">
-                                                    <div className="card-body">
-                                                        <div className="row d-flex flex-row">
-                                                            <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center d-flex flex-column align-items-center justify-content-center">
-                                                                <input type="number" defaultValue={resena.id} hidden/>
-                                                                <h5 className="card-title">Valoración:</h5>
-                                                                {resena.valoracion == 0 &&
-                                                                    <p className="card-text"><span className="fs-5">?</span></p>
-                                                                }
+                {resenas == resenasPorVentas ? (
+                    resenas.map((resena) =>{
 
-                                                                {resena.comentario != 0 &&
-                                                                    <p className="card-text"><span className="fs-5">{resena.valoracion} estrellas</span></p>
-                                                                }
-                                                            </div>
-                                                            <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 d-flex flex-column align-items-center justify-content-center">
-                                                                <span className="fs-5 fw-bold">Comentario:</span>
-                                                                {resena.comentario == "" &&
-                                                                    <span className="fs-5 ">?</span>                                                               
-                                                                }
-
-                                                                {resena.comentario != "" &&
-                                                                     <span className="fs-5 ">{resena.comentario}</span>  
-                                                                }
-                                                            </div>
-                                                            <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 d-flex flex-column align-items-center justify-content-center">
-                                                                {resena.estado == 0 &&
-                                                                    <button className="btn btn-success"><Link to={"/cuenta/resenasForm/" + resena.producto_id} className="text-white text-decoration-none">Rellenar reseña</Link></button>
-                                                                }
-
-                                                                {resena.estado == 1 &&
-                                                                    <button className="btn btn-primary">Reseña completada</button>
-                                                                }
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                        return (
+                            <div class="resena card col-lg-5 col-md-6 col-sm-12 col-xs-12 mb-4" style={{background:"linear-gradient(to bottom, #e6f2ff, #99ccff)"}}>
+                                <div class="row p-2">
+                                    <div class="col-md-4 col-sm-6 text-center">
+                                        <img src={resena.imagen} class="img-fluid" style={{width: "100%", height: "180px",borderRadius: "20px"}}/>
+                                    </div>
+                                    <div class="col-md-8 col-sm-6 card-body">
+                                        <div class="d-flex flex-row justify-content-start align-items-center">
+                                            <img src={resena.foto} class="rounded-circle" style={{width: "40px", height: "40px"}}/>
+                                            <div class="mx-1"></div>
+                                            <span class="fs-5">{resena.nombre_vendedor}</span>
+                                        </div> 
+                                        <div className="mt-1 fw-bold">{resena.nombre_producto}</div>
+                                        <div class="mt-2 mb-2">
+                                            {Array.from({ length: resena.valoracion }, (_, index) => (
+                                                <img src={estrella} class="" style={{width: "25px", height: "25px"}}/>
+                                            ))}
                                         </div>
-                                    )
-                                })
+                                        <div>{resena.comentario}</div> 
+                                    </div>
+                                </div>
+                            </div>
+                                
                             )
+                        })
+                    ) : (
+                        resenas.map((resena) =>{
 
-                        }
+                            return (
+                                <div class="resena card col-lg-5 col-md-6 col-sm-12 col-xs-12 mb-4" style={{background:"linear-gradient(to bottom, #e6f2ff, #99ccff)"}}>
+                                    <div class="row p-2">
+                                        <div class="col-md-4 col-sm-6 text-center">
+                                            <img src={resena.imagen} class="img-fluid" style={{width: "100%", height: "180px",borderRadius: "20px"}}/>
+                                        </div>
+                                        <div class="col-md-8 col-sm-6 card-body">
+                                            <div class="d-flex flex-row justify-content-start align-items-center">
+                                                <img src={resena.foto} class="rounded-circle" style={{width: "40px", height: "40px"}}/>
+                                                <div class="mx-1"></div>
+                                                <span class="fs-5">{resena.nombre_vendedor}</span>
+                                            </div> 
+                                            <div className="mt-1 fw-bold">{resena.nombre_producto}</div>
+                                            {resena.estado == 0 &&
+                                                <div class="mt-2 mb-2">
+                                                    <img src={estrellaOff} class="" style={{width: "25px", height: "25px"}}/>
+                                                    <img src={estrellaOff} class="" style={{width: "25px", height: "25px"}}/>
+                                                    <img src={estrellaOff} class="" style={{width: "25px", height: "25px"}}/>
+                                                    <img src={estrellaOff} class="" style={{width: "25px", height: "25px"}}/>
+                                                    <img src={estrellaOff} class="" style={{width: "25px", height: "25px"}}/>
+                                                </div>
+                                            }
+
+                                            {resena.estado == 1 &&
+                                                <div class="mt-2 mb-2">
+                                                    {Array.from({ length: resena.valoracion }, (_, index) => (
+                                                        <img src={estrella} class="" style={{width: "25px", height: "25px"}}/>
+                                                    ))}
+                                                </div>
+                                            }
+                                            
+                                            {resena.estado == 0 &&
+                                                <Link to={"/cuenta/resenasForm/" + resena.producto_id}><button className="btn btn-primary">Valorar</button></Link>
+                                            } 
+
+                                            {resena.estado == 1 &&
+                                                 <div>{resena.comentario}</div> 
+                                            } 
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                    
+                                )
+                            })
+                    )
+                }
             </div>
             
         </div>
