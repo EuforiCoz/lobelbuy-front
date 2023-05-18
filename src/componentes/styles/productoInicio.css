@@ -43,3 +43,20 @@
     height: 200px;
 
   }
+
+  #productoInicio #imgPro{
+    transition: all 0.5s;
+   
+  }
+
+  #productoInicio #imgPro:hover{
+    transform: scale(1.1);
+   
+  }
+
+  #productoInicio .venderDiv{
+    border-width: 3px;
+    border-style: solid;
+    border-color: black;
+    cursor: pointer;
+  }
