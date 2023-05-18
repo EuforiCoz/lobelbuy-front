@@ -48,7 +48,7 @@ const Inicio = () => {
 
     const obtenerDatos = () => {
 
-        axios.get("https://backend-lobelbuy.onrender.com/")
+        axios.get("http://localhost:5000/buscarProductoInicio")
         .then(res => {
             setProductos(res.data)
             //console.log(res.data) 
@@ -99,17 +99,16 @@ const Inicio = () => {
                         </div>
                     </div>
                 </div>
-                <div className="row py-5 d-flex justify-content-center align-items-center productosPorCategorias">
+                <div className="row py-5 productosPorCategorias">
                         {Object.entries(productos).map(([categoria, articulos]) => (
-                            
-                             <div className="col-md-8 col-sm-8 col-xs-12" key={categoria}>
+                             <div className="col-md-12 col-sm-12 col-xs-12" key={categoria}>
                                 <div className="mb-3 d-flex justify-content-between align-items-center">
                                     <span className="mx-auto text-center h3">Productos de la categoria '{categoria}'</span>
                                     <span className="ml-auto text-center fs-5 px-2"><a href="#" className="text-white text-decoration-none">Ver más</a></span>
                                 </div> 
-                                <div className="row d-flex flex-row justify-content-center align-items-center flex-wrap">  
+                                <div className="d-flex flex-row justify-content-center align-items-center flex-wrap">  
                                 {articulos.map((articulo) => (
-                                    <ProductoInicio key={articulo.id} id={articulo.id} nombre={articulo.nombre} precio={articulo.precio} categoria={articulo.categoria} imagen={articulo.imagen} reservado={articulo.reservado} tamano={articulos.length}/>
+                                    <ProductoInicio key={articulo.id} id={articulo.id} nombre={articulo.nombre} precio={articulo.precio} categoria={articulo.categoria} imagen={articulo.imagen}/>
                                 ))}
                                 </div>
                              </div>
