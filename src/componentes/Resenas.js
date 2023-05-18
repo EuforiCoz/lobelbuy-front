@@ -34,7 +34,7 @@ const Resenas = () =>{
             usuario_id: usuarioConectado.usuario_id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/resenasPorVentas", datos)
+        axios.post("http://localhost:5000/resenasPorVentas", datos)
         .then(res => {
 
             setResenasPorVentas(res.data);
@@ -46,7 +46,7 @@ const Resenas = () =>{
             console.log(response.data);
         })
 
-        axios.post("https://backend-lobelbuy.onrender.com/resenasPorCompras", datos)
+        axios.post("http://localhost:5000/resenasPorCompras", datos)
         .then(res => {
             setResenasPorCompras(res.data);    
         })
@@ -84,7 +84,7 @@ const Resenas = () =>{
                     resenas.map((resena) =>{
 
                         return (
-                            <div class="resena card col-lg-5 col-md-6 col-sm-12 col-xs-12 mb-4" style={{background:"linear-gradient(to bottom, #e6f2ff, #99ccff)"}}>
+                            <div class="resena card col-lg-5 col-md-6 col-sm-12 col-xs-12 mb-4" style={{backgroundColor:"aliceblue"}}>
                                 <div class="row p-2">
                                     <div class="col-md-4 col-sm-6 text-center">
                                         <img src={resena.imagen} class="img-fluid" style={{width: "100%", height: "180px",borderRadius: "20px"}}/>
@@ -112,7 +112,7 @@ const Resenas = () =>{
                         resenas.map((resena) =>{
 
                             return (
-                                <div class="resena card col-lg-5 col-md-6 col-sm-12 col-xs-12 mb-4" style={{background:"linear-gradient(to bottom, #e6f2ff, #99ccff)"}}>
+                                <div class="resena card col-lg-5 col-md-6 col-sm-12 col-xs-12 mb-4" >
                                     <div class="row p-2">
                                         <div class="col-md-4 col-sm-6 text-center">
                                             <img src={resena.imagen} class="img-fluid" style={{width: "100%", height: "180px",borderRadius: "20px"}}/>
