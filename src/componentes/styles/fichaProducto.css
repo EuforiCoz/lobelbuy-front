@@ -17,7 +17,8 @@ img{
 }
 
 .con{
-    background: linear-gradient(to bottom, #e6f2ff, #99ccff);
+    /*background: linear-gradient(to bottom, #e6f2ff, #99ccff);*/
+    background-color: aliceblue;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -42,4 +43,18 @@ img{
     0% { transform: scale(1); }
     50% { transform: scale(1.5); }
     100% { transform: scale(1); }
+  }
+
+  #fichaProducto .c-item{
+    height: 400px;
+  }
+
+  #fichaProducto .c-img{
+    height: 100%;
+    object-fit: fill;
+    filter: brightness(0.8);
+  }
+
+  #fichaProducto .hablar:hover{
+    fill: #1E90FF;
   }
