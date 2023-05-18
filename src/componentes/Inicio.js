@@ -48,7 +48,7 @@ const Inicio = () => {
 
     const obtenerDatos = () => {
 
-        axios.get("http://localhost:5000/buscarProductoInicio")
+        axios.get("https://backend-lobelbuy.onrender.com/buscarProductoInicio")
         .then(res => {
             setProductos(res.data)
             //console.log(res.data) 
