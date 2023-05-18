@@ -10,7 +10,6 @@ import imagenPerfil from "./iconos/carrito.jpg"
 import axios from "axios"
 import { Link,useNavigate, useParams, useLocation} from "react-router-dom";
 import Loader from "./Loader";
-import meGustaOn from "./iconos/me-gusta-on.png"
 import ProductoInicio from "./ProductoInicio";
 
 const ListadoProductos = () => {
@@ -64,7 +63,7 @@ const ListadoProductos = () => {
 
         console.log(datos)
 
-        axios.post("https://backend-lobelbuy.onrender.com/buscarProducto", datos)
+        axios.post("http://localhost:5000/buscarProducto", datos)
         .then(res => {
 
             setProductos(res.data)
@@ -151,11 +150,11 @@ const ListadoProductos = () => {
                     
                         <div className="container cajaPadre col-md-8 col-xs-12">
                             {loading && <Loader />}
-                            <div id="cajaProductos" className="row cajaProductos">
+                            <div id="cajaProductos" className="cajaProductos d-flex justify-content-center align-items-center flex-wrap">
                                 {productos.length == 0 ? (
-                                        <div className="d-flex justify-content-center align-items-center">
-                                            <h3 className="text-white my-auto">No se han encontrado resultados</h3>
-                                        </div>
+                                      
+                                            <h3 className="text-center text-white my-auto">No se han encontrado resultados</h3>
+                                        
                                     ) : (
                                         productos.map((producto) =>{
                                                 
