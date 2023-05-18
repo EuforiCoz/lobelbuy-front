@@ -6,6 +6,7 @@ import Sidebar from "./Sidebar";
 import imgProducto from "./iconos/crash.jpg"
 import "./styles/productos.css"
 import axios from "axios"
+import ProductoInicio from "./ProductoInicio";
 
 const Favoritos = () => {
 
@@ -27,7 +28,7 @@ const Favoritos = () => {
             usuario_id: usuarioConectado.usuario_id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/mostrarProductosFavoritos", datos)
+        axios.post("http://localhost:5000/mostrarProductosFavoritos", datos)
         .then(res => {
 
             setProductos(res.data);
@@ -53,30 +54,8 @@ const Favoritos = () => {
                             productos.map((producto) =>{
 
                                 return (
-                                    <div class="card horizontal-card mb-3" key={producto.id} style={{width: "50%",background: "linear-gradient(to bottom, #e6f2ff, #99ccff)"}}>
-                                        <div class="row no-gutters">
-                                            <div class="col-md-4 img-container img-overlay">
-                                                {producto.imagen == "" ? (
-                                                    <img src={imgProducto} class="card-img  w-100" height="270" alt="Producto"/>
-                                                ) : (
-                                                    <img src={producto.imagen} class="card-img  w-100" height="270" alt="Producto"/>
-                                                )
-    
-                                                }
-                                                
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div class="card-body d-flex flex-column align-items-start justify-content-start">
-                                                    <input type="number" value={producto.id} hidden/>
-                                                    <h5 class="card-title">{producto.nombre}</h5>
-                                                    <p class="card-text"><span class="fs-5">Precio: {producto.precio}€</span></p>
-                                                    <div className="d-flex flex-column">
-                                                        <button className="btn btn-primary"><Link to={"/producto/" + producto.id} className="text-white text-decoration-none">Ver producto</Link></button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <ProductoInicio key={producto.id} id={producto.id} nombre={producto.nombre} precio={producto.precio} categoria={producto.categoria} imagen={producto.imagen} reservado={producto.reservado} tamano={5}/>
+                                  
                                 )
                             })
                         )
