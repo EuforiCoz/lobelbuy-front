@@ -4,7 +4,7 @@ import "./styles/chats.css"
 import axios from "axios";
 import {AiOutlineSend} from 'react-icons/ai';
 
-const socket = io('https://backend-lobelbuy.onrender.com/');
+const socket = io('http://localhost:5000/');
 
 function Chats() {
   const usuarioConectado = JSON.parse(window.localStorage.getItem('usuario'));
@@ -13,6 +13,7 @@ function Chats() {
   const [roomId, setRoomId] = useState('');
   const [username, setUsername] = useState('');
   const [otraPersona, setOtraPersona] = useState('Elige una conversación');
+  const [otraPersonaImagen, setOtraPersonaImagen] = useState(null);
   const [recibe, setRecibe] = useState();
   const [messageText, setMessageText] = useState('');
   const [messages, setMessages] = useState([]);
@@ -28,7 +29,7 @@ function Chats() {
         usuario_id: usuarioConectado.usuario_id
     }
 
-    axios.post("https://backend-lobelbuy.onrender.com/obtenerConversaciones", datos)
+    axios.post("http://localhost:5000/obtenerConversaciones", datos)
     .then(res => {
 
         //setProductos(res.data)
@@ -76,10 +77,12 @@ function Chats() {
    
     if(conversacion.usuario1_id == usuarioConectado.usuario_id){
       setOtraPersona(conversacion.nombre_usuario2);
+      setOtraPersonaImagen(conversacion.foto_usuario2);
       setConversacionElegida(conversacion.nombre_usuario2);
       setRecibe(conversacion.nombre_usuario2);
     } else{
       setOtraPersona(conversacion.nombre_usuario1);
+      setOtraPersonaImagen(conversacion.foto_usuario1);
       setConversacionElegida(conversacion.nombre_usuario1);
       setRecibe(conversacion.nombre_usuario1);
     }
@@ -95,7 +98,7 @@ function Chats() {
       conversacion: sala
     }
     
-    axios.post("https://backend-lobelbuy.onrender.com/obtenerMensajes", datos)
+    axios.post("http://localhost:5000/obtenerMensajes", datos)
     .then(res => {
         setMessages(res.data);
         setTimeout(() => {
@@ -211,10 +214,10 @@ function Chats() {
         </div>
     </div>*/
     <div id="chats" style={{background: "linear-gradient(to bottom, #1E90FF,#87CEEB)"}}>
-      <div class="container pt-5">
-      <div class="row clearfix">
+      <div class="container pt-5 ">
+      <div class="row clearfix" >
           <div class="col-lg-12">
-              <div class="card chat-app">
+              <div class="card chat-app" style={{backgroundColor:"aliceblue"}}>
                   <div class="row">
 
                   
@@ -235,7 +238,7 @@ function Chats() {
                                       {conversaciones.usuario1_id == usuarioConectado.usuario_id &&
                                         //<span className='mx-2'>Usuario: {conversaciones.nombre_usuario2}</span>
                                         <li class="clearfix">
-                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar"/>
+                                            <img src={conversaciones.foto_usuario2} alt="avatar" style={{width: "45px", height: "45px"}}/>
                                             <div class="about">
                                                 <div class="name">{conversaciones.nombre_usuario2}</div>
                                                 <div class="status"> <i class="fa fa-circle offline"></i> online </div>                                            
@@ -245,7 +248,7 @@ function Chats() {
       
                                       {conversaciones.usuario2_id == usuarioConectado.usuario_id &&
                                         <li class="clearfix">
-                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar"/>
+                                            <img src={conversaciones.foto_usuario1} alt="avatar"/>
                                             <div class="about">
                                                 <div class="name">{conversaciones.nombre_usuario1}</div>
                                                 <div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>                                            
@@ -266,7 +269,10 @@ function Chats() {
                           <div class="row">
                               <div class="col-lg-6">
                                   <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
-                                      <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar" style={{width: "45px"}}/>
+                                      {otraPersonaImagen != null &&
+                                      <img src={otraPersonaImagen} alt="avatar" style={{width: "45px", height: "45px"}}/>
+
+                                      }
                                   </a>
                                   <div class="chat-about mt-2">
                                       <h6 class="my-auto">{otraPersona}</h6>
