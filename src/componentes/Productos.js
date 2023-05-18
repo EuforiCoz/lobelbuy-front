@@ -10,6 +10,10 @@ import {Link} from "react-router-dom"
 import imgProducto from "./iconos/crash.jpg"
 import {FaRegHandshake} from "react-icons/fa"
 import imgSale from "./iconos/cupon.png"
+import ProductoInicio from "./ProductoInicio";
+import {TiCancelOutline} from "react-icons/ti"
+import {BsFillPencilFill} from "react-icons/bs"
+import {IoMdSave} from "react-icons/io"
 
 const Productos = () => {
 
@@ -42,7 +46,7 @@ const Productos = () => {
             usuario_id: usuarioConectado.usuario_id
         }
     
-        axios.post("https://backend-lobelbuy.onrender.com/obtenerConversaciones", datos)
+        axios.post("http://localhost:5000/obtenerConversaciones", datos)
         .then(res => {
 
             if(res.data != "No hay conversaciones"){
@@ -62,7 +66,7 @@ const Productos = () => {
             usuario_id: usuarioConectado.usuario_id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/mostrarProductosEnVenta", datos)
+        axios.post("http://localhost:5000/mostrarProductosEnVenta", datos)
         .then(res => {
 
             setProductosEnVenta(res.data);
@@ -74,7 +78,7 @@ const Productos = () => {
             console.log(response.data);
         })
 
-        axios.post("https://backend-lobelbuy.onrender.com/mostrarProductosVendidos", datos)
+        axios.post("http://localhost:5000/mostrarProductosVendidos", datos)
         .then(res => {
 
             setProductosVendidos(res.data);
@@ -103,14 +107,12 @@ const Productos = () => {
     }
     */
    
-    const eliminarProducto = (event) => {
+    const eliminarProducto = (index) => {
         const datos =  {
-            id: event.target.parentElement.parentElement.firstChild.value
-        }
+            id: productos[index].id
+        }  
 
-        console.log(event.target.parentElement.parentElement.firstChild.value)
-
-        axios.post("https://backend-lobelbuy.onrender.com/eliminarProducto", datos)
+        axios.post("http://localhost:5000/eliminarProducto", datos)
         .then(res => {
             if(res.data == "Eliminado") {
                 window.location.reload(true);
@@ -121,25 +123,29 @@ const Productos = () => {
         })
     }
 
-    const reservarProducto = (producto_id, event) => {
+    const reservarProducto = (index) => {
 
         const datos =  {
-            id: producto_id,
+            id: productos[index].id,
         }
-
-        var reservado = event.target.closest("#caja").previousElementSibling.firstChild.firstChild.firstChild.nextElementSibling.firstChild;
-        var input = event.target.closest("#caja").previousElementSibling.firstChild.firstChild.firstChild.nextElementSibling.firstChild.nextElementSibling;
+        
+        var spanReservado = document.getElementsByClassName("span-reservar")[index];
+        var input = document.getElementsByClassName("input-reservar")[index];
+        console.log(input)
+        console.log(input.value)
+        //var reservado = event.target.closest("#caja").previousElementSibling.firstChild.firstChild.firstChild.nextElementSibling.firstChild;
+        //var input = event.target.closest("#caja").previousElementSibling.firstChild.firstChild.firstChild.nextElementSibling.firstChild.nextElementSibling;
 
         if(input.value == 0){
-            reservado.hidden = false;
+            spanReservado.hidden = false;
             input.value = 1;
             
         } else {
-            reservado.hidden = true;
+            spanReservado.hidden = true;
             input.value = 0;
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/reservarProducto", datos)
+        axios.post("http://localhost:5000/reservarProducto", datos)
         .then(res => {
             console.log(res.data);
         })
@@ -160,7 +166,7 @@ const Productos = () => {
             vendedor_id: usuarioConectado.usuario_id
         }
        
-        axios.post("https://backend-lobelbuy.onrender.com/venderProducto", datos)
+        axios.post("http://localhost:5000/venderProducto", datos)
         .then(res => {
             console.log(res.data)
             
@@ -176,6 +182,30 @@ const Productos = () => {
         })
     }
 
+    const ponerColor = (boton,index) => {
+        var caja = document.getElementsByClassName(boton)[index];
+        var imagen = caja.firstChild;
+        if(boton == "vender") {
+            caja.style.borderColor = "#1E90FF";
+            imagen.style.fill = "#1E90FF";
+        }  else if(boton == "reservar"){
+            caja.style.borderColor = "purple";
+            imagen.style.fill = "purple";
+        }else if(boton == "editar"){
+            caja.style.borderColor = "rgb(0, 154, 0)";
+            imagen.style.fill = "rgb(0, 154, 0)";
+        } else {
+            caja.style.borderColor = "red";
+            imagen.style.fill = "red";
+        }
+    }
+
+    const quitarColor = (boton,index) => {
+        var caja = document.getElementsByClassName(boton)[index];
+        var imagen = caja.firstChild;
+        caja.style.borderColor = "black";
+        imagen.style.fill = "black";
+    }
 
     return(
         <div id="productosCuenta" className="productosCuenta position-relative" style={{minHeight: "80%",background: "linear-gradient(to bottom, #1E90FF,#87CEEB)"}}>
@@ -190,60 +220,57 @@ const Productos = () => {
                         {productos.length == 0 ? (
                             <h1 className="text-white">{mensajeMostrar}</h1>
                             ) : (
-                                productos.map((producto) =>{
+                                productos.map((producto, index) =>{
 
                                     return (
-                                        <div className="card horizontal-card mb-3" key={producto.id} style={{width: "50%",background: "linear-gradient(to bottom, #e6f2ff, #99ccff)"}}>
-                                            <div className="row">
-                                                
-                                                <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 img-container img-overlay position-relative">
-                                                    <Link to={"/producto/" + producto.id} className="text-decoration-none">
-                                                        {producto.imagen == "" ? (
-                                                            <img src={imgProducto} className="card-img  w-100" height="240" alt="Producto"/>
-                                                        ) : (
-                                                            <div>
-                                                                <img src={producto.imagen} className="card-img  w-100" height="240" alt="Producto"/>
-                                                                {producto.reservado == 0 &&
-                                                                    <div>
-                                                                    <span id="reservado" className="fs-4 bg-white rounded-pill p-1 position-absolute" style={{top: "20px", left: "20px"}} hidden>Reservado</span>
-                                                                    <input type="number" defaultValue={producto.reservado} hidden/>
+                                        <div id="productoInicio" class={"mx-3 mb-3"}>
+                                            <div class="card text-center" style={{borderRadius: "20px 20px 20px 20px", overflow: "hidden", width: "350px", boxShadow: "4px 4px 4px black"}} >
+                                                <div>
+                                                    <Link to={"/producto/" + producto.id}>
+                                                        <div class="position-relative" data-mdb-ripple-color="light" style={{height: "250px"}}>
+                                                            <img id="imgPro" src={producto.imagen} class="w-100 h-100" style={{borderRadius: "20px 20px 0 0"}} />
+                                                            {producto.reservado == 0 &&
+                                                                <span className="span-reservar position-absolute" style={{left: 0, bottom: 0}} hidden>
+                                                                    <input className="input-reservar" type="number" value={0} hidden/>
+                                                                    <div class="mask">
+                                                                        <div class="d-flex justify-content-start align-items-end h-100">
+                                                                        <h5><span class="badge bg-primary ms-2">Reservado</span></h5>
+                                                                        </div>
                                                                     </div>
-        
-                                                                }
-        
-                                                                {producto.reservado == 1 &&
-                                                                    <div>
-                                                                    <span id="reservado" className="fs-4 bg-white rounded-pill p-1 position-absolute" style={{top: "20px", left: "20px"}}>Reservado</span>
-                                                                    <input type="number" defaultValue={producto.reservado} hidden/>
+                                                                    <div class="hover-overlay">
+                                                                        <div class="mask"></div>
                                                                     </div>
-                                                                }   
-                                                            </div>
-                                                        )
-        
-                                                        }  
-                                                    </Link> 
-                                                </div>
-                                                
-                                                <div id="caja" className="col-lg-8 col-md-12 col-sm-12 col-xs-12 d-flex justify-content-center align-items-center">
-                                                    <div className="card-body">
-                                                        <div className="row d-flex flex-row">
-                                                            <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-center d-flex flex-column align-items-center justify-content-center">
-                                                                <input type="number" defaultValue={producto.id} hidden/>
-                                                                <h5 className="card-title">{producto.nombre}</h5>
-                                                                <p className="card-text"><span className="fs-5">Precio: {producto.precio}€</span></p>
-                                                            </div>
-                                                            <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 d-flex flex-column align-items-center justify-content-center">
-                                                                <span className="fs-5">Publicado:</span>
-                                                                <span className="fs-5 fw-bold">20-05-22</span>
-                                                            </div>
-                                                            <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 d-flex flex-column align-items-center justify-content-center">
-                                                                <button className="btn btn-primary" onClick={() => productoElegidoVender(producto.id)} data-bs-toggle="modal" data-bs-target="#exampleModal">Vendido</button>    
-                                                                <button className="btn btn-primary" onClick={(event) => reservarProducto(producto.id, event)}>Reservar</button>                                      
-                                                                <button className="btn btn-danger  my-2" onClick={eliminarProducto}>Eliminar</button>
-                                                                <button className="btn btn-success"><Link to={"/editarProducto/" + producto.id} className="text-white text-decoration-none">Editar</Link></button>
-                                                            </div>
+                                                                </span>
+                                                            }
+
+                                                            {producto.reservado == 1 &&
+                                                                <span className="span-reservar position-absolute" style={{left: 0, bottom: 0}}>
+                                                                    <input className="input-reservar" type="number" value={1} hidden/>
+                                                                    <div class="mask">
+                                                                        <div class="d-flex justify-content-start align-items-end h-100">
+                                                                        <h5><span class="badge bg-primary ms-2">Reservado</span></h5>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="hover-overlay">
+                                                                        <div class="mask"></div>
+                                                                    </div>
+                                                                </span>
+                                                            }
                                                         </div>
-                                                    </div>
+                                                    </Link>
+                                                </div>
+                                                <div class="card-body position-relative" style={{borderRadius: "0 0 20px 20px", backgroundColor: "aliceblue"}}>
+                                                    <h5 class="card-title  fw-bold">{producto.nombre}</h5> 
+                                                    <span>{producto.categoria}</span>
+                                                    <h6 class="">{producto.precio}€</h6>
+                    
+                                                        <div className="d-flex flex-row justify-content-center align-items-center">
+                                                            <div onClick={() => productoElegidoVender(producto.id)} data-bs-toggle="modal" data-bs-target="#exampleModal" onMouseOver={() => ponerColor("vender", index)} onMouseOut={() => quitarColor("vender", index)} className="vender venderDiv rounded-circle d-flex justify-content-center align-items-center mx-3" style={{width: "45px", height: "45px"}}><FaRegHandshake className="venderImg" style={{width: "75%", height:"75%"}}/></div>
+                                                            <div onClick={() => reservarProducto(index)} onMouseOver={() => ponerColor("reservar", index)} onMouseOut={() => quitarColor("reservar", index)} className="reservar venderDiv rounded-circle d-flex justify-content-center align-items-center mx-3" style={{width: "45px", height: "45px"}}><IoMdSave className="venderImg" style={{width: "75%", height:"75%"}}/></div>
+                                                            <Link className="text-decoration-none" to={"/editarProducto/" + producto.id}><div onMouseOver={() => ponerColor("editar", index)} onMouseOut={() => quitarColor("editar", index)} className="editar venderDiv rounded-circle d-flex justify-content-center align-items-center mx-3" style={{width: "45px", height: "45px"}}><BsFillPencilFill className="venderImg" style={{width: "55%", height:"55%", fill: "black"}}/></div></Link>
+                                                            <div onClick={() => eliminarProducto(index)} onMouseOver={() => ponerColor("eliminar", index)} onMouseOut={() => quitarColor("eliminar", index)} className="eliminar venderDiv rounded-circle d-flex justify-content-center align-items-center mx-3" style={{width: "45px", height: "45px"}}><TiCancelOutline className="venderImg" style={{width: "80%", height:"80%"}}/></div>
+                                                        </div>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -269,15 +296,11 @@ const Productos = () => {
                                     return (
                                         <div key={conversaciones.id}>
                                             {conversaciones.usuario1_id == usuarioConectado.usuario_id &&
-                                                
-                                                <span className="name mt-2" style={{cursor: "pointer"}} onClick={() => venderProducto(conversaciones.usuario2_id)} data-bs-dismiss="modal">{conversaciones.nombre_usuario2}</span>
-                                                    
+                                                <span className="name mt-2" style={{cursor: "pointer"}} onClick={() => venderProducto(conversaciones.usuario2_id)} data-bs-dismiss="modal">{conversaciones.nombre_usuario2}</span>   
                                             }
             
                                             {conversaciones.usuario2_id == usuarioConectado.usuario_id &&
-                                            
-                                                <span className="name" style={{cursor: "pointer"}} onClick={() => venderProducto(conversaciones.usuario1_id)} data-bs-dismiss="modal">{conversaciones.nombre_usuario1}</span>
-                                                    
+                                                <span className="name" style={{cursor: "pointer"}} onClick={() => venderProducto(conversaciones.usuario1_id)} data-bs-dismiss="modal">{conversaciones.nombre_usuario1}</span>      
                                             }
                                         </div>
                                     )
