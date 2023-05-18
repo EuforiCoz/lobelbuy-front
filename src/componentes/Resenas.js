@@ -34,7 +34,7 @@ const Resenas = () =>{
             usuario_id: usuarioConectado.usuario_id
         }
 
-        axios.post("http://localhost:5000/resenasPorVentas", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/resenasPorVentas", datos)
         .then(res => {
 
             setResenasPorVentas(res.data);
