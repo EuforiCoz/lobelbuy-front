@@ -48,7 +48,7 @@ const Inicio = () => {
 
     const obtenerDatos = () => {
 
-        axios.get("https://backend-lobelbuy.onrender.com/")
+        axios.get("http://localhost:5000/buscarProductoInicio")
         .then(res => {
             setProductos(res.data)
             //console.log(res.data) 
@@ -108,7 +108,7 @@ const Inicio = () => {
                                 </div> 
                                 <div className="d-flex flex-row justify-content-center align-items-center flex-wrap">  
                                 {articulos.map((articulo) => (
-                                    <ProductoInicio key={articulo.id} id={articulo.id} nombre={articulo.nombre} precio={articulo.precio} categoria={articulo.categoria} imagen={articulo.imagen}/>
+                                    <ProductoInicio key={articulo.id} id={articulo.id} nombre={articulo.nombre} precio={articulo.precio} categoria={articulo.categoria} reservado={articulo.reservado} imagen={articulo.imagen}/>
                                 ))}
                                 </div>
                              </div>
