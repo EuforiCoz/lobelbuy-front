@@ -3,10 +3,11 @@ import React, { useState, useEffect } from "react";
 //import "./styles/perfil.css"
 import "./styles/fichaProducto.css"
 import axios from "axios"
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import iconoCarrito from "./iconos/carrito.jpg";
 import imgLike from "./iconos/like.svg";
 import imgProducto from "./iconos/crash.jpg";
+import {RiKakaoTalkLine} from "react-icons/ri"
 
 const FichaProducto = () => {
 
@@ -32,7 +33,7 @@ const FichaProducto = () => {
             producto_id: params.id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/saberFavorito", datos)
+        axios.post("http://localhost:5000/saberFavorito", datos)
         .then(res => {
             if(res.data.esta_en_favoritos == 1){
                 document.getElementById("boton-me-gusta").classList.add('animacion-me-gusta');
@@ -59,7 +60,7 @@ const FichaProducto = () => {
             id: params.id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/mostrarFichaProducto", datos)
+        axios.post("http://localhost:5000/mostrarFichaProducto", datos)
         .then(res => {
             setProducto(res.data) 
         })
@@ -79,7 +80,7 @@ const FichaProducto = () => {
                 usuario2_id: producto.usuario_id
             }
     
-            axios.post("https://backend-lobelbuy.onrender.com/crearConversacion", datos)
+            axios.post("http://localhost:5000/crearConversacion", datos)
             .then(res => {
                
                     navigate("/cuenta/chats");
@@ -110,7 +111,7 @@ const FichaProducto = () => {
             producto_id: producto.id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/guardarFavorito", datos)
+        axios.post("http://localhost:5000/guardarFavorito", datos)
         .then(res => {
             //setProducto(res.data) 
         })
@@ -125,7 +126,7 @@ const FichaProducto = () => {
             producto_id: params.id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/eliminarFavorito", datos)
+        axios.post("http://localhost:5000/eliminarFavorito", datos)
         .then(res => {
             //setProducto(res.data) 
         })
@@ -136,66 +137,48 @@ const FichaProducto = () => {
    
     return(
         <div id="fichaProducto" className="py-5" style={{minHeight: "80%"}}>
-            <div class="container p-5 con">
-		<div class="row">
-			<div class=" col-md-4 col-xs-6">
-                <div class="row my-3">
-                    <div class="col-md-12 col-xs-12 mb-4 main-img border">
-                        {producto.imagen == "" ? (
-                            <img src={imgProducto} alt="Nombre del producto" className="img-fluid img-main"/>
-                        ) : (
-                            <img src={producto.imagen} alt="Nombre del producto" className="img-fluid img-main"/>
-                        )
-
-                        }
-                        
+            <div class="container p-3 con w-50">
+                <div class="row">
+                    <div className="ms-3">
+                        <Link to={"/vendedor/" + producto.usuario_id}><img src={producto.imagen} className="rounded-circle" style={{width: "60px", height: "60px"}} /></Link>
+                        <span className="mx-1"></span>
+                        <span className="fs-5">Pekito Terrores</span>
+                        <RiKakaoTalkLine className="hablar mx-3" onClick={crearConversacion} style={{width: "45px", height: "45px", cursor: "pointer"}}/>
                     </div>
-                    <div className="col-md-12 col-xs-12">
-                        <div className="row d-flex flex-nowrap">
-                            <div className="col-md-4 col-sm-4 col-xs-4 border cajaImg">
-                                <img src={imgProducto} alt="Nombre del producto" className=" img-fluid img-sec border"/>
+                    <div id="carouselExampleIndicators" class="carousel slide mt-2" style={{borderRadius: "20px"}}>
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        </div>
+                        <div class="carousel-inner " style={{borderRadius: "20px"}}>
+                            <div class="carousel-item active c-item">
+                            <img src={producto.imagen} class="d-block w-100 c-img" alt="..." style={{borderRadius: "20px"}}/>
                             </div>
-                            <div className="col-md-4 col-sm-4 col-xs-4 border cajaImg">
-                                <img src={imgProducto} alt="Nombre del producto" className=" img-fluid img-sec border"/>
+                            <div class="carousel-item  c-item">
+                            <img src="http://res.cloudinary.com/dj3zwdn0r/image/upload/v1683813843/upcy4zbcbwogm1jom5qy.jpg" class="d-block w-100 c-img" alt="..." style={{borderRadius: "20px"}}/>
                             </div>
-                            <div className="col-md-4 col-sm-4 col-xs-4 border cajaImg">
-                                <img src={imgProducto} alt="Nombre del producto" className=" img-fluid img-sec border"/>
+                            <div class="carousel-item  c-item">
+                            <img src="http://res.cloudinary.com/dj3zwdn0r/image/upload/v1683813843/upcy4zbcbwogm1jom5qy.jpg" class="d-block w-100 c-img" alt="..." style={{borderRadius: "20px"}}/>
                             </div>
                         </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
-                </div>
-			</div>
-			<div className="col-md-8 col-xs-6">
-                <div className="d-flex flex-row justify-content-between">
-                    <h1>{producto.nombre}</h1>
-                    <div class="svg-container m-2">
-                        <svg id="boton-me-gusta"  onClick={meGusta} width="55" height="55" className="img-fluid like">
-                            <image href={imgLike} x="0" y="0" width="55" height="55"/>
-                        </svg>
-                        
+                    <div className="mt-3">
+                        <p className="fs-3 fw-bold">{producto.nombre}</p>
                     </div>
-                </div>
-				
-				<p>Vendido por SAPATISA</p>
-				<hr/>
-				<h2>Detalles</h2>
-				<ul>
-					<li><strong>Precio:</strong> {producto.precio}€</li>
-					<li><strong>Disponibilidad:</strong> Vendido</li>
-					<li class="categoria"><strong>Categoría:</strong> {producto.categoria}</li>
-				</ul>
-				<hr/>
-                {usuario !=  producto.usuario_id && 
-                    <button type="button" class="btn btn-primary mb-3" onClick={crearConversacion}>Hablar con vendedor</button>
-                }
-			</div>
-            <div class="col-md-12 col-xs-12">
-                <div class="row">
-                    <div class="col-md-12 col-xs-12">   
-                        <h1>Descripción</h1>
-                        <p>{producto.descripcion}</p>
+                    <div className="">
+                        <p className="fs-5">{producto.descripcion}</p>
                     </div>
-                    <div class="col-md-6 col-xs-6">
+                   
+                    <div>
                         <h2>Especificaciones</h2>
                         <ul>
                             <li>Producto dañado</li>
@@ -204,15 +187,12 @@ const FichaProducto = () => {
                             <li>No lo uso mucho</li>
                         </ul>
                     </div>
-                    <div class="col-md-6 col-xs-6">
+                    <div >
                         <h2>Método de envío</h2>
                         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magni, neque? Eos placeat laboriosam modi provident, maxime rem blanditiis veniam animi repudiandae? Illum optio qui corporis cumque quas dolor itaque placeat?</p>
-                    </div>
+                    </div>               
                 </div>
-			</div>
-		</div>
-	</div>
-            
+            </div>
              {/*
             <div className="info text-white py-5">
                 {/*
@@ -234,4 +214,3 @@ const FichaProducto = () => {
 }
 
 export default FichaProducto;
-
