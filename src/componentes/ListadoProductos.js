@@ -11,6 +11,7 @@ import axios from "axios"
 import { Link,useNavigate, useParams, useLocation} from "react-router-dom";
 import Loader from "./Loader";
 import ProductoInicio from "./ProductoInicio";
+import Skeleton from '@mui/material/Skeleton';
 
 const ListadoProductos = () => {
 
@@ -25,6 +26,7 @@ const ListadoProductos = () => {
     
     //const { nombreProducto } = useParams();
     const [productos, setProductos] = useState([]);
+    const [loaded, setLoaded] = useState(false);
 
     useEffect(()=>{
 
@@ -32,16 +34,6 @@ const ListadoProductos = () => {
        
         
     }, [location])
-
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-      setTimeout(function(){
-       
-        setLoading(false);
-        document.getElementById("cajaProductos").style.visibility = "visible";
-      }, 1000)
-    }, []);
 
     const obtenerDatos = () => {
 
@@ -63,9 +55,9 @@ const ListadoProductos = () => {
 
         console.log(datos)
 
-        axios.post("https://backend-lobelbuy.onrender.com/buscarProducto", datos)
+        axios.post("http://localhost:5000/buscarProducto", datos)
         .then(res => {
-
+            console.log(res.data)
             setProductos(res.data)
             const selectCategoria = document.getElementById('categoria');
             var opcion1 = selectCategoria.querySelector("option[value=" + categoria + "]");
@@ -85,8 +77,8 @@ const ListadoProductos = () => {
             } 
 
             opcion2.setAttribute('selected', 'selected');
-            
-            
+
+            setLoaded(true);
         })
         .catch(({response}) => {
           
@@ -149,21 +141,29 @@ const ListadoProductos = () => {
                         </div>
                     
                         <div className="container cajaPadre col-md-8 col-xs-12">
-                            {loading && <Loader />}
+                            
                             <div id="cajaProductos" className="cajaProductos d-flex justify-content-center align-items-center flex-wrap">
-                                {productos.length == 0 ? (
-                                      
-                                            <h3 className="text-center text-white my-auto">No se han encontrado resultados</h3>
-                                        
+                                {!loaded ? (
+                                    Array.from({ length: 8 }, (_, index) => (
+                                        <div className="mx-4 mb-5">
+                                            <Skeleton variant="rounded" width={350} height={230} sx={{ bgcolor: 'lightblue' }}/>
+                                            <Skeleton variant="text" sx={{ fontSize: '1rem' , bgcolor: 'lightblue'}}/>
+                                            <Skeleton variant="text" sx={{ fontSize: '1rem' , bgcolor: 'lightblue'}}/>
+                                            <Skeleton variant="rectangular" width={350} height={80} sx={{bgcolor: 'lightblue'}}/>
+                                        </div>
+                                    ))
                                     ) : (
-                                        productos.map((producto) =>{
-                                                
-                                            return (
-                                               
-                                                <ProductoInicio key={producto.id} id={producto.id} nombre={producto.nombre} precio={producto.precio} categoria={producto.categoria} imagen={producto.imagen} reservado={producto.reservado} tamano={5}/>
-
-                                            )
-                                        })
+                                        <>
+                                            {productos.length == 0 ? (
+                                                <h3 className="text-center text-white my-auto">No se han encontrado resultados</h3>
+                                            ) : (
+                                                productos.map((producto) =>{
+                                                    return (
+                                                        <ProductoInicio key={producto.id} id={producto.id} nombre={producto.nombre} precio={producto.precio} categoria={producto.categoria} imagen={producto.imagen} reservado={producto.reservado} tamano={5}/>
+                                                    )
+                                                })
+                                            )  }
+                                        </>
                                     )  
                                 }
                             </div>
