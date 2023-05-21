@@ -14,6 +14,7 @@ import {useNavigate } from 'react-router-dom';
 import Loader from "./Loader";
 import axios from "axios"
 import iconoBuscar from "./iconos/buscar.svg"
+import Skeleton from '@mui/material/Skeleton';
 
 const Inicio = () => {
     
@@ -30,7 +31,7 @@ const Inicio = () => {
     */
     const navigate = useNavigate();
     const [productos, setProductos] = useState({});
-
+    const [loaded, setLoaded] = useState(false);
 /*
     useEffect(() => {
       setTimeout(function(){
@@ -48,9 +49,10 @@ const Inicio = () => {
 
     const obtenerDatos = () => {
 
-        axios.get("https://backend-lobelbuy.onrender.com/")
+        axios.get("http://localhost:5000/buscarProductoInicio")
         .then(res => {
-            setProductos(res.data)
+            setProductos(res.data);
+            setLoaded(true);
             //console.log(res.data) 
             //console.log(res.data)
             
@@ -100,11 +102,30 @@ const Inicio = () => {
                     </div>
                 </div>
                 <div className="row py-5 productosPorCategorias">
+                        {!loaded &&
+                            Array.from({ length: 3 }, (_, index) => (
+                                <div className="col-md-12 col-sm-12 col-xs-12">
+                                    <Skeleton className="mx-auto mb-3" variant="text" height={35} sx={{width: 500 ,fontSize: '1rem' , bgcolor: 'lightblue'}}/>
+                                    <div className="d-flex flex-row justify-content-center align-items-center flex-wrap">  
+                                    {Array.from({ length: 4 }, (_, index) => (
+                                        <div className="mx-4 mb-5">
+                                            <Skeleton variant="rounded" width={350} height={230} sx={{ bgcolor: 'lightblue' }}/>
+                                            <Skeleton variant="text" sx={{ fontSize: '1rem' , bgcolor: 'lightblue'}}/>
+                                            <Skeleton variant="text" sx={{ fontSize: '1rem' , bgcolor: 'lightblue'}}/>
+                                            <Skeleton variant="rectangular" width={350} height={80} sx={{bgcolor: 'lightblue'}}/>
+                                        </div>
+                                    ))}
+                                    </div>
+                                </div>
+                                
+                            ))
+                        }
+                        
                         {Object.entries(productos).map(([categoria, articulos]) => (
                              <div className="col-md-12 col-sm-12 col-xs-12" key={categoria}>
                                 <div className="mb-3 d-flex justify-content-between align-items-center">
                                     <span className="mx-auto text-center h3">Productos de la categoria '{categoria}'</span>
-                                    <span className="ml-auto text-center fs-5 px-2"><a href="#" className="text-white text-decoration-none">Ver más</a></span>
+                                    {/*<span className="ml-auto text-center fs-5 px-2"><a href="#" className="text-white text-decoration-none">Ver más</a></span>*/}
                                 </div> 
                                 <div className="d-flex flex-row justify-content-center align-items-center flex-wrap">  
                                 {articulos.map((articulo) => (
@@ -112,7 +133,7 @@ const Inicio = () => {
                                 ))}
                                 </div>
                              </div>
-                        ))}
+                                ))}
                 </div>
             </div>
           
