@@ -54,10 +54,6 @@
     background-color: #2980b9;
   }*/
 
-.cajaProductos{
-    visibility: hidden;
-}
-
 .cajaPadre{
     position: relative;
 }
