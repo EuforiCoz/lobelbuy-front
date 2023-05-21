@@ -17,3 +17,20 @@
     /*background-color: #e02d88;*/
     /*background-color: #013467*/
 }
+
+@media (min-width: 991px) and (max-width: 1440px) {
+    /* Estilos específicos para ancho de pantalla de 1024px o menos */
+    /* Por ejemplo: */
+    .perfilForm{
+        width: 45%;
+    }
+  }
+
+
+  @media (min-width: 1440px) and (max-width: 1825px) {
+    /* Estilos específicos para ancho de pantalla de 1024px o menos */
+    /* Por ejemplo: */
+    .perfilForm{
+        width: 65%;
+    }
+  }
