@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./styles/subirProducto.css"
 import axios from "axios"
 import { useNavigate } from "react-router-dom";
+import PantallaLoad from "./PantallaLoad";
 
 const SubirProducto = () => {
 
@@ -11,6 +12,13 @@ const SubirProducto = () => {
     const [categoria, setCategoria] = useState();
     const [estado, setEstado] = useState();
     const [descripcion, setDescripcion] = useState();
+    const [errorNombre, setErrorNombre] = useState(true);
+    const [errorCategoria, setErrorCategoria] = useState(true);
+    const [errorEstado, setErrorEstado] = useState(true);
+    const [errorPrecio, setErrorPrecio] = useState(true);
+    const [errorDescripcion, setErrorDescripcion] = useState(true);
+    const [errorEnvio, setErrorEnvio] = useState(true);
+    const [errorFichero, setErrorFichero] = useState(true);
     var contador = 1;
 
     const usuarioConectado = JSON.parse(window.localStorage.getItem('usuario'));
@@ -34,29 +42,97 @@ const SubirProducto = () => {
     }
 
     const subirProducto = () => {
-        /*
-        const datos = {
-            nombre: document.getElementById("nombre").value,
-            categoria: categoria,
-            precio: document.getElementById("precio").value,
-            estado: estado,
-            descripcion: descripcion,
-            usuario: usuarioConectado.usuario_id,
-            file: document.getElementById("imagenSubirProducto").files[0]
-        }*/
+      var nombre = document.getElementById("nombreSubir").value.trim();
+      //var categoria = document.getElementById("categoríaSubir").value;
+      var precio = document.getElementById("precioSubir").value;
+      //var estado = document.getElementById("estadoSubir").value;
+      //var descripcion = document.getElementById("descripcionSubir").value;
+      var enMano = document.getElementById("en-mano");
+      var envioCasa = document.getElementById("envio-casa");
+      var envio = null;
+      var file = document.getElementById("imagenSubirProducto").files[0];
+      
+      var arrayInputs = document.getElementsByClassName("detalles");
+      var arrayDetalles = [];
 
-        const formSubir = new FormData();
-        formSubir.append("nombre", document.getElementById("nombreSubir").value);
-        formSubir.append("categoria", document.getElementById("categoriaSubir").value);
-        formSubir.append("precio", document.getElementById("precioSubir").value);
-        formSubir.append("estado", document.getElementById("estadoSubir").value);
-        formSubir.append("descripcion", document.getElementById("descripcionSubir").value);
-        formSubir.append("usuario", usuarioConectado.usuario_id);
-        formSubir.append("file", document.getElementById("imagenSubirProducto").files[0]);
-
+      for (let i = 0; i < arrayInputs.length; i++) 
+      {
+       
+        arrayDetalles.push(arrayInputs[i].value)
         
+      }
+    
+      var detalles = arrayDetalles.join(",");
+      
+      document.getElementById("nombreSubir").classList.remove("is-invalid");
+      document.getElementById("categoriaSubir").classList.remove("is-invalid");
+      document.getElementById("precioSubir").classList.remove("is-invalid");
+      document.getElementById("estadoSubir").classList.remove("is-invalid");
+      document.getElementById("descripcionSubir").classList.remove("is-invalid");
+      document.getElementById("imagenSubirProducto").classList.remove("is-invalid");
+      
+      if(nombre == ""){
+        setErrorNombre(false);
+        document.getElementById("nombreSubir").classList.add("is-invalid")
+      }
 
-        axios.post("https://backend-lobelbuy.onrender.com/subirProducto", formSubir)
+      if(categoria == null){
+        setErrorCategoria(false);
+        document.getElementById("categoriaSubir").classList.add("is-invalid");
+      }
+
+      if(precio  == ""){
+        setErrorPrecio(false);
+        document.getElementById("precioSubir").classList.add("is-invalid");
+      }
+
+      if(estado == null){
+        setErrorEstado(false);
+        document.getElementById("estadoSubir").classList.add("is-invalid");
+      }
+
+      if(descripcion == null){
+        setErrorDescripcion(false);
+        document.getElementById("descripcionSubir").classList.add("is-invalid");
+        
+      }
+
+      if(enMano.checked && !envioCasa.checked){
+        envio = 0;
+      } else if(envioCasa.checked && !enMano.checked){
+        envio = 1;
+      }else if(envioCasa.checked && enMano.checked){
+        envio = 2;
+      }
+
+      if(!envioCasa.checked && !enMano.checked){
+        setErrorEnvio(false);
+        document.getElementById("en-mano").classList.add("is-invalid");
+        document.getElementById("envio-casa").classList.add("is-invalid");
+      }
+
+      if(file == null){
+        setErrorFichero(false);
+        document.getElementById("imagenSubirProducto").classList.add("is-invalid");
+      }
+      
+
+      if(nombre != null && categoria != null && precio  != null && estado != null && descripcion != null && envio != null && file != null){
+        
+        document.getElementById("modalSubiendoProducto").style.display = "block";
+       
+        const formSubir = new FormData();
+        formSubir.append("nombre", nombre);
+        formSubir.append("categoria", categoria);
+        formSubir.append("precio", precio);
+        formSubir.append("estado", estado);
+        formSubir.append("descripcion", descripcion);
+        formSubir.append("detalles", detalles);
+        formSubir.append("envio", envio);
+        formSubir.append("usuario", usuarioConectado.usuario_id);
+        formSubir.append("file", file);
+        
+        axios.post("http://localhost:5000/subirProducto", formSubir)
         .then(({data}) => {
             console.log(data)
             if(data == "Subido correctamente") {
@@ -65,92 +141,104 @@ const SubirProducto = () => {
         })
         .catch(({response}) => {
             console.log(response.data);
+            document.getElementById("modalSubiendoProducto").style.display = "none";
         })
+      }
     }
 
     const agregarInput = () =>{
         contador++;
-        var nuevoInput = document.createElement("input");
-        nuevoInput.type = "text";
-        nuevoInput.classList.add("form-control");
-        nuevoInput.classList.add("mb-3");
-        nuevoInput.setAttribute("placeholder", "Especificación " + contador);
-        
-        // Agrega el nuevo input al contenedor de inputs
-        var inputsContainer = document.getElementById("inputs-container");
-        inputsContainer.appendChild(nuevoInput);
+
+        if(contador <= 5) {
+          var nuevoInput = document.createElement("input");
+          nuevoInput.type = "text";
+          nuevoInput.classList.add("form-control");
+          nuevoInput.classList.add("mb-3");
+          nuevoInput.classList.add("detalles");
+          nuevoInput.setAttribute("placeholder", "Detalle " + contador);
+          
+          // Agrega el nuevo input al contenedor de inputs
+          var inputsContainer = document.getElementById("inputs-container");
+          inputsContainer.appendChild(nuevoInput);
+        }
     }
    
     return(
         <div id="subirProducto" className="py-5" style={{background: "linear-gradient(to bottom, #1E90FF,#87CEEB)"}}>
-        <div class="container p-5" style={{background: "linear-gradient(to bottom, #e6f2ff, #99ccff)"}}>
-        <h1>Subir producto</h1>
-    <form>
-      <div class="form-group mb-3">
-        <label for="nombreProducto" className="mb-2">Nombre del producto*:</label>
-        <input type="text" class="form-control" id="nombreSubir" placeholder="Escribe aquí el nombre del producto" required/>
-      </div>
-      <div class="form-group mb-3">
-        <label for="nombreProducto" className="mb-2">Precio*:</label>
-        <input type="number" class="form-control" id="precioSubir" placeholder="Escribe un precio razonable" required/>
-      </div>
-      <div class="form-group mb-3">
-        <label for="categoria" className="mb-2">Categoría*:</label>
-        <select class="form-control" id="categoriaSubir" required onChange={handleChangeCategoria}>
-        <option disabled selected>Selecciona una categoría</option>
-                            <option>Deporte</option>
-                            <option>Vehiculos</option>
-                            <option>Videojuegos</option>
-                            <option>Moda</option>
-                            <option>Móviles</option>
-                            <option>Informática</option>
-                            <option>Inmobiliaria</option>
-                            <option>Cocina</option>
-        </select>
-      </div>
-      <div class="form-group mb-3">
-        <label for="estado" className="mb-2">Estado*:</label>
-        <select class="form-control" id="estadoSubir" required onChange={handleChangeEstado}>
-        <option disabled selected>Selecciona un estado</option>
-                            <option>Sin abrir</option>
-                            <option>Como nuevo</option>
-                            <option>Usado</option>
-        </select>
-      </div>
-      <div class="form-group mb-3">
-        <label for="descripcion" className="mb-2">Descripción*:</label>
-        <textarea class="form-control" id="descripcionSubir" rows="3" required onChange={handleChangeDescripcion}></textarea>
-      </div>
-      <div class="form-group mb-3">
-        <label for="lista" className="mb-2">Especificaciones</label>
-        <div id="inputs-container">
-            <input type="text" class="form-control mb-3" placeholder="Especificación 1"/>
+          <div class="container p-5" style={{background: "linear-gradient(to bottom, #e6f2ff, #99ccff)"}}>
+            <h1>Subir producto</h1>
+            <form>
+              <div class="form-group mb-3">
+                <label for="nombreProducto" className="mb-2">Nombre del producto*:</label>
+                <input type="text" class="form-control" id="nombreSubir" placeholder="Escribe aquí el nombre del producto" required/>
+              </div>
+              <div class="form-group mb-3">
+                <label for="nombreProducto" className="mb-2">Precio*:</label>
+                <input type="number" class="form-control" id="precioSubir" placeholder="Escribe un precio razonable" required/>
+              </div>
+              <div class="form-group mb-3">
+                <label for="categoria" className="mb-2">Categoría*:</label>
+                <select class="form-control" id="categoriaSubir" required onChange={handleChangeCategoria}>
+                  <option disabled selected>Selecciona una categoría</option>
+                  <option>Deporte</option>
+                  <option>Vehículos</option>
+                  <option>Videojuegos</option>
+                  <option>Moda</option>
+                  <option>Móviles</option>
+                  <option>Informática</option>
+                  <option>Inmobiliaria</option>
+                  <option>Cocina</option>
+                </select>
+              </div>
+              <div class="form-group mb-3">
+                <label for="estado" className="mb-2">Estado*:</label>
+                <select class="form-control" id="estadoSubir" required onChange={handleChangeEstado}>
+                  <option disabled selected>Selecciona un estado</option>
+                  <option>Sin abrir</option>
+                  <option>Como nuevo</option>
+                  <option>Usado</option>
+                </select>
+              </div>
+              <div class="form-group mb-3">
+                <label for="descripcion" className="mb-2">Descripción*:</label>
+                <textarea class="form-control" id="descripcionSubir" rows="3" required onChange={handleChangeDescripcion}></textarea>
+              </div>
+              <div class="form-group mb-3">
+                <label for="lista" className="mb-2">Detalles</label>
+                <div id="inputs-container">
+                    <input type="text" class="detalles form-control mb-3" placeholder="Detalle 1"/>
+                </div>
+                <button type="button" onClick={agregarInput} className="btnVerProducto">Nuevo Detalle</button>
+              </div>
+              <label>Métodos de envío*</label>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="En mano" id="en-mano"/>
+                <label class="form-check-label" for="en-mano">
+                  En mano
+                </label>
+              </div>
+              <div class="form-check mb-5">
+                <input class="form-check-input" type="checkbox" value="Envío a casa" id="envio-casa"/>
+                <label class="form-check-label" for="envio-casa">
+                  Envío a casa
+                </label>
+              </div>
+              <div class="form-group mb-3">
+                <label for="imagen" className="mb-2">Imagen*:</label>
+                <input type="file" id="imagenSubirProducto" class="form-control" rows="3" required/>
+              </div>
+              <div className="d-flex justify-content-center">
+                <button type="button" class="btnVerProducto" onClick={subirProducto}>Subir</button>
+              </div>
+            </form>
+          </div> 
+
+          <div id="modalSubiendoProducto" style={{display: "none"}}>
+            <PantallaLoad texto="Subiendo producto"/>
+          </div>
+          
+
         </div>
-        <button type="button" onClick={agregarInput} className="btn btnVerProducto">Nueva Especificación</button>
-      </div>
-      <label>Métodos de envío*</label>
-      <div class="form-check">
-  <input class="form-check-input" type="checkbox" value="En mano" id="en-mano"/>
-  <label class="form-check-label" for="en-mano">
-    En mano
-  </label>
-</div>
-<div class="form-check mb-5">
-  <input class="form-check-input" type="checkbox" value="Envío a casa" id="envio-casa"/>
-  <label class="form-check-label" for="envio-casa">
-    Envío a casa
-  </label>
-</div>
-<div class="form-group mb-3">
-        <label for="imagen" className="mb-2">Imagen*:</label>
-        <input type="file" id="imagenSubirProducto" class="form-control" rows="3" required onChange={handleChangeDescripcion}/>
-      </div>
-      <div className="d-flex justify-content-center">
-        <button type="button" class="btn btnVerProducto" onClick={subirProducto}>Subir</button>
-      </div>
-    </form>
-      </div> 
-      </div>
       )  
             {/**
             <div className="py-5 d-flex justify-content-center align-items-center">
