@@ -49,7 +49,7 @@ const Productos = () => {
             usuario_id: usuarioConectado.usuario_id
         }
     
-        axios.post("http://localhost:5000/obtenerConversaciones", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/obtenerConversaciones", datos)
         .then(res => {
 
             if(res.data != "No hay conversaciones"){
@@ -69,7 +69,7 @@ const Productos = () => {
             usuario_id: usuarioConectado.usuario_id
         }
 
-        axios.post("http://localhost:5000/mostrarProductosEnVenta", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/mostrarProductosEnVenta", datos)
         .then(res => {
 
             setProductosEnVenta(res.data);
@@ -82,7 +82,7 @@ const Productos = () => {
             console.log(response.data);
         })
 
-        axios.post("http://localhost:5000/mostrarProductosVendidos", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/mostrarProductosVendidos", datos)
         .then(res => {
 
             setProductosVendidos(res.data);
@@ -117,7 +117,7 @@ const Productos = () => {
             id: productos[index].id
         }  
 
-        axios.post("http://localhost:5000/eliminarProducto", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/eliminarProducto", datos)
         .then(res => {
             if(res.data == "Eliminado") {
                 window.location.reload(true);
@@ -150,7 +150,7 @@ const Productos = () => {
             input.value = 0;
         }
 
-        axios.post("http://localhost:5000/reservarProducto", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/reservarProducto", datos)
         .then(res => {
             console.log(res.data);
         })
@@ -171,7 +171,7 @@ const Productos = () => {
             vendedor_id: usuarioConectado.usuario_id
         }
        
-        axios.post("http://localhost:5000/venderProducto", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/venderProducto", datos)
         .then(res => {
             console.log(res.data)
             document.getElementById("modalVendiendoProducto").style.display = "none";
