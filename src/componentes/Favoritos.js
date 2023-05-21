@@ -7,14 +7,16 @@ import imgProducto from "./iconos/crash.jpg"
 import "./styles/productos.css"
 import axios from "axios"
 import ProductoInicio from "./ProductoInicio";
+import Skeleton from '@mui/material/Skeleton';
 
 const Favoritos = () => {
 
     //const usuario = JSON.parse(window.localStorage.getItem("usuario"));
     const navigate = useNavigate()
     const usuarioConectado = JSON.parse(window.localStorage.getItem('usuario'));
-    const [loader, setLoader] = useState(true)
+    const [loaded, setLoaded] = useState(false)
     const [productos, setProductos] = useState([]);
+
 
     useEffect(()=>{
 
@@ -28,13 +30,11 @@ const Favoritos = () => {
             usuario_id: usuarioConectado.usuario_id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/mostrarProductosFavoritos", datos)
+        axios.post("http://localhost:5000/mostrarProductosFavoritos", datos)
         .then(res => {
 
             setProductos(res.data);
-            setLoader(false);
-            console.log(loader)
-            
+            setLoaded(true);
         })
         .catch(({response}) => {
             console.log(response.data);
@@ -47,15 +47,23 @@ const Favoritos = () => {
             <div className="container-fluid py-5 d-flex flex-column justify-content-center align-items-center">
                     <h1 className="text-white text-center">Mis favoritos</h1>
                     <div className="w-75 misProductosCuenta d-flex flex-column justify-content-center align-items-center mt-5">
-                        {loader && <Loader/>}
+                        {!loaded &&
+                            Array.from({ length: 3 }, (_, index) => (
+                            <div className="mb-4">
+                                <Skeleton variant="rounded" width={350} height={230} sx={{ bgcolor: 'lightblue' }}/>
+                                <Skeleton variant="text" sx={{ fontSize: '1rem' , bgcolor: 'lightblue'}}/>
+                                <Skeleton variant="text" sx={{ fontSize: '1rem' , bgcolor: 'lightblue'}}/>
+                                <Skeleton variant="rectangular" width={350} height={80} sx={{bgcolor: 'lightblue'}}/>
+                            </div>
+                            ))
+                        }
                         {productos.length == 0 ? (
                             <h3 className="text-white">No tienes ningún producto en favoritos</h3>
                         ) : (
                             productos.map((producto) =>{
 
                                 return (
-                                    <ProductoInicio key={producto.id} id={producto.id} nombre={producto.nombre} precio={producto.precio} categoria={producto.categoria} imagen={producto.imagen} reservado={producto.reservado} tamano={5}/>
-                                  
+                                    <ProductoInicio key={producto.id} id={producto.id} nombre={producto.nombre} precio={producto.precio} categoria={producto.categoria} imagen={producto.imagen} reservado={producto.reservado} tamano={5}/> 
                                 )
                             })
                         )
