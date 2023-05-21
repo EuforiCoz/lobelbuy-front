@@ -64,7 +64,7 @@ const Registro = () => {
           if (validarEmail(datosRegistro.correoRegistro) && validarPassword(datosRegistro.contrasenaRegistro)) {
             setErrorCorreo(true);
             setErrorContrasena(true);
-            axios.post("http://localhost:5000/api/registrarse", datosRegistro)
+            axios.post("https://backend-lobelbuy.onrender.com/api/registrarse", datosRegistro)
             .then(({data}) => {
                 navigate("/login", {
                     state: {
