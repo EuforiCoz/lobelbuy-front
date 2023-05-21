@@ -13,7 +13,9 @@ import imgSale from "./iconos/cupon.png"
 import ProductoInicio from "./ProductoInicio";
 import {TiCancelOutline} from "react-icons/ti"
 import {BsFillPencilFill} from "react-icons/bs"
-import {IoMdSave} from "react-icons/io"
+import {IoMdSave} from "react-icons/io";
+import PantallaLoad from "./PantallaLoad";
+import Skeleton from '@mui/material/Skeleton';
 
 const Productos = () => {
 
@@ -27,6 +29,7 @@ const Productos = () => {
     const [conversaciones, setConversaciones] = useState([]);
     const [productoSeleccionadoVender, setProductoSeleccionadoVender] = useState();
     const [mensajeMostrar, setMensajeMostrar] = useState("");
+    const [loaded, setLoaded] = useState(false);
 
     useEffect(()=>{
 
@@ -46,7 +49,7 @@ const Productos = () => {
             usuario_id: usuarioConectado.usuario_id
         }
     
-        axios.post("https://backend-lobelbuy.onrender.com/obtenerConversaciones", datos)
+        axios.post("http://localhost:5000/obtenerConversaciones", datos)
         .then(res => {
 
             if(res.data != "No hay conversaciones"){
@@ -66,19 +69,20 @@ const Productos = () => {
             usuario_id: usuarioConectado.usuario_id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/mostrarProductosEnVenta", datos)
+        axios.post("http://localhost:5000/mostrarProductosEnVenta", datos)
         .then(res => {
 
             setProductosEnVenta(res.data);
             setProductos(res.data);
             setMensajeMostrar("No tienes productos en venta");
+            setLoaded(true);
             
         })
         .catch(({response}) => {
             console.log(response.data);
         })
 
-        axios.post("https://backend-lobelbuy.onrender.com/mostrarProductosVendidos", datos)
+        axios.post("http://localhost:5000/mostrarProductosVendidos", datos)
         .then(res => {
 
             setProductosVendidos(res.data);
@@ -108,11 +112,12 @@ const Productos = () => {
     */
    
     const eliminarProducto = (index) => {
+        document.getElementById("modalEliminandoProducto").style.display = "block";
         const datos =  {
             id: productos[index].id
         }  
 
-        axios.post("https://backend-lobelbuy.onrender.com/eliminarProducto", datos)
+        axios.post("http://localhost:5000/eliminarProducto", datos)
         .then(res => {
             if(res.data == "Eliminado") {
                 window.location.reload(true);
@@ -145,7 +150,7 @@ const Productos = () => {
             input.value = 0;
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/reservarProducto", datos)
+        axios.post("http://localhost:5000/reservarProducto", datos)
         .then(res => {
             console.log(res.data);
         })
@@ -159,17 +164,17 @@ const Productos = () => {
     }
 
     const venderProducto = (vendedor) => {
-
+        document.getElementById("modalVendiendoProducto").style.display = "block";
         const datos =  {
             producto_id: productoSeleccionadoVender,
             comprador_id: vendedor,
             vendedor_id: usuarioConectado.usuario_id
         }
        
-        axios.post("https://backend-lobelbuy.onrender.com/venderProducto", datos)
+        axios.post("http://localhost:5000/venderProducto", datos)
         .then(res => {
             console.log(res.data)
-            
+            document.getElementById("modalVendiendoProducto").style.display = "none";
             /*
             if(res.data == "Eliminado") {
                 window.location.reload(true);
@@ -217,6 +222,16 @@ const Productos = () => {
                             <div onClick={() => mostrar(productosVendidos, "vendido")}  className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><FaRegHandshake style={{width: "60px", height: "60px"}}/><span>Vendido</span></div>
                     </div>
                     <div className="w-75 misProductosCuenta d-flex flex-column justify-content-center align-items-center mt-5">
+                        {!loaded &&
+                            Array.from({ length: 3 }, (_, index) => (
+                            <div className="mb-4">
+                                <Skeleton variant="rounded" width={350} height={230} sx={{ bgcolor: 'lightblue' }}/>
+                                <Skeleton variant="text" sx={{ fontSize: '1rem' , bgcolor: 'lightblue'}}/>
+                                <Skeleton variant="text" sx={{ fontSize: '1rem' , bgcolor: 'lightblue'}}/>
+                                <Skeleton variant="rectangular" width={350} height={80} sx={{bgcolor: 'lightblue'}}/>
+                            </div>
+                            ))
+                        }
                         {productos.length == 0 ? (
                             <h1 className="text-white">{mensajeMostrar}</h1>
                             ) : (
@@ -277,7 +292,7 @@ const Productos = () => {
                                     )
                                 })
                             )
-
+                                
                         }
                         
                     </div>
@@ -311,6 +326,12 @@ const Productos = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+                <div id="modalEliminandoProducto" style={{display: "none"}}>
+                    <PantallaLoad texto="Eliminando producto"/>
+                </div> 
+                <div id="modalVendiendoProducto" style={{display: "none"}}>
+                    <PantallaLoad texto="Vendiendo producto"/>
                 </div>
             </div>
        
