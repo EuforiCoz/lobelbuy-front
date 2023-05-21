@@ -34,7 +34,7 @@ const FichaProducto = () => {
             producto_id: params.id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/saberFavorito", datos)
+        axios.post("http://localhost:5000/saberFavorito", datos)
         .then(res => {
             if(res.data.esta_en_favoritos == 1){
                 document.getElementById("boton-me-gusta").classList.add('animacion-me-gusta');
