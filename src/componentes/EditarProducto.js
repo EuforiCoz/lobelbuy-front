@@ -36,22 +36,22 @@ const EditarProducto = () => {
         console.log(producto)
        
 
-    }, [])
+    }, [producto.length])
 
     const obtenerDatos = () => {
         const datos =  {
             id: params.id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/mostrarFichaProducto", datos)
+        axios.post("http://localhost:5000/mostrarFichaProducto", datos)
         .then(res => {
-            
+           
             setProducto(res.data);
             setLoaded(true)
             
             const selectCategoria = document.getElementById('categoriaEditar');
             var opcion1 = selectCategoria.querySelector("option[value=" + res.data.categoria + "]");
-            
+            console.log(selectCategoria)
             if(opcion1 == null){
                 opcion1 = selectCategoria.querySelector("option[value='porDefectoCategoria']");
             } 
@@ -89,7 +89,11 @@ const EditarProducto = () => {
             }
             contador = arrayDetalles.length;
             setDetalles(arrayDetalles);
-       
+
+            document.getElementById("categoriaEditar").removeAttribute("hidden");
+            document.getElementById("estadoEditar").removeAttribute("hidden");
+            document.getElementById("inputs-container").removeAttribute("hidden");
+           
             
         })
         .catch(res => {
@@ -242,22 +246,21 @@ const EditarProducto = () => {
       </div>
       <div class="form-group mb-3">
         <label for="categoria" className="mb-2">Categoría*:</label>
-        {!loaded ? (
+        {!loaded &&
             <Skeleton variant="text" sx={{ fontSize: '2rem' , bgcolor: 'white.100'}}/>
-            ):(
-                <select class="form-control" id="categoriaEditar">
-                    <option disabled value="porDefectoCategoria" selected>Selecciona una categoría</option>
-                    <option value="Deporte">Deporte</option>
-                    <option value="Vehículos">Vehículos</option>
-                    <option value="Videojuegos">Videojuegos</option>
-                    <option value="Moda">Moda</option>
-                    <option value="Móviles">Móviles</option>
-                    <option value="Informática">Informática</option>
-                    <option value="Inmobiliaria">Inmobiliaria</option>
-                    <option value="Cocina">Cocina</option>
-                </select>   
-            )
         }
+
+        <select class="form-control" id="categoriaEditar" hidden>
+            <option disabled value="porDefectoCategoria" selected>Selecciona una categoría</option>
+            <option value="Deporte">Deporte</option>
+            <option value="Vehículos">Vehículos</option>
+            <option value="Videojuegos">Videojuegos</option>
+            <option value="Moda">Moda</option>
+            <option value="Móviles">Móviles</option>
+            <option value="Informática">Informática</option>
+            <option value="Inmobiliaria">Inmobiliaria</option>
+            <option value="Cocina">Cocina</option>
+        </select>   
 
       </div>
       <div class="form-group mb-3">
@@ -266,14 +269,12 @@ const EditarProducto = () => {
             <Skeleton variant="text" sx={{ fontSize: '2rem' , bgcolor: 'white.100'}}/>
         }
 
-        {loaded && 
-            <select class="form-control" id="estadoEditar">
-                <option disabled value="porDefectoEstado" selected>Selecciona un estado</option>
-                <option value="sin-abrir">Sin abrir</option>
-                <option value="como-nuevo">Como nuevo</option>
-                <option value="Usado">Usado</option>
-            </select>
-        }
+        <select class="form-control" id="estadoEditar" hidden>
+            <option disabled value="porDefectoEstado" selected>Selecciona un estado</option>
+            <option value="sin-abrir">Sin abrir</option>
+            <option value="como-nuevo">Como nuevo</option>
+            <option value="Usado">Usado</option>
+        </select>
         
       </div>
       <div class="form-group mb-3">
@@ -292,8 +293,7 @@ const EditarProducto = () => {
             <Skeleton variant="text" sx={{ fontSize: '5rem' , bgcolor: 'white.100'}}/>
         }
 
-        {loaded && 
-            <div id="inputs-container">
+            <div id="inputs-container" hidden>
             {detalles.length == 0 &&
                  <input type="text" class="form-control mb-3" placeholder="Detalle 1"/>
             }
@@ -304,7 +304,7 @@ const EditarProducto = () => {
                 })
             }
             </div>
-        }
+       
        
         <button type="button" onClick={agregarInput} className="btn btnVerProducto">Nuevo Detalle</button>
       </div>
