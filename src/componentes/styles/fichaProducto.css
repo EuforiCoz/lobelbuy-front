@@ -32,7 +32,7 @@ img{
 .cajaImg{
     width: 33%;
 }
-
+/* Este css es para dar estilos a lo que sea */
 .animacion-me-gusta {
     animation-name: corazon;
     animation-duration: 1s;
@@ -46,13 +46,14 @@ img{
   }
 
   #fichaProducto .c-item{
-    height: 400px;
+    background-color: black;
   }
 
   #fichaProducto .c-img{
-    height: 100%;
-    object-fit: fill;
-    filter: brightness(0.8);
+    width: 100%;
+    aspect-ratio: 3/2;
+    object-fit: contain;
+    z-index: 2;
   }
 
   #fichaProducto .hablar:hover{
