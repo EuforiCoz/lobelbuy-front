@@ -14,6 +14,7 @@ const FichaProducto = () => {
     const navigate = useNavigate()
     const [usuario, setUsuario] = useState();
     const [producto, setProducto] = useState([]);
+    const [detalles, setDetalles] = useState([]);
     //const usuario = JSON.parse(window.localStorage.getItem("usuario"));
     const usuarioConectado = JSON.parse(window.localStorage.getItem('usuario'));
     
@@ -60,9 +61,21 @@ const FichaProducto = () => {
             id: params.id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/mostrarFichaProducto", datos)
+        axios.post("http://localhost:5000/mostrarFichaProducto", datos)
         .then(res => {
-            setProducto(res.data) 
+            console.log(res.data)
+            setProducto(res.data)
+            var detalles = res.data.detalles;
+            detalles = detalles.split(",");
+            var arrayDetalles = []
+            for (let i = 0; i < detalles.length; i++) 
+            {
+                if(detalles[i].trim() != ""){
+                    arrayDetalles.push(detalles[i])
+                }
+            }
+            console.log(arrayDetalles)
+            setDetalles(arrayDetalles);
         })
         .catch(res => {
             console.log(res);
@@ -80,7 +93,7 @@ const FichaProducto = () => {
                 usuario2_id: producto.usuario_id
             }
     
-            axios.post("https://backend-lobelbuy.onrender.com/crearConversacion", datos)
+            axios.post("http://localhost:5000/crearConversacion", datos)
             .then(res => {
                
                     navigate("/cuenta/chats");
@@ -111,7 +124,7 @@ const FichaProducto = () => {
             producto_id: producto.id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/guardarFavorito", datos)
+        axios.post("http://localhost:5000/guardarFavorito", datos)
         .then(res => {
             //setProducto(res.data) 
         })
@@ -126,7 +139,7 @@ const FichaProducto = () => {
             producto_id: params.id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/eliminarFavorito", datos)
+        axios.post("http://localhost:5000/eliminarFavorito", datos)
         .then(res => {
             //setProducto(res.data) 
         })
@@ -140,9 +153,9 @@ const FichaProducto = () => {
             <div class="container p-3 con w-50">
                 <div class="row">
                     <div className="ms-3">
-                        <Link to={"/vendedor/" + producto.usuario_id}><img src={producto.imagen} className="rounded-circle" style={{width: "60px", height: "60px"}} /></Link>
+                        <Link to={"/vendedor/" + producto.usuario_id}><img src={producto.foto} className="rounded-circle" style={{width: "60px", height: "60px"}} /></Link>
                         <span className="mx-1"></span>
-                        <span className="fs-5">Pekito Terrores</span>
+                        <span className="fs-5">{producto.nombre_usuario}</span>
                         <RiKakaoTalkLine className="hablar mx-3" onClick={crearConversacion} style={{width: "45px", height: "45px", cursor: "pointer"}}/>
                     </div>
                     <div id="carouselExampleIndicators" class="carousel slide mt-2" style={{borderRadius: "20px"}}>
@@ -153,13 +166,13 @@ const FichaProducto = () => {
                         </div>
                         <div class="carousel-inner " style={{borderRadius: "20px"}}>
                             <div class="carousel-item active c-item">
-                            <img src={producto.imagen} class="d-block w-100 c-img" alt="..." style={{borderRadius: "20px"}}/>
+                                <img src={producto.imagen} class="d-block  c-img" alt="..." style={{borderRadius: "20px"}}/>
                             </div>
                             <div class="carousel-item  c-item">
-                            <img src="http://res.cloudinary.com/dj3zwdn0r/image/upload/v1683813843/upcy4zbcbwogm1jom5qy.jpg" class="d-block w-100 c-img" alt="..." style={{borderRadius: "20px"}}/>
+                                <img src="http://res.cloudinary.com/dj3zwdn0r/image/upload/v1683813843/upcy4zbcbwogm1jom5qy.jpg" class=" c-img" alt="..." style={{borderRadius: "20px"}}/>
                             </div>
                             <div class="carousel-item  c-item">
-                            <img src="http://res.cloudinary.com/dj3zwdn0r/image/upload/v1683813843/upcy4zbcbwogm1jom5qy.jpg" class="d-block w-100 c-img" alt="..." style={{borderRadius: "20px"}}/>
+                                <img src="http://res.cloudinary.com/dj3zwdn0r/image/upload/v1683813843/upcy4zbcbwogm1jom5qy.jpg" class=" c-img" alt="..." style={{borderRadius: "20px"}}/>
                             </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -171,44 +184,45 @@ const FichaProducto = () => {
                             <span class="visually-hidden">Next</span>
                         </button>
                     </div>
-                    <div className="mt-3">
-                        <p className="fs-3 fw-bold">{producto.nombre}</p>
+                    <div className="mt-3 d-flex flex-row">
+                        <span className="fs-4 fw-bold">{producto.nombre}</span>
+                        <div className="justify-content-end">
+                            <img id="boton-me-gusta" onClick={meGusta} src={imgLike} style={{width: "60px", height: "60px"}}/>
+                        </div>
+                       
                     </div>
-                    <div className="">
+                    <div className="d-flex flex-column">
+                        <h6 className="">{producto.categoria}</h6>
+                        <span className="fs-3 fw-bold">{producto.precio}€</span>
                         <p className="fs-5">{producto.descripcion}</p>
                     </div>
                    
                     <div>
-                        <h2>Especificaciones</h2>
-                        <ul>
-                            <li>Producto dañado</li>
-                            <li>No lo uso mucho</li>
-                            <li>Producto dañado</li>
-                            <li>No lo uso mucho</li>
-                        </ul>
+                        <h2>Detalles</h2>
+                        {detalles.length == 0 && 
+                            <p>No ha dado ningún detalle</p>
+                        }
+
+                        {detalles.length != 0 && 
+                            <ul>
+                                {
+                                    detalles.map((detalles) => {
+                                        return(<li>{detalles}</li>)  
+                                    })
+                                }
+                            </ul>
+                        }
                     </div>
                     <div >
                         <h2>Método de envío</h2>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magni, neque? Eos placeat laboriosam modi provident, maxime rem blanditiis veniam animi repudiandae? Illum optio qui corporis cumque quas dolor itaque placeat?</p>
+                        <ul>
+                            {producto.envio == 0 && <li>En mano</li>}
+                            {producto.envio == 1 && <li>Envío a casa</li>}
+                            {producto.envio == 2 && <><li>En mano</li><li>Envío a casa</li></>}
+                        </ul>
                     </div>               
                 </div>
             </div>
-             {/*
-            <div className="info text-white py-5">
-                {/*
-                    <div>
-                        {producto.id} <br/>
-                        {producto.nombre} <br/>
-                        {producto.categoria} <br/>
-                        {producto.precio}€ <br/>
-                        {producto.estado} <br/>
-                        {producto.descripcion} <br/>
-                        {producto.usuario} <br/>
-                    </div>
-
-               
-            </div>
-             */}
         </div>
     )  
 }
