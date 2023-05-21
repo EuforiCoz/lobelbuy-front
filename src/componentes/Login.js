@@ -11,11 +11,13 @@ const Login = () => {
     const {dispatch} = useAppContext();
 
     const [datosLogin, setDatosLogin] = useState({correoLogin: "", contrasenaLogin: ""});
+    const [error, setError] = useState(true);
+    
     const usuarioConectado = JSON.parse(window.localStorage.getItem('usuario'));
 
     useEffect(() => {
         if(usuarioConectado != null){
-            navigate("/cuenta");
+            navigate("/cuenta/productos");
         }
     }, [])
 
@@ -29,7 +31,7 @@ const Login = () => {
     }
 
     const enviarDatosLogin = () => {
-        axios.post("https://backend-lobelbuy.onrender.com/api/login", datosLogin)
+        axios.post("http://localhost:5000/api/login", datosLogin)
         .then(({data}) => {
             dispatch({
                 type: "CREAR_USUARIO",
@@ -40,6 +42,7 @@ const Login = () => {
         })
         .catch(({response}) => {
             console.log(response.data);
+            setError(false)
         })
        }
 
@@ -51,41 +54,37 @@ const Login = () => {
 
     return (
       
-        <div id="login" className="d-flex flex-column justify-content-center align-items-center">
-            {state?.registered ? (
+
+<div id="login" className="container-fluid d-flex flex-column justify-content-center align-items-center" style={{minHeight: "80%", background: "linear-gradient(to bottom, #1E90FF,#87CEEB)"}}>
+<div className="">
+{state?.registered ? (
                  <div id="alerta" class="alert alert-success w-100 position-absolute top-0 start-0" role="alert">
                  Te has registrado correctamente
                  <button className="btn btn-close" onClick={cerrarAlerta}></button>
                </div>) : ("")
             
             }
-            {/*
-            <div className="container p-5 w-25 mx-auto">
-            
-                    <h1 className="">Login</h1>
-                    <input type="text" className="inputs form-control mt-4" name="correoLogin" onChange={inputChangeLogin} placeholder="Correo electrónico"/>
-                    <input type="password" className="inputs form-control mt-4" name="contrasenaLogin" onChange={inputChangeLogin} placeholder="Contraseña"/>
-                    <button type="button" className="inputIniciarSesion btn text-white w-100 mt-4" onClick={enviarDatosLogin}>Iniciar sesión</button>
-               
+    <form className="w-75 p-5 mx-auto" style={{background: "linear-gradient(to bottom, #e6f2ff, #99ccff)", borderRadius: "10px"}}>
+        <div className="row ">
+            <h3>Iniciar sesión</h3>
+            <div class="col-md-12 col-xs-12 form-group mb-3">
+                <label htmlFor="email" className="mb-2">Correo electrónico</label>
+                <input type="text" id="name" name="correoLogin" required  class="form-control" onChange={inputChangeLogin}/>
             </div>
-        */}
-           
-            <form>
-                <h1 className="titulo">Iniciar sesión</h1>
-                <div class="form-group">
-                    <label for="name">Correo electrónico</label>
-                    <input type="text" id="name" name="correoLogin" required onChange={inputChangeLogin}/>
-                </div>
-                <div class="form-group">
-                    <label for="email">Contraseña</label>
-                    <input type="password" id="email" name="contrasenaLogin" required onChange={inputChangeLogin}/>
-                </div>
-                <div className="d-flex justify-content-center align-items-center">
-                    <button type="button"  onClick={enviarDatosLogin}>Entrar</button>
-                </div>
-            </form>
-           
+            <div class="col-md-12 col-xs-12 form-group mb-3">
+                <label htmlFor="password" className="mb-2">Contrasena</label>
+                <input type="password" id="email" name="contrasenaLogin"  class="form-control" onChange={inputChangeLogin}/>
+            </div>
+            <div className="col-md-12 col-xs-12 d-flex flex-column justify-content-center align-items-center">
+                {!error &&
+                    <span className="text-danger mb-3">Correo o contraseña incorrecta</span>
+                }
+                <button type="button" onClick={enviarDatosLogin}>Entrar</button>
+            </div>
         </div>
+    </form>
+</div>
+</div>
     )
 }
 
