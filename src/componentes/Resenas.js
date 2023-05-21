@@ -13,6 +13,7 @@ import {BsHandbag} from "react-icons/bs"
 import imgSale from "./iconos/cupon.png"
 import estrella from "./iconos/estrella.png"
 import estrellaOff from "./iconos/estrellaOff.png"
+import Skeleton from '@mui/material/Skeleton';
 
 const Resenas = () =>{
 
@@ -24,6 +25,7 @@ const Resenas = () =>{
     const [resenasPorVentas, setResenasPorVentas] = useState([]);
     const [resenasPorCompras, setResenasPorCompras] = useState([]);
     const [mensajeMostrar, setMensajeMostrar] = useState("");
+    const [loaded, setLoaded] = useState(false);
 
     useEffect(()=>{
         obtenerDatos();
@@ -34,12 +36,13 @@ const Resenas = () =>{
             usuario_id: usuarioConectado.usuario_id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/resenasPorVentas", datos)
+        axios.post("http://localhost:5000/resenasPorVentas", datos)
         .then(res => {
 
             setResenasPorVentas(res.data);
             setResenas(res.data);
             setMensajeMostrar("No te han dedicado ninguna reseña");
+            setLoaded(true);
             
         })
         .catch(({response}) => {
@@ -48,7 +51,8 @@ const Resenas = () =>{
 
         axios.post("http://localhost:5000/resenasPorCompras", datos)
         .then(res => {
-            setResenasPorCompras(res.data);    
+            setResenasPorCompras(res.data);
+                
         })
         .catch(({response}) => {
             console.log(response.data);
@@ -76,7 +80,31 @@ const Resenas = () =>{
                 </div>
             </div>
             <div className="misProductosCuenta d-flex flex-column justify-content-center align-items-center ">
-                {resenas.length == 0 && 
+                {!loaded && 
+                    Array.from({ length: 3 }, (_, index) => (
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-4">
+                            <div class="row p-2">
+                                <div class="col-md-4 col-sm-12 text-center">
+                                    <Skeleton variant="rounded" sx={{width: "100%", height: "180px", bgcolor: 'lightblue' }}/>
+                                </div>
+                                <div class="col-md-8 col-sm-12 card-body">
+                                    <div class="d-flex flex-row justify-content-start align-items-center">
+                                        <Skeleton variant="rounded" sx={{width: "40px", height: "40px", bgcolor: 'lightblue' }}/>
+                                        <div class="mx-1"></div>
+                                        <Skeleton variant="text" sx={{width: "350px", fontSize: '1rem' , bgcolor: 'lightblue'}}/>
+                                    </div> 
+                                    <Skeleton variant="text" sx={{ fontSize: '1rem' , bgcolor: 'lightblue'}}/>
+                                    <div class="mt-2 mb-2">
+                                        <Skeleton variant="text" sx={{ fontSize: '1rem' , bgcolor: 'lightblue'}}/>
+                                    </div>
+                                    <Skeleton variant="text" sx={{ fontSize: '1rem' , bgcolor: 'lightblue'}}/>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                }
+
+                {(resenas.length == 0 && loaded) &&
                     <h1 className="text-white">{mensajeMostrar}</h1>
                 }
 
@@ -84,7 +112,7 @@ const Resenas = () =>{
                     resenas.map((resena) =>{
 
                         return (
-                            <div class="resena card col-lg-5 col-md-6 col-sm-12 col-xs-12 mb-4" style={{backgroundColor:"aliceblue"}}>
+                            <div class="resena card col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-4" style={{backgroundColor:"aliceblue"}}>
                                 <div class="row p-2">
                                     <div class="col-md-4 col-sm-6 text-center">
                                         <img src={resena.imagen} class="img-fluid" style={{width: "100%", height: "180px",borderRadius: "20px"}}/>
@@ -112,7 +140,7 @@ const Resenas = () =>{
                         resenas.map((resena) =>{
 
                             return (
-                                <div class="resena card col-lg-5 col-md-6 col-sm-12 col-xs-12 mb-4" >
+                                <div class="resena card col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-4" style={{backgroundColor:"aliceblue"}}>
                                     <div class="row p-2">
                                         <div class="col-md-4 col-sm-6 text-center">
                                             <img src={resena.imagen} class="img-fluid" style={{width: "100%", height: "180px",borderRadius: "20px"}}/>
