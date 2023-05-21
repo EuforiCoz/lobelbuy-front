@@ -80,7 +80,7 @@ const Perfil = () => {
         }
 
         if(document.getElementById("imagen").files[0] == undefined){
-            axios.post("http://localhost:5000/perfil/guardarDatosSinFoto", datos)
+            axios.post("https://backend-lobelbuy.onrender.com/perfil/guardarDatosSinFoto", datos)
             .then(({data}) => {
                 if(data == "Actualizado") {
                     alert("Se han actualizado los datos")
