@@ -49,7 +49,7 @@ const Inicio = () => {
 
     const obtenerDatos = () => {
 
-        axios.get("http://localhost:5000/buscarProductoInicio")
+        axios.get("https://backend-lobelbuy.onrender.com/")
         .then(res => {
             setProductos(res.data);
             setLoaded(true);
