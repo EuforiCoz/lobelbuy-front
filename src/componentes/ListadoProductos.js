@@ -39,7 +39,8 @@ const ListadoProductos = () => {
     }, [location])
 
     const obtenerDatos = () => {
-
+        document.getElementById("categoria").value = "porDefectoCategoria";
+        document.getElementById("estado").value = "porDefectoEstado";
         var productoEstado;
 
         if(estado == "sin-abrir"){
@@ -50,19 +51,23 @@ const ListadoProductos = () => {
             productoEstado = "Usado";
         }
 
-        var productoCategoria = categoria;
+        var productoCategoria = null;
+        console.log(productoCategoria)
+        console.log(categoria)
 
-        
+        if(categoria != "porDefectoCategoria"){
+            productoCategoria = categoria;
+        }
 
         const datos =  {
             nombre: nombre,
-            categoria: categoria,
+            categoria: productoCategoria,
             estado: productoEstado
         }
 
-        console.log(datos)
+        console.log(datos);
 
-        axios.post("https://backend-lobelbuy.onrender.com/buscarProducto", datos)
+        axios.post("http://localhost:5000/buscarProducto", datos)
         .then(res => {
             console.log(res.data)
             setProductos(res.data)
