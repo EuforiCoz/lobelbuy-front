@@ -274,19 +274,22 @@ const Productos = () => {
                                                         </div>
                                                     </Link>
                                                 </div>
-                                                <div class="card-body position-relative" style={{borderRadius: "0 0 20px 20px", backgroundColor: "aliceblue"}}>
-                                                    <h5 class="card-title  fw-bold">{producto.nombre}</h5> 
-                                                    <span>{producto.categoria}</span>
-                                                    <h6 class="">{producto.precio}€</h6>
-                    
-                                                        <div className="d-flex flex-row justify-content-center align-items-center">
-                                                            <div onClick={() => productoElegidoVender(producto.id)} data-bs-toggle="modal" data-bs-target="#exampleModal" onMouseOver={() => ponerColor("vender", index)} onMouseOut={() => quitarColor("vender", index)} className="vender venderDiv rounded-circle d-flex justify-content-center align-items-center mx-3" style={{width: "45px", height: "45px"}}><FaRegHandshake className="venderImg" style={{width: "75%", height:"75%"}}/></div>
-                                                            <div onClick={() => reservarProducto(index)} onMouseOver={() => ponerColor("reservar", index)} onMouseOut={() => quitarColor("reservar", index)} className="reservar venderDiv rounded-circle d-flex justify-content-center align-items-center mx-3" style={{width: "45px", height: "45px"}}><IoMdSave className="venderImg" style={{width: "75%", height:"75%"}}/></div>
-                                                            <Link className="text-decoration-none" to={"/editarProducto/" + producto.id}><div onMouseOver={() => ponerColor("editar", index)} onMouseOut={() => quitarColor("editar", index)} className="editar venderDiv rounded-circle d-flex justify-content-center align-items-center mx-3" style={{width: "45px", height: "45px"}}><BsFillPencilFill className="venderImg" style={{width: "55%", height:"55%", fill: "black"}}/></div></Link>
-                                                            <div onClick={() => eliminarProducto(index)} onMouseOver={() => ponerColor("eliminar", index)} onMouseOut={() => quitarColor("eliminar", index)} className="eliminar venderDiv rounded-circle d-flex justify-content-center align-items-center mx-3" style={{width: "45px", height: "45px"}}><TiCancelOutline className="venderImg" style={{width: "80%", height:"80%"}}/></div>
-                                                        </div>
-                                                    
-                                                </div>
+                                                
+                                                     <div class="card-body position-relative" style={{borderRadius: "0 0 20px 20px", backgroundColor: "aliceblue"}}>
+                                                     <h5 class="card-title  fw-bold">{producto.nombre}</h5> 
+                                                     <span>{producto.categoria}</span>
+                                                     <h6 class="">{producto.precio}€</h6>
+                                                {productos == productosEnVenta &&
+                                                         <div className="d-flex flex-row justify-content-center align-items-center">
+                                                             <div onClick={() => productoElegidoVender(producto.id)} data-bs-toggle="modal" data-bs-target="#exampleModal" onMouseOver={() => ponerColor("vender", index)} onMouseOut={() => quitarColor("vender", index)} className="vender venderDiv rounded-circle d-flex justify-content-center align-items-center mx-3" style={{width: "45px", height: "45px"}}><FaRegHandshake className="venderImg" style={{width: "75%", height:"75%"}}/></div>
+                                                             <div onClick={() => reservarProducto(index)} onMouseOver={() => ponerColor("reservar", index)} onMouseOut={() => quitarColor("reservar", index)} className="reservar venderDiv rounded-circle d-flex justify-content-center align-items-center mx-3" style={{width: "45px", height: "45px"}}><IoMdSave className="venderImg" style={{width: "75%", height:"75%"}}/></div>
+                                                             <Link className="text-decoration-none" to={"/editarProducto/" + producto.id}><div onMouseOver={() => ponerColor("editar", index)} onMouseOut={() => quitarColor("editar", index)} className="editar venderDiv rounded-circle d-flex justify-content-center align-items-center mx-3" style={{width: "45px", height: "45px"}}><BsFillPencilFill className="venderImg" style={{width: "55%", height:"55%", fill: "black"}}/></div></Link>
+                                                             <div onClick={() => eliminarProducto(index)} onMouseOver={() => ponerColor("eliminar", index)} onMouseOut={() => quitarColor("eliminar", index)} className="eliminar venderDiv rounded-circle d-flex justify-content-center align-items-center mx-3" style={{width: "45px", height: "45px"}}><TiCancelOutline className="venderImg" style={{width: "80%", height:"80%"}}/></div>
+                                                         </div>
+                                                     } 
+                                                 </div>
+                                               
+                                               
                                             </div>
                                         </div>
                                     )
