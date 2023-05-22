@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 import "./styles/chats.css"
 import axios from "axios";
 import {AiOutlineSend} from 'react-icons/ai';
+import Skeleton from '@mui/material/Skeleton';
 
 const socket = io('https://backend-lobelbuy.onrender.com/');
 
@@ -17,6 +18,7 @@ function Chats() {
   const [recibe, setRecibe] = useState();
   const [messageText, setMessageText] = useState('');
   const [messages, setMessages] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   const messageListRef = useRef();
   
@@ -226,8 +228,17 @@ function Chats() {
                           <h2>Chats</h2>
                       </div>
                       <ul class="list-unstyled chat-list mt-2 mb-0">
-                        {console.log(conversaciones)}
-                      {conversaciones.length == 0 &&
+                        {!loaded &&
+                          Array.from({ length: 5 }, (_, index) => (
+                            <li class="clearfix d-flex flex-row justify-content-start align-items-center">
+                              <Skeleton variant="circular" sx={{width: "45px", height: "45px", bgcolor: 'lightblue' }}/>
+                              <div class="about">
+                                <Skeleton variant="text" sx={{width: 150, fontSize: '1rem' , bgcolor: 'lightblue'}}/>  
+                               </div>
+                            </li>
+                          ))
+                        }
+                      {conversaciones.length == 0 && loaded &&
                           <h6>No hay conversaciones</h6>
                       }
 
