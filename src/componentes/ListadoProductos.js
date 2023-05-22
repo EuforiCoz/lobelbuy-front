@@ -79,7 +79,13 @@ const ListadoProductos = () => {
                 document.getElementById("categoria").value = "porDefectoCategoria";
             }
             else{
-                document.getElementById("categoria").value = stateCategoria;
+
+                if(stateCategoria == null){
+                    document.getElementById("categoria").value = categoria;
+                } else{
+                    document.getElementById("categoria").value = stateCategoria;
+                }
+                
             }
 
             if(estado == null || estado == "porDefectoEstado"){
@@ -101,7 +107,8 @@ const ListadoProductos = () => {
         setLoaded(false);
         var categoria = document.getElementById("categoria").value;
         var estado = document.getElementById("estado").value;
-       
+        document.getElementById("categoria").value = "porDefectoCategoria";
+        document.getElementById("estado").value = "porDefectoEstado";
         setStateCategoria(categoria);
         setStateEstado(estado);
 
