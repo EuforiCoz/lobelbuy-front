@@ -28,7 +28,7 @@ const HeaderBottom = () => {
 
     
     useEffect(()=>{
-        if(currentUrl == "https://frontend-lobelbuy.onrender.com/"){
+        if(currentUrl == "http://localhost:3000/"){
             console.log("inicio")
             document.getElementById("busca").hidden = true;
             document.getElementById("nombreBuscador").hidden = true;
@@ -49,21 +49,28 @@ const HeaderBottom = () => {
         navigate("/login");
     }
 
-  
+    const subirProducto = () => {
+        if(usuarioConectado == null){
+            navigate("/login");
+        }
+        else {
+            navigate("/subirProducto");
+        }
+    }
     
     return(
         <div id="headerBottom" className="position-fixed d-flex align-items-center" style={{width: "100%",bottom: 0}}>
             <div className="container-fluid text-white">
                 <div className="d-flex flex-row justify-content-between align-items-center">
-                    <div className=""><Link to="/" className="text-white text-decoration-none">Inicio</Link></div>
-                    <div className=""><Link to="/subirProducto" className="text-white text-decoration-none">Subir</Link></div>
-                    <div className="">
+                    <Link to="/" className="text-white text-decoration-none">Inicio</Link>
+                    <Link to="/subirProducto" className="text-white text-decoration-none">Subir</Link>
+                   
                     {usuario != null ?
                         (
                         <div className="botonCuenta">
-                            <div className="d-flex flex-row" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src={usuarioConectado.imagen} className="rounded-circle iconoUsuario mx-2" alt="Foto de perfil" width="40" height="40"/>
-                                <div className="cuenta text-white fs-5">{usuario.nombre}</div>
+                            <div className="d-flex flex-row justify-content-center align-items-center" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src={usuarioConectado.imagen} className="rounded-circle iconoUsuario mx-2" alt="Foto de perfil" style={{width: "30px", height: "30px"}}/>
+                                <div className="cuenta text-white">{usuario.nombre}</div>
                             </div>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 <li><Link className="dropdown-item" to="/cuenta/productos">Mi cuenta</Link></li>
@@ -73,8 +80,8 @@ const HeaderBottom = () => {
                         ) : (
                             <div className="botonCuenta">
                             <div className="d-flex flex-row" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                <div className="cuenta text-white">Cuenta</div>
-                                <img src={iconoUsuario} className="iconoUsuario ms-1" alt="cuenta"/>
+                                <div className=" text-white">Cuenta</div>
+                                <img src={iconoUsuario} className=" ms-1" alt="cuenta" style={{width: "30px", height: "30px"}}/>
                             </div>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
                                 <li><Link className="dropdown-item" to="/login">Iniciar sesión</Link></li>
@@ -82,7 +89,7 @@ const HeaderBottom = () => {
                             </ul>
                         </div>)
                 }
-                    </div>
+                   
                 </div>
             </div>
            
