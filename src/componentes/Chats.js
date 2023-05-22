@@ -40,6 +40,7 @@ function Chats() {
         }
         
         setUsername(usuarioConectado.nombre);
+        setLoaded(true);
         
     })
     .catch(({response}) => {
