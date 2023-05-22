@@ -12,6 +12,7 @@ import {fill} from "@cloudinary/url-gen/actions/resize";
 import {CloudinaryImage} from '@cloudinary/url-gen';
 import {MdModeEditOutline} from 'react-icons/md';
 import Skeleton from '@mui/material/Skeleton';
+import PantallaLoad from "./PantallaLoad";
 
 const Perfil = () => {
     const navigate = useNavigate()
@@ -44,19 +45,24 @@ const Perfil = () => {
         }
 
         axios.post("https://backend-lobelbuy.onrender.com/perfil/obtenerDatos", datos)
-        .then(res => {
-           
-            setUsuario(res.data);
-            setLoaded(true);
-            document.getElementById("edad").value = res.data.edad;
-            document.getElementById("sexo").value = res.data.sexo;
-            document.getElementById("ciudad").value = res.data.ciudad;
+        .then(({data}) => {
+            console.log(data)
+            dispatch({
+                type: "CREAR_USUARIO",
+                value: data
+            })
+
+            window.localStorage.setItem("usuario", JSON.stringify(data));
+            
+            setUsuario(data);
+            setLoaded(true)
+            document.getElementById("edad").value = data.edad;
+            document.getElementById("sexo").value = data.sexo;
+            document.getElementById("ciudad").value = data.ciudad;
             
             
         })
-        .catch(({response}) => {
-            console.log(response.data);
-        })
+       
     }
 
     const selectedHandle = (event) => {
@@ -66,7 +72,7 @@ const Perfil = () => {
     }
     
     const guardarDatos = () => {
-
+        document.getElementById("modalEditandoPerfil").style.display = "block";
         const datos = {
             usuario_id: document.getElementById("usuario_id").value,
             nombre: document.getElementById("nombre").value,
@@ -83,8 +89,9 @@ const Perfil = () => {
             axios.post("https://backend-lobelbuy.onrender.com/perfil/guardarDatosSinFoto", datos)
             .then(({data}) => {
                 if(data == "Actualizado") {
-                    alert("Se han actualizado los datos")
+                    document.getElementById("modalEditandoPerfil").style.display = "none";
                     obtenerDatos();
+                    setLoaded(true);
                 }
             })
             .catch(({response}) => {
@@ -299,7 +306,9 @@ const Perfil = () => {
                     </form>
                 </div>
             </div>
-            
+            <div id="modalEditandoPerfil" style={{display: "none"}}>
+                <PantallaLoad texto="Guardando cambios"/>
+            </div> 
             {/*
             <div className="info py-5">
                 <p className="h2 "> Mi perfil</p>
