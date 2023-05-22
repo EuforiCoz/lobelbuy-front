@@ -20,16 +20,19 @@ const ListadoProductos = () => {
     //const params = useParams();
     //const productoBuscado = params.match.nombreProducto;
     const location = useLocation();
+    const navigate = useNavigate();
     const nombre = new URLSearchParams(location.search).get('nombre');
     const categoria = new URLSearchParams(location.search).get('categoria');
     const estado = new URLSearchParams(location.search).get('estado');
     
     //const { nombreProducto } = useParams();
     const [productos, setProductos] = useState([]);
+    const [stateCategoria, setStateCategoria] = useState();
+    const [stateEstado, setStateEstado] = useState();
     const [loaded, setLoaded] = useState(false);
 
     useEffect(()=>{
-
+        setLoaded(false);
         obtenerDatos();
        
         
@@ -47,6 +50,10 @@ const ListadoProductos = () => {
             productoEstado = "Usado";
         }
 
+        var productoCategoria = categoria;
+
+        
+
         const datos =  {
             nombre: nombre,
             categoria: categoria,
@@ -59,30 +66,45 @@ const ListadoProductos = () => {
         .then(res => {
             console.log(res.data)
             setProductos(res.data)
-            const selectCategoria = document.getElementById('categoria');
-            var opcion1 = selectCategoria.querySelector("option[value=" + categoria + "]");
-
-            if(opcion1 == null){
-                opcion1 = selectCategoria.querySelector("option[value='porDefectoCategoria']");
-            } 
-            
-            opcion1.setAttribute('selected', 'selected');
-
-            const selectEstado = document.getElementById('estado');
-           
-            var opcion2 = selectEstado.querySelector("option[value=" + estado + "]");
-
-            if(opcion2 == null){
-                opcion2 = selectEstado.querySelector("option[value='porDefectoEstado']");
-            } 
-
-            opcion2.setAttribute('selected', 'selected');
-
             setLoaded(true);
+            console.log(stateCategoria)
+            console.log(stateEstado)
+
+            if(categoria == null || categoria == "porDefectoCategoria"){
+                document.getElementById("categoria").value = "porDefectoCategoria";
+            }
+            else{
+                document.getElementById("categoria").value = stateCategoria;
+            }
+
+            if(estado == null || estado == "porDefectoEstado"){
+                document.getElementById("estado").value = "porDefectoEstado";
+            }
+            else{
+                document.getElementById("estado").value = stateEstado;
+            }
+            
+       
+            
         })
         .catch(({response}) => {
-          
+            setLoaded(true);
         })
+    }
+
+    const filtrar = () => {
+        setLoaded(false);
+        var categoria = document.getElementById("categoria").value;
+        var estado = document.getElementById("estado").value;
+       
+        setStateCategoria(categoria);
+        setStateEstado(estado);
+
+        if(nombre == null){
+            navigate("/listadoProductos?categoria=" + categoria + "&estado=" + estado);
+        } else{
+            navigate("/listadoProductos?nombre=" + nombre + "&categoria=" + categoria + "&estado=" + estado);
+        }
     }
 
     return(
@@ -94,7 +116,7 @@ const ListadoProductos = () => {
                             
                             <form className="form-control mb-5 mx-auto" style={{width: "60%", background: "linear-gradient(to bottom, #e6f2ff, #99ccff)"}}>
                                 <h3>Filtrar</h3>
-                                <input type="text" value={nombre} name="nombre" hidden/>
+                                <input type="text" value={nombre}  hidden/>
                                 {/*
                                 <div className="mb-3 d-flex flex-column">
                                     <div className="mb-3">
@@ -111,8 +133,8 @@ const ListadoProductos = () => {
                                 <div className="mb-3">
                                     <span>Categorías</span>
                                     <span className="mx-3"></span>
-                                    <select id="categoria" name="categoria" className="form-control">
-                                        <option value="porDefectoCategoria" disabled selected>Selecciona una categoría</option>
+                                    <select id="categoria" className="form-control" onChange={event => setStateCategoria(event.target.value)}>
+                                        <option value="porDefectoCategoria" disabled>Selecciona una categoría</option>
                                         <option value="Moda">Moda</option>
                                         <option value="Deporte">Deporte</option>
                                         <option value="Videojuegos">Videojuegos</option>
@@ -126,18 +148,19 @@ const ListadoProductos = () => {
                                 <div className="mb-3">
                                     <span>Estado</span>
                                     <span className="mx-3"></span>
-                                    <select id="estado" name="estado" className="form-control">
-                                        <option value="porDefectoEstado" disabled selected>Selecciona un estado</option>
+                                    <select id="estado"  className="form-control" onChange={event => setStateEstado(event.target.value)}>
+                                        <option value="porDefectoEstado" disabled>Selecciona un estado</option>
                                         <option value="sin-abrir">Sin abrir</option>
                                         <option value="como-nuevo">Como nuevo</option>
                                         <option value="Usado">Usado</option>
                                     </select>
                                 </div>
                                 <div className="d-flex justify-content-center align-items-center">
-                                    <button className="btnVerProducto btn btn-primary w-50">Filtrar</button>
-                                </div>   
+                                    <button type="button" onClick={filtrar} className="btnVerProducto btn btn-primary w-50">Filtrar</button>
+                                </div> 
                             
                             </form>
+                           
                         </div>
                     
                         <div className="container cajaPadre col-md-8 col-xs-12">
