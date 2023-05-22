@@ -63,8 +63,7 @@ const Inicio = () => {
         })
     }
 
-    const verListadoCategorias = (event) => {
-       const categoria = event.target.nextElementSibling.textContent
+    const verListadoCategorias = (categoria) => {
        navigate("/listadoProductos?categoria=" + categoria)
     }
 
@@ -87,14 +86,14 @@ const Inicio = () => {
                             <img id="busca" src={iconoBuscar} className="iconoBuscar me-2" alt="buscar" onClick={buscarProducto}/>
                         </div>
                         <div className="row mx-auto pt-5 d-flex justify-content-center">
-                            <div onClick={verListadoCategorias} className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={iconoModa} className="imgIcono"/><span>Moda</span></div>
-                            <div onClick={verListadoCategorias} className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={iconoDeporte}  className="imgIcono"/><span>Deporte</span></div>
-                            <div onClick={verListadoCategorias} className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={iconoVideojuegos}  className="imgIcono"/><span>Videojuegos</span></div>
-                            <div onClick={verListadoCategorias} className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={iconoMoviles}  className="imgIcono"/><span>Móviles</span></div>
-                            <div onClick={verListadoCategorias} className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={iconoVehiculos}  className="imgIcono"/><span>Vehículos</span></div>
-                            <div onClick={verListadoCategorias} className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={iconoInformatica}  className="imgIcono"/><span>Informática</span></div>
-                            <div onClick={verListadoCategorias} className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={iconoInmobiliaria}  className="imgIcono"/><span>Inmobiliaria</span></div>
-                            <div onClick={verListadoCategorias} className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={iconoCocina}  className="imgIcono"/><span>Cocina</span></div>
+                           <div onClick={() => verListadoCategorias("Moda")} className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={iconoModa} className="imgIcono"/><span>Moda</span></div>
+                            <div onClick={() => verListadoCategorias("Deporte")} className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={iconoDeporte}  className="imgIcono"/><span>Deporte</span></div>
+                            <div onClick={() => verListadoCategorias("Videojuegos")} className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={iconoVideojuegos}  className="imgIcono"/><span>Videojuegos</span></div>
+                            <div onClick={() => verListadoCategorias("Móviles")} className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={iconoMoviles}  className="imgIcono"/><span>Móviles</span></div>
+                            <div onClick={() => verListadoCategorias("Vehículos")} className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={iconoVehiculos}  className="imgIcono"/><span>Vehículos</span></div>
+                            <div onClick={() => verListadoCategorias("Informática")} className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={iconoInformatica}  className="imgIcono"/><span>Informática</span></div>
+                            <div onClick={() => verListadoCategorias("Inmobiliaria")} className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={iconoInmobiliaria}  className="imgIcono"/><span>Inmobiliaria</span></div>
+                            <div onClick={() => verListadoCategorias("Cocina")} className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={iconoCocina}  className="imgIcono"/><span>Cocina</span></div>
                         </div> 
                         <div className="d-flex justify-content-center align-items-center">
                             <Link to="/listadoProductos"><button className=" text-black btn" style={{background: "linear-gradient(to bottom, #e6f2ff, #99ccff)"}}>Ver todos los productos</button></Link>
