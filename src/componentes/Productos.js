@@ -1,6 +1,7 @@
 import React, {useState, useEffect } from "react";
 //import { useNavigate } from "react-router-dom";
 import "./styles/sidebar.css"
+import "./styles/productos.css"
 import { useAppContext } from "../AppProvider";
 import Sidebar from "./Sidebar";
 import imagenPerfil from "./iconos/carrito.jpg"
@@ -30,9 +31,8 @@ const Productos = () => {
     const [productoSeleccionadoVender, setProductoSeleccionadoVender] = useState();
     const [mensajeMostrar, setMensajeMostrar] = useState("");
     const [loaded, setLoaded] = useState(false);
-
+    
     useEffect(()=>{
-
         obtenerDatos();
      
     }, []);
@@ -98,8 +98,13 @@ const Productos = () => {
     const mostrar = (productos, mensaje) =>{
         
         if(mensaje == "en venta"){
+            document.getElementById("vendido").classList.remove("animacionCaja");
+            document.getElementById("enVenta").classList.add("animacionCaja");
             setMensajeMostrar("No tienes productos en venta");
         } else {
+            document.getElementById("enVenta").classList.remove("animacionCaja");
+            document.getElementById("vendido").classList.add("animacionCaja");
+
             setMensajeMostrar("No has vendido ningún producto");
         }
         setProductos(productos);
@@ -218,8 +223,8 @@ const Productos = () => {
                 <div className="container-fluid py-5 d-flex flex-column justify-content-center align-items-center">
                     <h1 className="text-white text-center">Mis productos</h1>
                     <div className="row mx-auto pt-5 d-flex justify-content-center">
-                            <div onClick={() => mostrar(productosEnVenta, "en venta")}  className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={imgSale} style={{width: "60px", height: "60px"}}/><span>En venta</span></div>
-                            <div onClick={() => mostrar(productosVendidos, "vendido")}  className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><FaRegHandshake style={{width: "60px", height: "60px"}}/><span>Vendido</span></div>
+                            <div id="enVenta"  onClick={() => mostrar(productosEnVenta, "en venta")}  className="cajaCategoria animacionCaja col-sm-6 col-xs-6 mb-4 mx-2"><img src={imgSale} style={{width: "60px", height: "60px"}}/><span>En venta</span></div>
+                            <div id="vendido" onClick={() => mostrar(productosVendidos, "vendido")}  className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><FaRegHandshake style={{width: "60px", height: "60px"}}/><span>Vendido</span></div>
                     </div>
                     <div className="w-75 misProductosCuenta d-flex flex-column justify-content-center align-items-center mt-5">
                         {!loaded &&
