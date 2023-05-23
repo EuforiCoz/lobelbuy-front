@@ -2,7 +2,7 @@ import React from "react";
 import {useState, useEffect} from "react";
 import axios from "axios"
 import "./styles/registro.css"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Registro = () => {
     const navigate = useNavigate();
@@ -99,6 +99,7 @@ const Registro = () => {
                                 <p className="text-danger">Contraseña no válida</p>
                             }
                         </div>
+                        <p>¿Ya tienes una cuenta?<Link to="/login">Inicia sesión</Link></p>
                         <div className="col-md-12 col-xs-12 d-flex justify-content-center align-items-center">
                             <button type="button"  onClick={enviarDatosRegistro}>Crear cuenta</button>
                         </div>
