@@ -14,6 +14,7 @@ import imgSale from "./iconos/cupon.png"
 import ProductoInicio from "./ProductoInicio";
 import estrella from "./iconos/estrella.png";
 import Skeleton from '@mui/material/Skeleton';
+import "./styles/productos.css";
 
 const Productos = () => {
 
@@ -100,16 +101,25 @@ const Productos = () => {
     const mostrar = (datos, mensaje) =>{
         
         if(mensaje == "en venta"){
+            document.getElementById("divPorVentas").classList.remove("animacionCaja");
+            document.getElementById("divPorCompras").classList.remove("animacionCaja");
+            document.getElementById("divEnVenta").classList.add("animacionCaja");
             setMensajeMostrar("No ha publicado ningún producto");
             setProductos(datos);
             setResenas([]);
             setEstadoMostrar("productos");
         } else if(mensaje == "por ventas"){
+            document.getElementById("divPorVentas").classList.add("animacionCaja");
+            document.getElementById("divPorCompras").classList.remove("animacionCaja");
+            document.getElementById("divEnVenta").classList.remove("animacionCaja");
             setMensajeMostrar("No le han dedicado ninguna reseña");
             setProductos([])
             setResenas(datos);
             setEstadoMostrar("reseñas");
         } else {
+            document.getElementById("divPorVentas").classList.remove("animacionCaja");
+            document.getElementById("divPorCompras").classList.add("animacionCaja");
+            document.getElementById("divEnVenta").classList.remove("animacionCaja");
             setMensajeMostrar("No ha publicado ninguna reseña a otro comprador");
             setProductos([])
             setResenas(datos);
@@ -140,9 +150,9 @@ const Productos = () => {
                         
                     </div>
                     <div className="row mx-auto pt-5 d-flex justify-content-center">
-                            <div onClick={() => mostrar(productosEnVenta, "en venta")}  className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={imgSale} style={{width: "60px", height: "60px"}}/><span>En venta</span></div>
-                            <div  className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2" onClick={() => mostrar(resenasPorVentas, "por ventas")}><FaRegHandshake style={{width: "60px", height: "60px"}}/><span className='text-center'>Reseñas por ventas</span></div>
-                            <div  className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2" onClick={() => mostrar(resenasPorCompras, "por compras")}><BsHandbag style={{width: "60px", height: "60px"}}/><span className='text-center'>Reseñas por compras</span></div>  
+                            <div id="divEnVenta" onClick={() => mostrar(productosEnVenta, "en venta")}  className="cajaCategoria animacionCaja col-sm-6 col-xs-6 mb-4 mx-2"><img src={imgSale} style={{width: "60px", height: "60px"}}/><span>En venta</span></div>
+                            <div id="divPorVentas" className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2" onClick={() => mostrar(resenasPorVentas, "por ventas")}><FaRegHandshake style={{width: "60px", height: "60px"}}/><span className='text-center'>Reseñas por ventas</span></div>
+                            <div id="divPorCompras" className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2" onClick={() => mostrar(resenasPorCompras, "por compras")}><BsHandbag style={{width: "60px", height: "60px"}}/><span className='text-center'>Reseñas por compras</span></div>  
                     </div>
                     <div className="misProductosCuenta d-flex flex-column justify-content-center align-items-center mt-5">
 
