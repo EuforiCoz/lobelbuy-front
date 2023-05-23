@@ -188,7 +188,7 @@ const EditarProducto = () => {
             formEditar.append("file", document.getElementById("imagenEditarProducto").files[0]);
             console.log(formEditar.get("nombre"))        
 
-            axios.post("http://localhost:5000/editarProducto", formEditar)
+            axios.post("https://backend-lobelbuy.onrender.com/editarProducto", formEditar)
             .then(({data}) => {
                 console.log(data)
             
