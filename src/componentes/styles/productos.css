@@ -3,3 +3,7 @@
     background: linear-gradient(to bottom, #1E90FF,#87CEEB);
 }
 
+.animacionCaja{
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+}
