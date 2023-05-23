@@ -1,6 +1,7 @@
 import React, {useState, useEffect } from "react";
 //import { useNavigate } from "react-router-dom";
 import "./styles/sidebar.css"
+import "./styles/productos.css"
 import { useAppContext } from "../AppProvider";
 import Sidebar from "./Sidebar";
 import imagenPerfil from "./iconos/carrito.jpg"
@@ -62,8 +63,12 @@ const Resenas = () =>{
     const mostrar = (resenas, mensaje) =>{
         
         if(mensaje == "por ventas"){
+            document.getElementById("divCompras").classList.remove("animacionCaja");
+            document.getElementById("divVentas").classList.add("animacionCaja");
             setMensajeMostrar("No te han dedicado ninguna reseña");
         } else {
+            document.getElementById("divVentas").classList.remove("animacionCaja");
+            document.getElementById("divCompras").classList.add("animacionCaja");
             setMensajeMostrar("No has hecho ninguna reseña a ningún vendedor");
         }
         setResenas(resenas);
@@ -75,8 +80,8 @@ const Resenas = () =>{
             <div className="container-fluid py-5">
                 <h1 className="text-white text-center">Reseñas</h1>
                 <div className="row mx-auto pt-5 d-flex justify-content-center">
-                    <div  className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2" onClick={() => mostrar(resenasPorVentas, "por ventas")}><FaRegHandshake style={{width: "60px", height: "60px"}}/><span className='text-center'>Reseñas por ventas</span></div>
-                    <div  className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2" onClick={() => mostrar(resenasPorCompras, "por compras")}><BsHandbag style={{width: "60px", height: "60px"}}/><span className='text-center'>Reseñas por compras</span></div>  
+                    <div id="divVentas"  className="cajaCategoria animacionCaja col-sm-6 col-xs-6 mb-4 mx-2" onClick={() => mostrar(resenasPorVentas, "por ventas")}><FaRegHandshake style={{width: "60px", height: "60px"}}/><span className='text-center'>Reseñas por ventas</span></div>
+                    <div id="divCompras" className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2" onClick={() => mostrar(resenasPorCompras, "por compras")}><BsHandbag style={{width: "60px", height: "60px"}}/><span className='text-center'>Reseñas por compras</span></div>  
                 </div>
             </div>
             <div className="misProductosCuenta d-flex flex-column justify-content-center align-items-center ">
@@ -89,7 +94,7 @@ const Resenas = () =>{
                                 </div>
                                 <div class="col-md-8 col-sm-12 card-body">
                                     <div class="d-flex flex-row justify-content-start align-items-center">
-                                        <Skeleton variant="rounded" sx={{width: "40px", height: "40px", bgcolor: 'lightblue' }}/>
+                                        <Skeleton variant="circular" sx={{width: "40px", height: "40px", bgcolor: 'lightblue' }}/>
                                         <div class="mx-1"></div>
                                         <Skeleton variant="text" sx={{width: "350px", fontSize: '1rem' , bgcolor: 'lightblue'}}/>
                                     </div> 
