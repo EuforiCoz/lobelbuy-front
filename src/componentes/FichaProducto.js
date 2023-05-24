@@ -8,6 +8,7 @@ import iconoCarrito from "./iconos/carrito.jpg";
 import imgLike from "./iconos/like.svg";
 import imgProducto from "./iconos/crash.jpg";
 import {RiKakaoTalkLine} from "react-icons/ri"
+import {AiFillHeart} from "react-icons/ai"
 
 const FichaProducto = () => {
 
@@ -37,7 +38,7 @@ const FichaProducto = () => {
         axios.post("https://backend-lobelbuy.onrender.com/saberFavorito", datos)
         .then(res => {
             if(res.data.esta_en_favoritos == 1){
-                document.getElementById("boton-me-gusta").classList.add('animacion-me-gusta');
+                document.getElementById("boton-me-gusta").style.fill = "red";
             }
         })
         .catch(res => {
@@ -45,13 +46,9 @@ const FichaProducto = () => {
         })
     }
     
-   
-
-    const params = useParams();
-   
+    const params = useParams();  
 
     useEffect(()=>{
-
         obtenerDatos();   
         console.log(producto)
     }, [producto.length])
@@ -103,17 +100,18 @@ const FichaProducto = () => {
                 console.log(res);
             })
         }
-
-       
     }
 
     const meGusta = (event) => {
         var contiene = document.getElementById("boton-me-gusta").classList.contains('animacion-me-gusta')
-        if (contiene) {
+        if (contiene || document.getElementById("boton-me-gusta").style.fill == "red") {
             document.getElementById("boton-me-gusta").classList.remove('animacion-me-gusta');
+            document.getElementById("boton-me-gusta").style.fill = "black";
             quitaLike();
           } else {
             document.getElementById("boton-me-gusta").classList.add('animacion-me-gusta');
+            document.getElementById("boton-me-gusta").style.fill = "red";
+
             darLike();
           }
     }
@@ -150,50 +148,54 @@ const FichaProducto = () => {
    
     return(
         <div id="fichaProducto" className="py-5" style={{minHeight: "80%"}}>
-            <div class="container p-3 con w-50">
+            <div class="container p-3 con">
                 <div class="row">
-                    <div className="ms-3">
-                        <Link to={"/vendedor/" + producto.usuario_id}><img src={producto.foto} className="rounded-circle" style={{width: "60px", height: "60px"}} /></Link>
-                        <span className="mx-1"></span>
-                        <span className="fs-5">{producto.nombre_usuario}</span>
-                        <RiKakaoTalkLine className="hablar mx-3" onClick={crearConversacion} style={{width: "45px", height: "45px", cursor: "pointer"}}/>
-                    </div>
-                    <div id="carouselExampleIndicators" class="carousel slide mt-2" style={{borderRadius: "20px"}}>
-                        <div class="carousel-indicators">
-                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <div className="col-md-12">
+                        <div className="ms-3 d-flex flex-row justify-content-between align-items-center">
+                            <div>
+                            <Link to={"/vendedor/" + producto.usuario_id}><img src={producto.foto} className="rounded-circle" style={{width: "60px", height: "60px"}} /></Link>
+                            <span className="mx-1"></span>
+                            <span className="fs-5">{producto.nombre_usuario}</span>
+                            </div>
+                            {producto.usuario_id != usuarioConectado.usuario_id &&
+                                <button className="btnVerProducto"  onClick={crearConversacion}>Chatear</button>
+
+                            }
                         </div>
-                        <div class="carousel-inner " style={{borderRadius: "20px"}}>
-                            <div class="carousel-item active c-item">
-                                <img src={producto.imagen} class="d-block  c-img" alt="..." style={{borderRadius: "20px"}}/>
-                            </div>
-                            <div class="carousel-item  c-item">
-                                <img src="http://res.cloudinary.com/dj3zwdn0r/image/upload/v1683813843/upcy4zbcbwogm1jom5qy.jpg" class=" c-img" alt="..." style={{borderRadius: "20px"}}/>
-                            </div>
-                            <div class="carousel-item  c-item">
-                                <img src="http://res.cloudinary.com/dj3zwdn0r/image/upload/v1683813843/upcy4zbcbwogm1jom5qy.jpg" class=" c-img" alt="..." style={{borderRadius: "20px"}}/>
-                            </div>
-                        </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
                     </div>
-                    <div className="mt-3 d-flex flex-row">
-                        <span className="fs-4 fw-bold">{producto.nombre}</span>
+                    <div className="col-md-12">
+                        <div id="carouselExampleIndicators position-relative" class=" mt-2" style={{borderRadius: "20px"}}>
+                           
+                                <div class="c-item" style={{borderRadius: "20px"}}>
+                                    <img src={producto.imagen} class="d-block  c-img" alt="..." style={{borderRadius: "20px"}}/>
+                                </div>
+                                {producto.reservado == 1 &&
+                                    <span className="span-reservar position-absolute" style={{left: 5, top: 15}}>
+                                        <input className="input-reservar" type="number" value={1} hidden/>
+                                        <div class="mask">
+                                            <div class="d-flex justify-content-start align-items-end h-100">
+                                            <h4><span class="badge bg-primary ms-2 ">Reservado</span></h4>
+                                            </div>
+                                        </div>
+                                        <div class="hover-overlay">
+                                            <div class="mask"></div>
+                                        </div>
+                                    </span>
+                                }
+                        </div>
+                    </div>
+                    <div className="mt-3 d-flex flex-row justify-content-between">
+                        <span className="fs-3 fw-bold">{producto.nombre}</span>
                         <div className="justify-content-end">
-                            <img id="boton-me-gusta" onClick={meGusta} src={imgLike} style={{width: "60px", height: "60px"}}/>
+                        {producto.usuario_id != usuarioConectado.usuario_id &&
+                            <AiFillHeart id="boton-me-gusta" onClick={meGusta} style={{width: "50px", height: "50px", fill: "black", cursor: "pointer"}}/>
+                        }
                         </div>
                        
                     </div>
                     <div className="d-flex flex-column">
+                        <span className="fs-5 fw-bold">{producto.precio}€</span>
                         <h6 className="">{producto.categoria}</h6>
-                        <span className="fs-3 fw-bold">{producto.precio}€</span>
                         <p className="fs-5">{producto.descripcion}</p>
                     </div>
                    
