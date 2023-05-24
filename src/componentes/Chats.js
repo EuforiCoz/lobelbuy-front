@@ -3,9 +3,8 @@ import io from 'socket.io-client';
 import "./styles/chats.css"
 import axios from "axios";
 import {AiOutlineSend} from 'react-icons/ai';
-import Skeleton from '@mui/material/Skeleton';
 
-const socket = io('https://backend-lobelbuy.onrender.com/');
+const socket = io('http://localhost:5000/');
 
 function Chats() {
   const usuarioConectado = JSON.parse(window.localStorage.getItem('usuario'));
@@ -18,7 +17,6 @@ function Chats() {
   const [recibe, setRecibe] = useState();
   const [messageText, setMessageText] = useState('');
   const [messages, setMessages] = useState([]);
-  const [loaded, setLoaded] = useState(false);
 
   const messageListRef = useRef();
   
@@ -31,7 +29,7 @@ function Chats() {
         usuario_id: usuarioConectado.usuario_id
     }
 
-    axios.post("https://backend-lobelbuy.onrender.com/obtenerConversaciones", datos)
+    axios.post("http://localhost:5000/obtenerConversaciones", datos)
     .then(res => {
 
         //setProductos(res.data)
@@ -40,7 +38,6 @@ function Chats() {
         }
         
         setUsername(usuarioConectado.nombre);
-        setLoaded(true);
         
     })
     .catch(({response}) => {
@@ -101,7 +98,7 @@ function Chats() {
       conversacion: sala
     }
     
-    axios.post("https://backend-lobelbuy.onrender.com/obtenerMensajes", datos)
+    axios.post("http://localhost:5000/obtenerMensajes", datos)
     .then(res => {
         setMessages(res.data);
         setTimeout(() => {
@@ -216,7 +213,7 @@ function Chats() {
             </div>
         </div>
     </div>*/
-    <div id="chats" style={{background: "linear-gradient(to bottom, #1E90FF,#87CEEB)"}}>
+    <div id="chats" className='d-flex justify-content-center align-items-center' style={{minHeight: "80%",background: "linear-gradient(to bottom, #1E90FF,#87CEEB)"}}>
       <div class="container pt-5 ">
       <div class="row clearfix" >
           <div class="col-lg-12">
@@ -229,17 +226,8 @@ function Chats() {
                           <h2>Chats</h2>
                       </div>
                       <ul class="list-unstyled chat-list mt-2 mb-0">
-                        {!loaded &&
-                          Array.from({ length: 5 }, (_, index) => (
-                            <li class="clearfix d-flex flex-row justify-content-start align-items-center">
-                              <Skeleton variant="circular" sx={{width: "45px", height: "45px", bgcolor: 'lightblue' }}/>
-                              <div class="about">
-                                <Skeleton variant="text" sx={{width: 150, fontSize: '1rem' , bgcolor: 'lightblue'}}/>  
-                               </div>
-                            </li>
-                          ))
-                        }
-                      {conversaciones.length == 0 && loaded &&
+                        {console.log(conversaciones)}
+                      {conversaciones.length == 0 &&
                           <h6>No hay conversaciones</h6>
                       }
 
@@ -294,9 +282,9 @@ function Chats() {
                           </div>
                       </div>
                       <div class="chat-history">
-                          <ul id="scrollUl" class="m-b-0" style={{ height: '600px', overflowY: 'scroll' }} ref={messageListRef}>
+                          <ul id="scrollUl" class="m-b-0" ref={messageListRef}>
                             {messages.length == 0 &&
-                              <h3 className='text-center' style={{lineHeight: "600px"}}>Empiece a chatear</h3>
+                              <h3 className='text-center' style={{lineHeight: "300px"}}>Empiece a chatear</h3>
                             }
                           {messages.map((messages, index) => (
                             <div className='mt-3'>
