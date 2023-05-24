@@ -164,11 +164,13 @@ const FichaProducto = () => {
                         </div>
                     </div>
                     <div className="col-md-12">
-                        <div id="carouselExampleIndicators position-relative" class=" mt-2" style={{borderRadius: "20px"}}>
+                        <div id="carouselExampleIndicators" class=" mt-2 position-relative" style={{borderRadius: "20px"}}>
                            
-                                <div class="c-item" style={{borderRadius: "20px"}}>
+                                <div class="c-item position-relative" style={{borderRadius: "20px"}}>
                                     <img src={producto.imagen} class="d-block  c-img" alt="..." style={{borderRadius: "20px"}}/>
-                                </div>
+                                </div>{
+                                    console.log(producto.reservado)
+                                }
                                 {producto.reservado == 1 &&
                                     <span className="span-reservar position-absolute" style={{left: 5, top: 15}}>
                                         <input className="input-reservar" type="number" value={1} hidden/>
