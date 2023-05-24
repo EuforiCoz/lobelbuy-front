@@ -1,61 +1,88 @@
 /*.main-img{
     position: relative;
 }
-
 img{
     position: relative;
     width: 500px;
     height: 500px;
 }
-
 .product-info{
     left: 0;
 }*/
 
 #fichaProducto{
-    background: linear-gradient(to bottom, #1E90FF,#87CEEB);
+  background: linear-gradient(to bottom, #1E90FF,#87CEEB);
 }
 
 .con{
-    /*background: linear-gradient(to bottom, #e6f2ff, #99ccff);*/
-    background-color: aliceblue;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  /*background: linear-gradient(to bottom, #e6f2ff, #99ccff);*/
+  background-color: aliceblue;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .img-main{
-    width: 100%;
+  width: 100%;
 }
 
 
 .cajaImg{
-    width: 33%;
+  width: 33%;
 }
 /* Este css es para dar estilos a lo que sea */
 .animacion-me-gusta {
-    animation-name: corazon;
-    animation-duration: 1s;
-    animation-timing-function: ease-in-out;
-  }
-  
-  @keyframes corazon {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.5); }
-    100% { transform: scale(1); }
-  }
+  animation-name: corazon;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+}
 
-  #fichaProducto .c-item{
-    background-color: black;
-  }
+@keyframes corazon {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.5); }
+  100% { transform: scale(1); }
+}
 
+#fichaProducto .c-item{
+  width: 100%;
+  background-color: black;
+}
+
+#fichaProducto .c-img{
+  width: 100%;
+  aspect-ratio: 5/2;
+  object-fit: contain;
+  z-index: 2;
+}
+
+@media (max-width: 1025px) {
+  /* Estilos específicos para ancho de pantalla de 1024px o menos */
+  /* Por ejemplo: */
   #fichaProducto .c-img{
     width: 100%;
-    aspect-ratio: 3/2;
+    aspect-ratio: 5/3;
     object-fit: contain;
     z-index: 2;
   }
+}
 
-  #fichaProducto .hablar:hover{
-    fill: #1E90FF;
-  }
+#fichaProducto .hablar:hover{
+  fill: #1E90FF;
+}
+
+#fichaProducto .btnVerProducto{
+  width: 130px;
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+#fichaProducto .btnVerProducto:hover {
+  background-color: #2980b9;
+}
