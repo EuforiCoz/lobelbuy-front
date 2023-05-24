@@ -216,3 +216,23 @@
     height: 0
 }
 
+#scrollUl{
+    height: 600px;
+    overflow: scroll;
+}
+
+@media (max-width: 1410px) {
+    /* Estilos específicos para ancho de pantalla de 1024px o menos */
+    /* Por ejemplo: */
+    #scrollUl{
+        height: 450px;
+    }
+  }
+
+@media (max-width: 700px) {
+    /* Estilos específicos para ancho de pantalla de 1024px o menos */
+    /* Por ejemplo: */
+    #scrollUl{
+        height: 300px;
+    }
+  }
