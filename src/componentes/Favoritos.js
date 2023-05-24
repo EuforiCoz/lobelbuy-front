@@ -57,11 +57,11 @@ const Favoritos = () => {
                             </div>
                             ))
                         }
-                        {productos.length == 0 ? (
+                        {productos.length == 0 && loaded ? (
                             <h3 className="text-white">No tienes ningún producto en favoritos</h3>
                         ) : (
                             productos.map((producto) =>{
-
+                                console.log(producto.reservado)
                                 return (
                                     <ProductoInicio key={producto.id} id={producto.id} nombre={producto.nombre} precio={producto.precio} categoria={producto.categoria} imagen={producto.imagen} reservado={producto.reservado} tamano={5}/> 
                                 )
