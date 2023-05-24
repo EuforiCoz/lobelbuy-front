@@ -61,13 +61,20 @@
     border: 2px solid #3D7C9E;
 }
 
+.nombre-usuario{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 110px;
+}
+
 .cuenta:hover{
     color: #dcdbdb;
 }
 
 .iconoUsuario{
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
 }
 
 .iconoUsuario:hover{
@@ -79,6 +86,7 @@
     height: 28px; 
 }
 
+
 @media (max-width: 768px) {
     /* Estilos específicos para ancho de pantalla de 1024px o menos */
     /* Por ejemplo: */
@@ -87,7 +95,7 @@
        display: none;
     }
 
-    #header .subirProducto{
+    #header .inputSubir{
        
         display: none;
      }
@@ -96,12 +104,6 @@
         display: none;
      }
 
-     #header .buscador{
-    
         
-       
-        
-     }
-
      
   }
