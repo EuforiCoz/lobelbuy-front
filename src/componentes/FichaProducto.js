@@ -106,17 +106,22 @@ const FichaProducto = () => {
     }
 
     const meGusta = (event) => {
-        var contiene = document.getElementById("boton-me-gusta").classList.contains('animacion-me-gusta')
-        if (contiene || document.getElementById("boton-me-gusta").style.fill == "red") {
-            document.getElementById("boton-me-gusta").classList.remove('animacion-me-gusta');
-            document.getElementById("boton-me-gusta").style.fill = "black";
-            quitaLike();
-          } else {
-            document.getElementById("boton-me-gusta").classList.add('animacion-me-gusta');
-            document.getElementById("boton-me-gusta").style.fill = "red";
-
-            darLike();
-          }
+        if(usuario == 0){
+            navigate("/login")
+        } else{
+            var contiene = document.getElementById("boton-me-gusta").classList.contains('animacion-me-gusta')
+            if (contiene || document.getElementById("boton-me-gusta").style.fill == "red") {
+                document.getElementById("boton-me-gusta").classList.remove('animacion-me-gusta');
+                document.getElementById("boton-me-gusta").style.fill = "black";
+                quitaLike();
+              } else {
+                document.getElementById("boton-me-gusta").classList.add('animacion-me-gusta');
+                document.getElementById("boton-me-gusta").style.fill = "red";
+    
+                darLike();
+              }
+        }
+       
     }
 
     const darLike = () => {
@@ -174,7 +179,7 @@ const FichaProducto = () => {
                                         <span className="mx-1"></span>
                                         <span className="fs-5">{producto.nombre_usuario}</span>
                                     </div>
-                                    {producto.usuario_id != usuarioConectado.usuario_id &&
+                                    {producto.usuario_id != usuario &&
                                         <button className="btnVerProducto"  onClick={crearConversacion}>Chatear</button>
 
                                     }
@@ -221,7 +226,7 @@ const FichaProducto = () => {
                             <>
                                 <span className="fs-3 fw-bold">{producto.nombre}</span>
                                 <div className="justify-content-end">
-                                {producto.usuario_id != usuarioConectado.usuario_id &&
+                                {producto.usuario_id != usuario &&
                                     <AiFillHeart id="boton-me-gusta" onClick={meGusta} style={{width: "50px", height: "50px", fill: "black", cursor: "pointer"}}/>
                                 }
                                 </div>
