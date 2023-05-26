@@ -72,6 +72,7 @@ const Perfil = () => {
     }
     
     const guardarDatos = () => {
+        
         document.getElementById("modalEditandoPerfil").style.display = "block";
         const datos = {
             usuario_id: document.getElementById("usuario_id").value,
@@ -89,10 +90,10 @@ const Perfil = () => {
             axios.post("https://backend-lobelbuy.onrender.com/perfil/guardarDatosSinFoto", datos)
             .then(({data}) => {
                 if(data == "Actualizado") {
-                    document.getElementById("modalEditandoPerfil").style.display = "none";
                     obtenerDatos();
                     setLoaded(true);
                 }
+                document.getElementById("modalEditandoPerfil").style.display = "none";
             })
             .catch(({response}) => {
                 console.log(response.data);
@@ -112,10 +113,11 @@ const Perfil = () => {
             axios.post("http://localhost:5000/perfil/guardarDatos", formData)
             .then(({data}) => {
                 if(data == "Actualizado") {
-                    alert("Se han actualizado los datos")
                     setImagen(null)
                     obtenerDatos();
+                    setLoaded(true)
                 }
+                document.getElementById("modalEditandoPerfil").style.display = "none";
             })
             .catch(({response}) => {
                 console.log(response.data);
