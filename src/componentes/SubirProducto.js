@@ -132,7 +132,7 @@ const SubirProducto = () => {
         formSubir.append("usuario", usuarioConectado.usuario_id);
         formSubir.append("file", file);
         
-        axios.post("https://backend-lobelbuy.onrender.com/subirProducto", formSubir)
+        axios.post("http://localhost:5000/subirProducto", formSubir)
         .then(({data}) => {
             console.log(data)
             if(data == "Subido correctamente") {
@@ -204,11 +204,14 @@ const SubirProducto = () => {
                 <textarea class="form-control" id="descripcionSubir" rows="3" required onChange={handleChangeDescripcion}></textarea>
               </div>
               <div class="form-group mb-3">
-                <label for="lista" className="mb-2">Detalles</label>
+                <label for="lista" className="mb-2">Detalles:</label>
                 <div id="inputs-container">
                     <input type="text" class="detalles form-control mb-3" placeholder="Detalle 1"/>
+                    <input type="text" class="detalles form-control mb-3" placeholder="Detalle 2"/>
+                    <input type="text" class="detalles form-control mb-3" placeholder="Detalle 3"/>
+                    <input type="text" class="detalles form-control mb-3" placeholder="Detalle 4"/>
+                    <input type="text" class="detalles form-control mb-3" placeholder="Detalle 5"/>
                 </div>
-                <button type="button" onClick={agregarInput} className="btnVerProducto">Nuevo Detalle</button>
               </div>
               <label>Métodos de envío*</label>
               <div class="form-check">
