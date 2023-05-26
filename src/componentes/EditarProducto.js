@@ -43,7 +43,7 @@ const EditarProducto = () => {
             id: params.id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/mostrarFichaProducto", datos)
+        axios.post("http://localhost:5000/mostrarFichaProducto", datos)
         .then(res => {
            
             setProducto(res.data);
@@ -80,21 +80,29 @@ const EditarProducto = () => {
             
             var detalles = res.data.detalles;
             detalles = detalles.split(",");
+            var arrayInputs = document.getElementsByClassName("detalles");
             var arrayDetalles = [];
+    
             for (let i = 0; i < detalles.length; i++) 
             {
-                if(detalles[i].trim() != ""){
-                    arrayDetalles.push(detalles[i])
-                }
+            
+                arrayInputs[i].value=detalles[i].trim();
+            
             }
-            contador = arrayDetalles.length;
-            setDetalles(arrayDetalles);
+           
 
             document.getElementById("categoriaEditar").removeAttribute("hidden");
             document.getElementById("estadoEditar").removeAttribute("hidden");
-            document.getElementById("inputs-container").removeAttribute("hidden");
-           
-            
+            document.getElementById("inputs-container").removeAttribute("hidden");  
+            var envio = res.data.envio;
+            if(envio == 0){
+                document.getElementById("en-mano").checked = true;
+            } else if(envio == 1){
+                document.getElementById("envio-casa").checked = true;
+            } else {
+                document.getElementById("en-mano").checked = true;
+                document.getElementById("envio-casa").checked = true;
+            }
         })
         .catch(res => {
             console.log(res);
@@ -131,6 +139,18 @@ const EditarProducto = () => {
         var envio = null;
         var enMano = document.getElementById("en-mano");
         var envioCasa = document.getElementById("envio-casa");
+
+        var arrayInputs = document.getElementsByClassName("detalles");
+        var arrayDetalles = [];
+  
+        for (let i = 0; i < arrayInputs.length; i++) 
+        {
+         
+          arrayDetalles.push(arrayInputs[i].value);
+          
+        }
+      
+        var detalles = arrayDetalles.join(",");
 
         nombre.classList.remove("is-invalid");
         precio.classList.remove("is-invalid");
@@ -184,11 +204,11 @@ const EditarProducto = () => {
             formEditar.append("precio", document.getElementById("precioEditar").value);
             formEditar.append("estado", estadoEditar);
             formEditar.append("descripcion", document.getElementById("descripcionEditar").value);
+            formEditar.append("detalles", detalles);
             formEditar.append("imagen", document.getElementById("imagenEditar").value);
             formEditar.append("file", document.getElementById("imagenEditarProducto").files[0]);
-            console.log(formEditar.get("nombre"))        
 
-            axios.post("https://backend-lobelbuy.onrender.com/editarProducto", formEditar)
+            axios.post("http://localhost:5000/editarProducto", formEditar)
             .then(({data}) => {
                 console.log(data)
             
@@ -208,6 +228,7 @@ const EditarProducto = () => {
         if(contador <= 5){
             var nuevoInput = document.createElement("input");
             nuevoInput.type = "text";
+            nuevoInput.classList.add("detalles");
             nuevoInput.classList.add("form-control");
             nuevoInput.classList.add("mb-3");
             nuevoInput.setAttribute("placeholder", "Detalle " + contador);
@@ -294,19 +315,16 @@ const EditarProducto = () => {
         }
 
             <div id="inputs-container" hidden>
-            {detalles.length == 0 &&
-                 <input type="text" class="form-control mb-3" placeholder="Detalle 1"/>
-            }
-
-            {detalles.length != 0 &&
-                detalles.map((detalle, index) => {
-                    return(<input type="text" value={detalle} class="form-control mb-3" placeholder={"Detalle " + (index + 1)}/>)
-                })
-            }
+        
+                <input type="text" class="detalles form-control mb-3" placeholder="Detalle 1"/>
+                <input type="text" class="detalles form-control mb-3" placeholder="Detalle 2"/>
+                <input type="text" class="detalles form-control mb-3" placeholder="Detalle 3"/>
+                <input type="text" class="detalles form-control mb-3" placeholder="Detalle 4"/>
+                <input type="text" class="detalles form-control mb-3" placeholder="Detalle 5"/>
+        
             </div>
        
        
-        <button type="button" onClick={agregarInput} className="btn btnVerProducto">Nuevo Detalle</button>
       </div>
       <label>Métodos de envío*</label>
         {!loaded && 
@@ -355,7 +373,7 @@ const EditarProducto = () => {
        
       </div>
       <div className="d-flex justify-content-center">
-        <button type="button" class="btn btnVerProducto" onClick={editarProducto}>Guardar cambios</button>
+        <button type="button" class="btnVerProducto " onClick={editarProducto}>Guardar cambios</button>
       </div>
     </form>
       </div> 
