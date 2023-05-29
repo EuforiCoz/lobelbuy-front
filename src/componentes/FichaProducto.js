@@ -37,7 +37,7 @@ const FichaProducto = () => {
             producto_id: params.id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/saberFavorito", datos)
+        axios.post("https://backend-lobelbuy-iex3.onrender.com/saberFavorito", datos)
         .then(res => {
             if(res.data.esta_en_favoritos == 1){
                 document.getElementById("boton-me-gusta").style.fill = "red";
@@ -60,7 +60,7 @@ const FichaProducto = () => {
             id: params.id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/mostrarFichaProducto", datos)
+        axios.post("https://backend-lobelbuy-iex3.onrender.com/mostrarFichaProducto", datos)
         .then(res => {
             console.log(res.data);
             setLoaded(true);
@@ -93,7 +93,7 @@ const FichaProducto = () => {
                 usuario2_id: producto.usuario_id
             }
     
-            axios.post("https://backend-lobelbuy.onrender.com/crearConversacion", datos)
+            axios.post("https://backend-lobelbuy-iex3.onrender.com/crearConversacion", datos)
             .then(res => {
                
                     navigate("/cuenta/chats?usuario=" + producto.usuario_id);
@@ -130,7 +130,7 @@ const FichaProducto = () => {
             producto_id: producto.id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/guardarFavorito", datos)
+        axios.post("https://backend-lobelbuy-iex3.onrender.com/guardarFavorito", datos)
         .then(res => {
             //setProducto(res.data) 
         })
@@ -145,7 +145,7 @@ const FichaProducto = () => {
             producto_id: params.id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/eliminarFavorito", datos)
+        axios.post("https://backend-lobelbuy-iex3.onrender.com/eliminarFavorito", datos)
         .then(res => {
             //setProducto(res.data) 
         })
