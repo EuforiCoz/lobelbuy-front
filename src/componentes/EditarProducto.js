@@ -43,7 +43,7 @@ const EditarProducto = () => {
             id: params.id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/mostrarFichaProducto", datos)
+        axios.post("http://localhost:5000/mostrarFichaProducto", datos)
         .then(res => {
            
             setProducto(res.data);
@@ -123,16 +123,8 @@ const EditarProducto = () => {
     }
 */
     const editarProducto = () => {
-        /*
-        const datos = {
-            nombre: document.getElementById("nombre").value,
-            categoria: categoria,
-            precio: document.getElementById("precio").value,
-            estado: estado,
-            descripcion: descripcion,
-            usuario: usuarioConectado.usuario_id,
-            file: document.getElementById("imagenSubirProducto").files[0]
-        }*/
+        var errorNombre = false;
+        var errorPrecio = false;
         var nombre = document.getElementById("nombreEditar");
         var precio = document.getElementById("precioEditar");
         var descripcion = document.getElementById("descripcionEditar");
@@ -156,14 +148,16 @@ const EditarProducto = () => {
         precio.classList.remove("is-invalid");
         descripcion.classList.remove("is-invalid");
 
-        if(nombre.value == ""){
+        if(nombre.value == "" || nombre.value.length > 30){
           
-            nombre.classList.add("is-invalid")
+            nombre.classList.add("is-invalid");
+            errorNombre = true;
         }
 
-        if(precio.value  == ""){
+        if(precio.value  == "" || (precio.value < 0 || precio.value > 99999)){
             
             precio.classList.add("is-invalid");
+            errorPrecio = true;
         }
 
         if(descripcion.value == ""){
@@ -194,7 +188,7 @@ const EditarProducto = () => {
             estadoEditar = "Usado";
         }
 
-        if(nombre.value != "" && precio.value  != ""  && descripcion.value != "" && envio != null){
+        if(!errorNombre && !errorPrecio  && descripcion.value != "" && envio != null){
             document.getElementById("modalEditandoProducto").style.display = "block";
 
             const formEditar = new FormData();
@@ -208,7 +202,7 @@ const EditarProducto = () => {
             formEditar.append("imagen", document.getElementById("imagenEditar").value);
             formEditar.append("file", document.getElementById("imagenEditarProducto").files[0]);
 
-            axios.post("https://backend-lobelbuy.onrender.com/editarProducto", formEditar)
+            axios.post("http://localhost:5000/editarProducto", formEditar)
             .then(({data}) => {
                 console.log(data)
             
@@ -247,6 +241,7 @@ const EditarProducto = () => {
       <div class="form-group mb-3">
         <input type="number" value={producto.id} id="idEditar" hidden/>
         <label for="nombreProducto" className="mb-2">Nombre del producto*:</label>
+        <p style={{fontSize: "12px", color: "grey"}}>Debe tener como máximo 30 caracteres</p>
         {!loaded && 
             <Skeleton variant="text" sx={{ fontSize: '2rem' , bgcolor: 'white.100'}}/>
         }
@@ -257,6 +252,7 @@ const EditarProducto = () => {
       </div>
       <div class="form-group mb-3">
         <label for="nombreProducto" className="mb-2">Precio*:</label>
+        <p style={{fontSize: "12px", color: "grey"}}>Debe tener un precio entre 0 y 99999</p>
         {!loaded && 
             <Skeleton variant="text" sx={{ fontSize: '2rem' , bgcolor: 'white.100'}}/>
         }
