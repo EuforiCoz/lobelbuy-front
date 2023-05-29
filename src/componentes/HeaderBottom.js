@@ -7,6 +7,8 @@ import iconoBuscar from "./iconos/buscar.svg"
 import iconoUsuario from "./iconos/user.svg"
 import iconoUsuarioDefecto from "./iconos/foto_defecto.svg"
 import iconoMensajes from "./iconos/chat.svg"
+import {AiFillHeart} from "react-icons/ai";
+
 
 
 const HeaderBottom = () => {
@@ -67,27 +69,16 @@ const HeaderBottom = () => {
                    
                     {usuario != null ?
                         (
-                        <div className="botonCuenta">
-                            <div className="d-flex flex-row justify-content-center align-items-center" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src={usuarioConectado.imagen} className="rounded-circle iconoUsuario mx-2" alt="Foto de perfil" style={{width: "30px", height: "30px"}}/>
-                                <div className="cuenta text-white">{usuario.nombre}</div>
-                            </div>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><Link className="dropdown-item" to="/cuenta/productos">Mi cuenta</Link></li>
-                                <li className="dropdown-item" onClick={cerrarSesion}>Cerrar Sesión</li>
-                            </ul>
-                        </div>
+                            <>
+                                <Link to="/cuenta/productos"><img src={usuarioConectado.imagen} className="rounded-circle iconoUsuario " alt="Foto de perfil" style={{width: "40px", height: "40px"}}/></Link>
+                                <Link to="/cuenta/favoritos" className="iconoLike"><AiFillHeart style={{width: "40px", height: "40px", fill: "red", cursor: "pointer"}}/></Link>
+                            </>
                         ) : (
-                            <div className="botonCuenta">
-                            <div className="d-flex flex-row" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                <div className=" text-white">Cuenta</div>
-                                <img src={iconoUsuario} className=" ms-1" alt="cuenta" style={{width: "30px", height: "30px"}}/>
-                            </div>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                <li><Link className="dropdown-item" to="/login">Iniciar sesión</Link></li>
-                                <li><Link className="dropdown-item" to="/registro">Registrarse</Link></li>
-                            </ul>
-                        </div>)
+                                <Link to="/login" className="d-flex flex-column justify-content-center align-items-center">
+                                    <div className=" text-white">Cuenta</div>
+                                    <img src={iconoUsuario} className=" ms-1" alt="cuenta" style={{width: "30px", height: "30px"}}/>
+                                </Link>                           
+                        )
                 }
                    
                 </div>
