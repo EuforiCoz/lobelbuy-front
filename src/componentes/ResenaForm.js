@@ -4,11 +4,13 @@ import "./styles/cuenta.css"
 import "./styles/resenasForm.css"
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import PantallaLoad from "./PantallaLoad";
 
 const Cuenta = () => {
    
     const usuarioConectado = JSON.parse(window.localStorage.getItem('usuario'));
     const [valoracion, setValoracion] = useState();
+    const [errorValoracion, seterrorValoracion] = useState(false);
     const [comentario, setComentario] = useState();
     const navigate = useNavigate();
     const params = useParams()
@@ -22,23 +24,37 @@ const Cuenta = () => {
     }
 
     const enviarResena = () => {
+        seterrorValoracion(false);  
+        var comentarioValoracion = "";
+        
+        if(comentario != null) {
+            comentarioValoracion = comentario;
+        }
+
         const datos  = {
             
             valoracion: valoracion,
-            comentario: comentario,
+            comentario: comentarioValoracion,
             producto_id: params.id,
             usuario_id: usuarioConectado.usuario_id,
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/enviarResena", datos)
-        .then(res => {
+        if(valoracion < 1 || valoracion > 5){
+            seterrorValoracion(true);
+        }else{
+            document.getElementById("modalEnviandoResena").style.display = "block";
+            axios.post("http://localhost:5000/enviarResena", datos)
+            .then(res => {
+                document.getElementById("modalEnviandoResena").style.display = "none";
+                navigate("/cuenta/resenas");
+                
+            })
+            .catch(({response}) => {
+                console.log(response.data);
+            })
+        }
 
-            navigate("/cuenta/productos");
-            
-        })
-        .catch(({response}) => {
-            console.log(response.data);
-        })
+       
     }
 
     return(
@@ -50,6 +66,9 @@ const Cuenta = () => {
                         <div class="form-group mb-3">
                         <label for="nombreProducto" className="mb-2">Valoración*:</label>
                         <input type="number" class="form-control" id="nombreSubir" min="1" max="5" onChange={handleChangeValoracion} placeholder="Valoración del 1 al 5" required/>
+                        {errorValoracion &&
+                            <p className="text-danger">Tienes que dar una puntuacion entre 1 y 5</p>
+                        }
                         </div>
                         <div class="form-group mb-3">
                             <label for="descripcion" className="mb-2">Descripción*:</label>
@@ -60,7 +79,11 @@ const Cuenta = () => {
                         </div>
                     </form>
                 </div>
-            </div> 
+            </div>
+
+            <div id="modalEnviandoResena" style={{display: "none"}}>
+                    <PantallaLoad texto="Enviando reseña"/>
+            </div>  
         </div>
     )
         
