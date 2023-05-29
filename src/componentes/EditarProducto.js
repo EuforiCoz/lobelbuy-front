@@ -43,7 +43,7 @@ const EditarProducto = () => {
             id: params.id
         }
 
-        axios.post("http://localhost:5000/mostrarFichaProducto", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/mostrarFichaProducto", datos)
         .then(res => {
            
             setProducto(res.data);
@@ -202,7 +202,7 @@ const EditarProducto = () => {
             formEditar.append("imagen", document.getElementById("imagenEditar").value);
             formEditar.append("file", document.getElementById("imagenEditarProducto").files[0]);
 
-            axios.post("http://localhost:5000/editarProducto", formEditar)
+            axios.post("https://backend-lobelbuy.onrender.com/editarProducto", formEditar)
             .then(({data}) => {
                 console.log(data)
             
