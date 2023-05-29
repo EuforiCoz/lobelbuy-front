@@ -67,7 +67,7 @@ const ListadoProductos = () => {
 
         console.log(datos);
 
-        axios.post("https://backend-lobelbuy.onrender.com/buscarProducto", datos)
+        axios.post("https://backend-lobelbuy-iex3.onrender.com/buscarProducto", datos)
         .then(res => {
             console.log(res.data)
             setProductos(res.data)
