@@ -43,20 +43,15 @@ const Inicio = () => {
     useEffect(()=>{
 
         obtenerDatos();
-        //console.log(productos)
         
     }, []);
 
     const obtenerDatos = () => {
 
-        axios.get("https://backend-lobelbuy.onrender.com/")
+        axios.get("http://localhost:5000/buscarProductoInicio")
         .then(res => {
             setProductos(res.data);
             setLoaded(true);
-            //console.log(res.data) 
-            //console.log(res.data)
-            
-            //console.log(productos)
         })
         .catch(({response}) => {
             console.log(response.data);
@@ -64,14 +59,14 @@ const Inicio = () => {
     }
 
     const verListadoCategorias = (categoria) => {
-       navigate("/listadoProductos?categoria=" + categoria)
-    }
-
-    const buscarProducto = () => {
-        const nombreBuscador = document.getElementById("buscadorInicio").value;
-        const ruta = "/listadoProductos?nombre=" + nombreBuscador;
-        navigate(ruta)
-    }
+        navigate("/listadoProductos?categoria=" + categoria)
+     }
+ 
+     const buscarProducto = () => {
+         const nombreBuscador = document.getElementById("buscadorInicio").value;
+         const ruta = "/listadoProductos?nombre=" + nombreBuscador;
+         navigate(ruta)
+     }
 
     return(
         
@@ -86,7 +81,7 @@ const Inicio = () => {
                             <img id="busca" src={iconoBuscar} className="iconoBuscar me-2" alt="buscar" onClick={buscarProducto}/>
                         </div>
                         <div className="row mx-auto pt-5 d-flex justify-content-center">
-                           <div onClick={() => verListadoCategorias("Moda")} className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={iconoModa} className="imgIcono"/><span>Moda</span></div>
+                            <div onClick={() => verListadoCategorias("Moda")} className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={iconoModa} className="imgIcono"/><span>Moda</span></div>
                             <div onClick={() => verListadoCategorias("Deporte")} className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={iconoDeporte}  className="imgIcono"/><span>Deporte</span></div>
                             <div onClick={() => verListadoCategorias("Videojuegos")} className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={iconoVideojuegos}  className="imgIcono"/><span>Videojuegos</span></div>
                             <div onClick={() => verListadoCategorias("Móviles")} className="cajaCategoria col-sm-6 col-xs-6 mb-4 mx-2"><img src={iconoMoviles}  className="imgIcono"/><span>Móviles</span></div>
@@ -123,7 +118,7 @@ const Inicio = () => {
                         {Object.entries(productos).map(([categoria, articulos]) => (
                              <div className="col-md-12 col-sm-12 col-xs-12" key={categoria}>
                                 <div className="mb-3 d-flex justify-content-between align-items-center">
-                                    <span className="mx-auto text-center h3">Productos de la categoria '{categoria}'</span>
+                                    <span className="mx-auto text-center h3 ">Productos de la categoria '{categoria}'</span>
                                     {/*<span className="ml-auto text-center fs-5 px-2"><a href="#" className="text-white text-decoration-none">Ver más</a></span>*/}
                                 </div> 
                                 <div className="d-flex flex-row justify-content-center align-items-center flex-wrap">  
