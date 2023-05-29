@@ -96,7 +96,7 @@ const FichaProducto = () => {
             axios.post("https://backend-lobelbuy.onrender.com/crearConversacion", datos)
             .then(res => {
                
-                    navigate("/cuenta/chats");
+                    navigate("/cuenta/chats?usuario=" + producto.usuario_id);
                 
             })
             .catch(res => {
