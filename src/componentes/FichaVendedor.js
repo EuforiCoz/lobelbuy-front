@@ -45,7 +45,7 @@ const Productos = () => {
             usuario_id: params.id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/perfil/obtenerDatos", datos)
+        axios.post("https://backend-lobelbuy-iex3.onrender.com/perfil/obtenerDatos", datos)
         .then(res => {
             console.log(res.data)
             setUsuario(res.data);
@@ -55,7 +55,7 @@ const Productos = () => {
             console.log(response.data);
         })
 
-        axios.post("https://backend-lobelbuy.onrender.com/mostrarProductosEnVenta", datos)
+        axios.post("https://backend-lobelbuy-iex3.onrender.com/mostrarProductosEnVenta", datos)
         .then(res => {
 
             setProductosEnVenta(res.data);
@@ -69,7 +69,7 @@ const Productos = () => {
             console.log(response.data);
         })
 
-        axios.post("https://backend-lobelbuy.onrender.com/resenasPorVentas", datos)
+        axios.post("https://backend-lobelbuy-iex3.onrender.com/resenasPorVentas", datos)
         .then(res => {
 
             setResenasPorVentas(res.data);
@@ -81,7 +81,7 @@ const Productos = () => {
             console.log(response.data);
         })
 
-        axios.post("https://backend-lobelbuy.onrender.com/resenasPorCompras", datos)
+        axios.post("https://backend-lobelbuy-iex3.onrender.com/resenasPorCompras", datos)
         .then(res => {
             var resenasCompletadasCompras = [];
             for (let i = 0; i < res.data.length; i++) {
