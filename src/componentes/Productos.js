@@ -179,7 +179,7 @@ const Productos = () => {
 
         console.log(datos)
        
-        axios.post("http://localhost:5000/venderProducto", datos)
+        axios.post("https://backend-lobelbuy.onrender.com/venderProducto", datos)
         .then(res => {
             console.log(res.data)
             document.getElementById("modalVendiendoProducto").style.display = "none";
