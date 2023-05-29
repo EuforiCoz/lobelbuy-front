@@ -44,7 +44,7 @@ const Perfil = () => {
             usuario_id: usuarioConectado.usuario_id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/perfil/obtenerDatos", datos)
+        axios.post("https://backend-lobelbuy-iex3.onrender.com/perfil/obtenerDatos", datos)
         .then(({data}) => {
             console.log(data)
             dispatch({
@@ -106,7 +106,7 @@ const Perfil = () => {
         if(!errorNombre){
             document.getElementById("modalEditandoPerfil").style.display = "block";
             if(document.getElementById("imagen").files[0] == undefined){
-                axios.post("https://backend-lobelbuy.onrender.com/perfil/guardarDatosSinFoto", datos)
+                axios.post("https://backend-lobelbuy-iex3.onrender.com/perfil/guardarDatosSinFoto", datos)
                 .then(({data}) => {
                     if(data == "Actualizado") {
                         obtenerDatos();
@@ -129,7 +129,7 @@ const Perfil = () => {
                 formData.append("direccion", document.getElementById("direccion").value);
                 formData.append("file", document.getElementById("imagen").files[0]);
         
-                axios.post("http://localhost:5000/perfil/guardarDatos", formData)
+                axios.post("https://backend-lobelbuy-iex3.onrender.com/perfil/guardarDatos", formData)
                 .then(({data}) => {
                     if(data == "Actualizado") {
                         setImagen(null)
