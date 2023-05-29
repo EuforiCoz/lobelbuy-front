@@ -37,7 +37,7 @@ const Resenas = () =>{
             usuario_id: usuarioConectado.usuario_id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/resenasPorVentas", datos)
+        axios.post("https://backend-lobelbuy-iex3.onrender.com/resenasPorVentas", datos)
         .then(res => {
 
             setResenasPorVentas(res.data);
@@ -50,7 +50,7 @@ const Resenas = () =>{
             console.log(response.data);
         })
 
-        axios.post("https://backend-lobelbuy.onrender.com/resenasPorCompras", datos)
+        axios.post("https://backend-lobelbuy-iex3.onrender.com/resenasPorCompras", datos)
         .then(res => {
             setResenasPorCompras(res.data);
                 
