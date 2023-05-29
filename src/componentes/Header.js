@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./styles/header.css";
 import {Link} from "react-router-dom"
 import { useAppContext } from "../AppProvider";
@@ -7,6 +7,10 @@ import iconoBuscar from "./iconos/buscar.svg"
 import iconoUsuario from "./iconos/user.svg"
 import iconoUsuarioDefecto from "./iconos/foto_defecto.svg"
 import iconoMensajes from "./iconos/chat.svg"
+import {AiFillHeart} from "react-icons/ai";
+import Avatar from '@mui/material/Avatar';
+import { deepOrange, deepPurple } from '@mui/material/colors';
+import fotoUsuario from "./iconos/usuario.png"
 
 const Header = () => {
     const navigate = useNavigate();
@@ -16,7 +20,7 @@ const Header = () => {
     const currentUrl = window.location.href;
     console.log(currentUrl);
 
-
+    const [color, setColor] = useState(null);
 
     useEffect(()=>{
         if(usuarioConectado != null){
@@ -42,15 +46,6 @@ const Header = () => {
         }
       
     }, [currentUrl])
-
-    const cerrarSesion = () => {
-        dispatch({
-            type: "CREAR_USUARIO",
-            value: null
-        })
-        window.localStorage.clear();
-        navigate("/login");
-    }
 
     const buscarProducto = () => {
         const nombreBuscador = document.getElementById("nombreBuscador").value;
@@ -78,28 +73,22 @@ const Header = () => {
                 <div className="col-lg-2 col-md-2 col-sm-6 col-6">
                     <div className="text-white d-flex justify-content-center align-items-center cuenta">
                     {usuario != null ?
-                            (
-                            <div className="botonCuenta">
-                                <div className="d-flex flex-row" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src={usuarioConectado.imagen} className="rounded-circle iconoUsuario mx-2" alt="Foto de perfil" width="40" height="40"/>
-                                    <div className="cuenta nombre-usuario text-white fs-5" >{usuario.nombre}</div>
-                                </div>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><Link className="dropdown-item" to="/cuenta/productos">Mi cuenta</Link></li>
-                                    <li className="dropdown-item" onClick={cerrarSesion}>Cerrar Sesión</li>
-                                </ul>
-                            </div>
-                            ) : (
+                            (                          
+                                <div className="d-flex flex-row align-items-center" >                             
+                                    <Link  to="/cuenta/productos">
+                                            <img src={usuarioConectado.imagen} className="rounded-circle iconoUsuario mx-2" alt="Foto de perfil"/>
+                                    </Link>
+                                    <div className="mx-4"></div>
+                                    <Link to="/cuenta/favoritos" className="iconoLike"><AiFillHeart style={{width: "50px", height: "50px", fill: "red", cursor: "pointer"}}/></Link>                                  
+                                </div>                
+                            ) : ( 
                                 <div className="botonCuenta">
-                                <div className="d-flex flex-row" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <div className="cuenta text-white">Cuenta</div>
-                                    <img src={iconoUsuario} className="iconoUsuario ms-1" alt="cuenta"/>
-                                </div>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                    <li><Link className="dropdown-item" to="/login">Iniciar sesión</Link></li>
-                                    <li><Link className="dropdown-item" to="/registro">Registrarse</Link></li>
-                                </ul>
-                            </div>)
+                                    <Link  to="/login" className="d-flex flex-row align-items-center">
+                                        <div className="cuenta text-white">Cuenta</div>
+                                        <img src={iconoUsuario} className="iconoUsuario ms-1" alt="cuenta"/>
+                                    </Link>
+                                </div>           
+                           )
                     }
                     </div>
                 </div>
