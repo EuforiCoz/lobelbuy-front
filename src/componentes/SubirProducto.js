@@ -42,6 +42,8 @@ const SubirProducto = () => {
     }
 
     const subirProducto = () => {
+      setErrorNombre(true);
+      setErrorPrecio(true);
       var nombre = document.getElementById("nombreSubir").value.trim();
       //var categoria = document.getElementById("categoríaSubir").value;
       var precio = document.getElementById("precioSubir").value;
@@ -51,6 +53,9 @@ const SubirProducto = () => {
       var envioCasa = document.getElementById("envio-casa");
       var envio = null;
       var file = document.getElementById("imagenSubirProducto").files[0];
+
+      var nombreError = false;
+      var precioError = false;
       
       var arrayInputs = document.getElementsByClassName("detalles");
       var arrayDetalles = [];
@@ -71,17 +76,19 @@ const SubirProducto = () => {
       document.getElementById("descripcionSubir").classList.remove("is-invalid");
       document.getElementById("imagenSubirProducto").classList.remove("is-invalid");
       
-      if(nombre == ""){
+      if(nombre == "" || nombre.length > 40){
         setErrorNombre(false);
-        document.getElementById("nombreSubir").classList.add("is-invalid")
+        document.getElementById("nombreSubir").classList.add("is-invalid");
+        nombreError = true;
       }
 
       if(categoria == null){
         setErrorCategoria(false);
         document.getElementById("categoriaSubir").classList.add("is-invalid");
+        precioError = true;
       }
 
-      if(precio  == ""){
+      if(precio  == "" || (precio < 0 || precio > 99999)){
         setErrorPrecio(false);
         document.getElementById("precioSubir").classList.add("is-invalid");
       }
@@ -117,7 +124,7 @@ const SubirProducto = () => {
       }
       
 
-      if(nombre != null && categoria != null && precio  != null && estado != null && descripcion != null && envio != null && file != null){
+      if(!nombreError && categoria != null && !precioError && estado != null && descripcion != null && envio != null && file != null){
         
         document.getElementById("modalSubiendoProducto").style.display = "block";
        
@@ -132,7 +139,7 @@ const SubirProducto = () => {
         formSubir.append("usuario", usuarioConectado.usuario_id);
         formSubir.append("file", file);
         
-        axios.post("https://backend-lobelbuy.onrender.com/subirProducto", formSubir)
+        axios.post("http://localhost:5000/subirProducto", formSubir)
         .then(({data}) => {
             console.log(data)
             if(data == "Subido correctamente") {
@@ -170,10 +177,12 @@ const SubirProducto = () => {
             <form>
               <div class="form-group mb-3">
                 <label for="nombreProducto" className="mb-2">Nombre del producto*:</label>
+                <p style={{fontSize: "12px", color: "grey"}}>Debe seleccionar un nombre válido de 40 caracteres o menos</p>
                 <input type="text" class="form-control" id="nombreSubir" placeholder="Escribe aquí el nombre del producto" required/>
               </div>
               <div class="form-group mb-3">
                 <label for="nombreProducto" className="mb-2">Precio*:</label>
+                <p style={{fontSize: "12px", color: "grey"}} >Debe seleccionar un precio entre 0 y 99999</p>
                 <input type="number" class="form-control" id="precioSubir" placeholder="Escribe un precio razonable" required/>
               </div>
               <div class="form-group mb-3">
