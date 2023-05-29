@@ -7,3 +7,17 @@
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0,0,0,0.4);
 }
+
+.liUsuarios:hover{
+    background-color: #1E90FF;
+    color: white;
+}
+
+.liVender{
+    color: red;
+}
+
+.liVender:hover{
+    background-color: red;
+    color: white;
+}
