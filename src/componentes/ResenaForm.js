@@ -43,7 +43,7 @@ const Cuenta = () => {
             seterrorValoracion(true);
         }else{
             document.getElementById("modalEnviandoResena").style.display = "block";
-            axios.post("https://backend-lobelbuy.onrender.com/enviarResena", datos)
+            axios.post("https://backend-lobelbuy-iex3.onrender.com/enviarResena", datos)
             .then(res => {
                 document.getElementById("modalEnviandoResena").style.display = "none";
                 navigate("/cuenta/resenas");
