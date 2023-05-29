@@ -167,7 +167,7 @@ const Perfil = () => {
                             ) : (
                                 <>
                                 {usuario.imagen == "" ? (
-                                    <img src={fotoUsuario} class="rounded-circle" alt="Foto de perfil" width="150" height="150" style={{position: "relative"}}/>
+                                    <img src="" class="rounded-circle" alt="Foto de perfil" width="150" height="150" style={{position: "relative"}}/>
                                 ) : (
                                     <img src={usuario.imagen} class="rounded-circle" alt="Foto de perfil" width="150" height="150"/>
                                 )}
