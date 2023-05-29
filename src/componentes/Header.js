@@ -32,7 +32,7 @@ const Header = () => {
 
     
     useEffect(()=>{
-        if(currentUrl == "https://frontend-lobelbuy.onrender.com/"){
+        if(currentUrl == "https://frontend-lobelbuy-pa8s.onrender.com/"){
             console.log("inicio")
             //document.getElementById("busca").hidden = true;
             //document.getElementById("nombreBuscador").hidden = true;
