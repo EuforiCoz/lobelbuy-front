@@ -107,7 +107,7 @@ const Perfil = () => {
         if(!errorNombre){
             document.getElementById("modalEditandoPerfil").style.display = "block";
             if(document.getElementById("imagen").files[0] == undefined){
-                axios.post("http://localhost:5000/perfil/guardarDatosSinFoto", datos)
+                axios.post("https://backend-lobelbuy.onrender.com/perfil/guardarDatosSinFoto", datos)
                 .then(({data}) => {
                     if(data == "Actualizado") {
                         obtenerDatos();
