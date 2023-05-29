@@ -139,7 +139,7 @@ const SubirProducto = () => {
         formSubir.append("usuario", usuarioConectado.usuario_id);
         formSubir.append("file", file);
         
-        axios.post("https://backend-lobelbuy.onrender.com/subirProducto", formSubir)
+        axios.post("https://backend-lobelbuy-iex3.onrender.com/subirProducto", formSubir)
         .then(({data}) => {
             console.log(data)
             if(data == "Subido correctamente") {
