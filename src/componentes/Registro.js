@@ -8,6 +8,7 @@ const Registro = () => {
     const navigate = useNavigate();
 
     const [datosRegistro, setDatosRegistro] = useState({nombreRegistro: "", correoRegistro: "", contrasenaRegistro: ""});
+    const [errorNombre, setErrorNombre] = useState(true);
     const [errorCorreo, setErrorCorreo] = useState(true);
     const [errorContrasena, setErrorContrasena] = useState(true);
     const usuarioConectado = JSON.parse(window.localStorage.getItem('usuario'));
@@ -33,7 +34,14 @@ const Registro = () => {
     // Expresión regular para contraseñas
     var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
-        // Función para validar un correo electrónico
+    function validarNombre(nombre){
+        if(nombre.length < 4 || nombre.length > 20){
+            return false;
+        }
+        return true;
+    }
+
+    // Función para validar un correo electrónico
     function validarEmail(email) {
         return emailRegex.test(email);
     }
@@ -44,27 +52,32 @@ const Registro = () => {
     }
 
     const enviarDatosRegistro = () => {
+        setErrorNombre(true);
         setErrorCorreo(true);
         setErrorContrasena(true);
+        document.getElementById("nombreRegistro").classList.remove("is-invalid");
         document.getElementById("correoRegistro").classList.remove("is-invalid");
         document.getElementById("contrasenaRegistro").classList.remove("is-invalid");
 
-        console.log(datosRegistro.correoRegistro);
+        if(!validarNombre(datosRegistro.nombreRegistro)){
+            setErrorNombre(false);
+            document.getElementById("nombreRegistro").classList.add("is-invalid");
+        }
         
         if (!validarEmail(datosRegistro.correoRegistro)) {
             setErrorCorreo(false);
             document.getElementById("correoRegistro").classList.add("is-invalid");
-          } 
-          
-          if (!validarPassword(datosRegistro.contrasenaRegistro)) {
+        } 
+        
+        if (!validarPassword(datosRegistro.contrasenaRegistro)) {
             setErrorContrasena(false);
             document.getElementById("contrasenaRegistro").classList.add("is-invalid");
-          } 
+        } 
 
-          if (validarEmail(datosRegistro.correoRegistro) && validarPassword(datosRegistro.contrasenaRegistro)) {
+        if (validarNombre(datosRegistro.nombreRegistro) && validarEmail(datosRegistro.correoRegistro) && validarPassword(datosRegistro.contrasenaRegistro)) {
             setErrorCorreo(true);
             setErrorContrasena(true);
-            axios.post("https://backend-lobelbuy.onrender.com/api/registrarse", datosRegistro)
+            axios.post("http://localhost:5000/api/registrarse", datosRegistro)
             .then(({data}) => {
                 navigate("/login", {
                     state: {
@@ -72,7 +85,7 @@ const Registro = () => {
                     }
                 });
             })
-          }
+        }
     }
 
     return (
@@ -83,17 +96,23 @@ const Registro = () => {
                         <h3>Registrarse</h3>
                         <div class="col-md-12 col-xs-12 form-group mb-3">
                             <label htmlFor="email" className="mb-2">Nombre de usuario</label>
-                            <input type="text" id="nombre" name="nombreRegistro"  class="form-control" onChange={inputChangeRegistro}/>
+                            <p style={{fontSize: "12px", color: "grey"}}>Entre 4 y 20 caracteres</p>
+                            <input type="text" id="nombreRegistro" name="nombreRegistro"  class="form-control" onChange={inputChangeRegistro}/>
+                            {!errorNombre &&
+                                <p className="text-danger">Nombre de usuario no válido</p>
+                            }
                         </div>
                         <div class="col-md-12 col-xs-12 form-group mb-3">
                             <label htmlFor="email" className="mb-2">Correo electrónico</label>
+                            <p style={{fontSize: "12px", color: "grey"}}>Ejemplo: nombre@dominio.com</p>
                             <input type="text" id="correoRegistro" name="correoRegistro"  class="form-control" onChange={inputChangeRegistro}/>
                             {!errorCorreo &&
                                 <p className="text-danger">Correo electrónico no válido</p>
                             }
                         </div>
                         <div class="col-md-12 col-xs-12 form-group mb-3">
-                            <label htmlFor="password" className="mb-2">Contrasena</label>
+                            <label htmlFor="password" className="mb-2">Contraseña</label>
+                            <p style={{fontSize: "12px", color: "grey"}}>Mínimo 8 caracteres, 1 mayúscula, 1 minúscula, 1 número</p>
                             <input type="password" id="contrasenaRegistro" name="contrasenaRegistro"  class="form-control" onChange={inputChangeRegistro}/>
                             {!errorContrasena &&
                                 <p className="text-danger">Contraseña no válida</p>
