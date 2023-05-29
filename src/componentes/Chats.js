@@ -25,7 +25,7 @@ function Chats() {
   const messageListRef = useRef();
   
   useEffect(() => {
-    window.history.pushState(null, '',"http://localhost:3000/cuenta/chats"); // Modifica la URL utilizando pushState
+    //window.history.pushState(null, '',"http://localhost:3000/cuenta/chats"); // Modifica la URL utilizando pushState
     obtenerDatos();
   }, []);
 
