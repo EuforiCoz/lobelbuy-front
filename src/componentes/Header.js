@@ -10,7 +10,6 @@ import iconoMensajes from "./iconos/chat.svg"
 import {AiFillHeart} from "react-icons/ai";
 import Avatar from '@mui/material/Avatar';
 import { deepOrange, deepPurple } from '@mui/material/colors';
-import fotoUsuario from "./iconos/usuario.png"
 
 const Header = () => {
     const navigate = useNavigate();
