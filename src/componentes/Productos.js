@@ -50,7 +50,7 @@ const Productos = () => {
             usuario_id: usuarioConectado.usuario_id
         }
     
-        axios.post("https://backend-lobelbuy.onrender.com/obtenerConversaciones", datos)
+        axios.post("https://backend-lobelbuy-iex3.onrender.com/obtenerConversaciones", datos)
         .then(res => {
 
             if(res.data != "No hay conversaciones"){
@@ -70,7 +70,7 @@ const Productos = () => {
             usuario_id: usuarioConectado.usuario_id
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/mostrarProductosEnVenta", datos)
+        axios.post("https://backend-lobelbuy-iex3.onrender.com/mostrarProductosEnVenta", datos)
         .then(res => {
 
             setProductosEnVenta(res.data);
@@ -83,7 +83,7 @@ const Productos = () => {
             console.log(response.data);
         })
 
-        axios.post("https://backend-lobelbuy.onrender.com/mostrarProductosVendidos", datos)
+        axios.post("https://backend-lobelbuy-iex3.onrender.com/mostrarProductosVendidos", datos)
         .then(res => {
 
             setProductosVendidos(res.data);
@@ -123,7 +123,7 @@ const Productos = () => {
             id: productos[index].id
         }  
 
-        axios.post("https://backend-lobelbuy.onrender.com/eliminarProducto", datos)
+        axios.post("https://backend-lobelbuy-iex3.onrender.com/eliminarProducto", datos)
         .then(res => {
             if(res.data == "Eliminado") {
                 window.location.reload(true);
@@ -156,7 +156,7 @@ const Productos = () => {
             input.value = 0;
         }
 
-        axios.post("https://backend-lobelbuy.onrender.com/reservarProducto", datos)
+        axios.post("https://backend-lobelbuy-iex3.onrender.com/reservarProducto", datos)
         .then(res => {
             console.log(res.data);
         })
@@ -179,7 +179,7 @@ const Productos = () => {
 
         console.log(datos)
        
-        axios.post("https://backend-lobelbuy.onrender.com/venderProducto", datos)
+        axios.post("https://backend-lobelbuy-iex3.onrender.com/venderProducto", datos)
         .then(res => {
             console.log(res.data)
             document.getElementById("modalVendiendoProducto").style.display = "none";
