@@ -13,6 +13,7 @@ import {CloudinaryImage} from '@cloudinary/url-gen';
 import {MdModeEditOutline} from 'react-icons/md';
 import Skeleton from '@mui/material/Skeleton';
 import PantallaLoad from "./PantallaLoad";
+import fotoUsuario from "./iconos/usuario.png"
 
 const Perfil = () => {
     const navigate = useNavigate()
@@ -20,7 +21,7 @@ const Perfil = () => {
     //const usuario = JSON.parse(window.localStorage.getItem("usuario"));
     const {dispatch} = useAppContext();
     const usuarioConectado = JSON.parse(window.localStorage.getItem('usuario'));
-    console.log(usuarioConectado)
+    console.log(usuarioConectado);
     const [usuario, setUsuario] = useState({id: "", nombre: "", apellido: "", edad: 0, sexo: "", ciudad: "",  direccion: ""});
     const [imagen, setImagen] = useState(null);
     const [loaded, setLoaded] = useState(false);
@@ -55,11 +56,7 @@ const Perfil = () => {
             window.localStorage.setItem("usuario", JSON.stringify(data));
             
             setUsuario(data);
-            setLoaded(true)
-            document.getElementById("edad").value = data.edad;
-            document.getElementById("sexo").value = data.sexo;
-            document.getElementById("ciudad").value = data.ciudad;
-            
+            setLoaded(true)            
             
         })
        
@@ -73,57 +70,82 @@ const Perfil = () => {
     
     const guardarDatos = () => {
         
-        document.getElementById("modalEditandoPerfil").style.display = "block";
+        document.getElementById("nombre").classList.remove("is-invalid");
+
+        var nombre =  document.getElementById("nombre").value;
+        var edad = document.getElementById("edad").value;
+        var sexo = document.getElementById("sexo").value;
+        var errorNombre = false;
+
+        if(nombre == "" || (nombre.length < 4 || nombre.length > 20)){
+            errorNombre = true;
+            document.getElementById("nombre").classList.add("is-invalid");
+        }
+
+        if(edad == "") {
+            edad = 0;
+        }
+
+        if(sexo == "¿Cual es tu sexo?") {
+            sexo = "";
+        } 
+
         const datos = {
             usuario_id: document.getElementById("usuario_id").value,
             nombre: document.getElementById("nombre").value,
             apellido: document.getElementById("apellido").value,
-            edad: document.getElementById("edad").value,
-            sexo: document.getElementById("sexo").value,
+            edad: edad,
+            sexo: sexo,
             ciudad: document.getElementById("ciudad").value,
             direccion: document.getElementById("direccion").value,
             imagen: document.getElementById("imagen").files[0]
             //imagen: document.getElementById('imagen').files[0]
         }
 
-        if(document.getElementById("imagen").files[0] == undefined){
-            axios.post("https://backend-lobelbuy.onrender.com/perfil/guardarDatosSinFoto", datos)
-            .then(({data}) => {
-                if(data == "Actualizado") {
-                    obtenerDatos();
-                    setLoaded(true);
-                }
-                document.getElementById("modalEditandoPerfil").style.display = "none";
-            })
-            .catch(({response}) => {
-                console.log(response.data);
-            })
+        console.log(datos)
+
+        if(!errorNombre){
+            document.getElementById("modalEditandoPerfil").style.display = "block";
+            if(document.getElementById("imagen").files[0] == undefined){
+                axios.post("http://localhost:5000/perfil/guardarDatosSinFoto", datos)
+                .then(({data}) => {
+                    if(data == "Actualizado") {
+                        obtenerDatos();
+                        setLoaded(true);
+                    }
+                    document.getElementById("modalEditandoPerfil").style.display = "none";
+                })
+                .catch(({response}) => {
+                    console.log(response.data);
+                })
+            }
+            else{
+                const formData = new FormData();
+                formData.append("usuario_id", document.getElementById("usuario_id").value);
+                formData.append("nombre", document.getElementById("nombre").value);
+                formData.append("apellido", document.getElementById("apellido").value);
+                formData.append("edad", edad);
+                formData.append("sexo", sexo);
+                formData.append("ciudad", document.getElementById("ciudad").value);
+                formData.append("direccion", document.getElementById("direccion").value);
+                formData.append("file", document.getElementById("imagen").files[0]);
+        
+                axios.post("http://localhost:5000/perfil/guardarDatos", formData)
+                .then(({data}) => {
+                    if(data == "Actualizado") {
+                        setImagen(null)
+                        obtenerDatos();
+                        setLoaded(true)
+                    }
+                    document.getElementById("modalEditandoPerfil").style.display = "none";
+                })
+                .catch(({response}) => {
+                    console.log(response.data);
+                })
+            }
         }
-        else{
-            const formData = new FormData();
-            formData.append("usuario_id", document.getElementById("usuario_id").value);
-            formData.append("nombre", document.getElementById("nombre").value);
-            formData.append("apellido", document.getElementById("apellido").value);
-            formData.append("edad", document.getElementById("edad").value);
-            formData.append("sexo", document.getElementById("sexo").value);
-            formData.append("ciudad", document.getElementById("ciudad").value);
-            formData.append("direccion", document.getElementById("direccion").value);
-            formData.append("file", document.getElementById("imagen").files[0]);
-    
-            axios.post("https://backend-lobelbuy.onrender.com/perfil/guardarDatos", formData)
-            .then(({data}) => {
-                if(data == "Actualizado") {
-                    setImagen(null)
-                    obtenerDatos();
-                    setLoaded(true)
-                }
-                document.getElementById("modalEditandoPerfil").style.display = "none";
-            })
-            .catch(({response}) => {
-                console.log(response.data);
-            })
-    
-        }
+
+        
 
         //document.getElementById("imagen").value = null;
         //setImagen(null);
@@ -146,7 +168,7 @@ const Perfil = () => {
                             ) : (
                                 <>
                                 {usuario.imagen == "" ? (
-                                    <img src={imgProducto} class="rounded-circle" alt="Foto de perfil" width="150" height="150" style={{position: "relative"}}/>
+                                    <img src={fotoUsuario} class="rounded-circle" alt="Foto de perfil" width="150" height="150" style={{position: "relative"}}/>
                                 ) : (
                                     <img src={usuario.imagen} class="rounded-circle" alt="Foto de perfil" width="150" height="150"/>
                                 )}
@@ -178,7 +200,6 @@ const Perfil = () => {
 
                                 {loaded &&
                                    <input type="text" id="nombre" name="nombre" defaultValue={usuario.nombre} class="form-control" placeholder="¿Cómo te llamas?"/>
-
                                 }
                             </div>
                             <div class="col-md-6 col-xs-12 form-group mb-3">
@@ -196,8 +217,17 @@ const Perfil = () => {
                                 {!loaded &&
                                     <Skeleton variant="text" sx={{fontSize: '2rem' , bgcolor: 'white.100'}}/>
                                 }
-                                {loaded &&
-                                    <input type="number" id="edad" name="edad" defaultValue={usuario.edad} class="form-control" placeholder="¿Cuantos años tienes?" />
+
+                                {loaded && usuario.edad == 0 &&
+                                   
+                                    <input type="number" id="edad" name="edad" class="form-control" placeholder="¿Cuantos años tienes?" />
+                                       
+                                }
+
+                                {loaded && usuario.edad != 0 &&
+                                   
+                                   <input type="number" id="edad" name="edad" defaultValue={usuario.edad} class="form-control" placeholder="¿Cuantos años tienes?" />
+                                  
                                 }
                             </div>
                             <div class="col-md-6 col-xs-12 form-group mb-3">
@@ -205,7 +235,16 @@ const Perfil = () => {
                                 {!loaded &&
                                     <Skeleton variant="text" sx={{fontSize: '2rem' , bgcolor: 'white.100'}}/>
                                 }
-                                {loaded &&
+
+                                {loaded && usuario.sexo == "" &&
+                                    <select id="sexo" class="form-control">
+                                        <option selected disabled>¿Cual es tu sexo?</option>
+                                        <option >Hombre</option>
+                                        <option>Mujer</option>
+                                    </select>
+                                }
+
+                                {loaded && usuario.sexo != "" &&
                                     <select id="sexo" defaultValue={usuario.sexo} class="form-control">
                                         <option selected disabled>¿Cual es tu sexo?</option>
                                         <option >Hombre</option>
@@ -221,9 +260,68 @@ const Perfil = () => {
                                 {!loaded &&
                                     <Skeleton variant="text" sx={{fontSize: '2rem' , bgcolor: 'white.100'}}/>
                                 }
-                                {loaded &&
+                                {loaded && usuario.ciudad == "" &&
                                     <select id="ciudad" name="ciudad" class="form-control">
-                                        <option defaultValue='selecciona'>Selecciona</option>
+                                        <option selected disabled defaultValue='selecciona'>Selecciona</option>
+                                        <option defaultValue='A Coruña' >A Coruña</option>
+                                        <option defaultValue='álava'>álava</option>
+                                        <option defaultValue='Albacete' >Albacete</option>
+                                        <option defaultValue='Alicante'>Alicante</option>
+                                        <option defaultValue='Almería' >Almería</option>
+                                        <option defaultValue='Asturias' >Asturias</option>
+                                        <option defaultValue='ávila' >Ávila</option>
+                                        <option defaultValue='Badajoz' >Badajoz</option>
+                                        <option defaultValue='Barcelona'>Barcelona</option>
+                                        <option defaultValue='Burgos' >Burgos</option>
+                                        <option defaultValue='Cáceres' >Cáceres</option>
+                                        <option defaultValue='Cádiz' >Cádiz</option>
+                                        <option defaultValue='Cantabria' >Cantabria</option>
+                                        <option defaultValue='Castellón' >Castellón</option>
+                                        <option defaultValue='Ceuta' >Ceuta</option>
+                                        <option defaultValue='Ciudad Real' >Ciudad Real</option>
+                                        <option defaultValue='Córdoba' >Córdoba</option>
+                                        <option defaultValue='Cuenca' >Cuenca</option>
+                                        <option defaultValue='Gerona' >Gerona</option>
+                                        <option defaultValue='Girona' >Girona</option>
+                                        <option defaultValue='Las Palmas' >Las Palmas</option>
+                                        <option defaultValue='Granada' >Granada</option>
+                                        <option defaultValue='Guadalajara' >Guadalajara</option>
+                                        <option defaultValue='Guipúzcoa' >Guipúzcoa</option>
+                                        <option defaultValue='Huelva' >Huelva</option>
+                                        <option defaultValue='Huesca' >Huesca</option>
+                                        <option defaultValue='Jaén' >Jaén</option>
+                                        <option defaultValue='La Rioja' >La Rioja</option>
+                                        <option defaultValue='León' >León</option>
+                                        <option defaultValue='Lleida' >Lleida</option>
+                                        <option defaultValue='Lugo' >Lugo</option>
+                                        <option defaultValue='Madrid' >Madrid</option>
+                                        <option defaultValue='Malaga' >Málaga</option>
+                                        <option defaultValue='Mallorca' >Mallorca</option>
+                                        <option defaultValue='Melilla' >Melilla</option>
+                                        <option defaultValue='Murcia' >Murcia</option>
+                                        <option defaultValue='Navarra' >Navarra</option>
+                                        <option defaultValue='Orense' >Orense</option>
+                                        <option defaultValue='Palencia' >Palencia</option>
+                                        <option defaultValue='Pontevedra'>Pontevedra</option>
+                                        <option defaultValue='Salamanca'>Salamanca</option>
+                                        <option defaultValue='Segovia' >Segovia</option>
+                                        <option defaultValue='Sevilla' >Sevilla</option>
+                                        <option defaultValue='Soria' >Soria</option>
+                                        <option defaultValue='Tarragona' >Tarragona</option>
+                                        <option defaultValue='Tenerife' >Tenerife</option>
+                                        <option defaultValue='Teruel' >Teruel</option>
+                                        <option defaultValue='Toledo' >Toledo</option>
+                                        <option defaultValue='Valencia' >Valencia</option>
+                                        <option defaultValue='Valladolid' >Valladolid</option>
+                                        <option defaultValue='Vizcaya' >Vizcaya</option>
+                                        <option defaultValue='Zamora' >Zamora</option>
+                                        <option defaultValue='Zaragoza'>Zaragoza</option>
+                                    </select>
+                                }
+
+                                {loaded && usuario.ciudad != "" &&
+                                    <select id="ciudad" defaultValue={usuario.ciudad} name="ciudad" class="form-control">
+                                        <option selected disabled defaultValue='selecciona'>Selecciona</option>
                                         <option defaultValue='A Coruña' >A Coruña</option>
                                         <option defaultValue='álava'>álava</option>
                                         <option defaultValue='Albacete' >Albacete</option>
@@ -286,9 +384,13 @@ const Perfil = () => {
                                 {!loaded &&
                                     <Skeleton variant="text" sx={{fontSize: '2rem' , bgcolor: 'white.100'}}/>
                                 }
-                                {loaded &&
-                                    <input type="text" id="direccion" name="direccion" defaultValue={usuario.direccion} class="form-control"/>
+                                {loaded && usuario.direccion == "" &&
+                                    <input type="text" id="direccion" name="direccion" class="form-control" placeholder="Ej: Calle de la villa"/>
                                 }  
+
+                                {loaded && usuario.direccion != "" &&
+                                    <input type="text" id="direccion" name="direccion" defaultValue={usuario.direccion} class="form-control" placeholder="Ej: Calle de la villa del Carmen"/>
+                                } 
                             </div>
                             <div class="col-md-6 col-xs-12 form-group mb-3">
                                 <label htmlFor="cod-postal" className="mb-2">Código Postal</label>
