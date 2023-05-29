@@ -1,8 +1,23 @@
 import React from "react"
 import "./styles/sidebar.css"
 import MiLi from "./MiLi"
+import { useAppContext } from "../AppProvider";
+import {useNavigate } from 'react-router-dom';
 
 const Sidebar = (props) => {
+
+    const navigate = useNavigate();
+    const {dispatch} = useAppContext();
+
+    const cerrarSesion = () => {
+        dispatch({
+            type: "CREAR_USUARIO",
+            value: null
+        })
+        window.localStorage.clear();
+        navigate("/login");
+    }
+
     return(
         <div class="sidebar">
             <h3>Mi cuenta</h3>
@@ -44,6 +59,9 @@ const Sidebar = (props) => {
                         )
                 }  
             </ul>
+            <div className="d-flex justify-content-center">
+                <button className="btnVerProducto text-center" onClick={cerrarSesion}>Cerrar sesión</button>
+            </div>
         </div>
     )
         {/*
