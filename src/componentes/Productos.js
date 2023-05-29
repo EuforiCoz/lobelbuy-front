@@ -31,6 +31,7 @@ const Productos = () => {
     const [productoSeleccionadoVender, setProductoSeleccionadoVender] = useState();
     const [mensajeMostrar, setMensajeMostrar] = useState("");
     const [loaded, setLoaded] = useState(false);
+    const [indexEliminarProducto, setIndexEliminarProducto] = useState(null);
     
     useEffect(()=>{
         obtenerDatos();
@@ -175,8 +176,10 @@ const Productos = () => {
             comprador_id: vendedor,
             vendedor_id: usuarioConectado.usuario_id
         }
+
+        console.log(datos)
        
-        axios.post("https://backend-lobelbuy.onrender.com/venderProducto", datos)
+        axios.post("http://localhost:5000/venderProducto", datos)
         .then(res => {
             console.log(res.data)
             document.getElementById("modalVendiendoProducto").style.display = "none";
@@ -215,6 +218,10 @@ const Productos = () => {
         var imagen = caja.firstChild;
         caja.style.borderColor = "black";
         imagen.style.fill = "black";
+    }
+
+    const setearEliminarProducto = (index) => {
+        setIndexEliminarProducto(index);
     }
 
     return(
@@ -289,12 +296,10 @@ const Productos = () => {
                                                              <div onClick={() => productoElegidoVender(producto.id)} data-bs-toggle="modal" data-bs-target="#exampleModal" onMouseOver={() => ponerColor("vender", index)} onMouseOut={() => quitarColor("vender", index)} className="vender venderDiv rounded-circle d-flex justify-content-center align-items-center mx-3" style={{width: "45px", height: "45px"}}><FaRegHandshake className="venderImg" style={{width: "75%", height:"75%"}}/></div>
                                                              <div onClick={() => reservarProducto(index)} onMouseOver={() => ponerColor("reservar", index)} onMouseOut={() => quitarColor("reservar", index)} className="reservar venderDiv rounded-circle d-flex justify-content-center align-items-center mx-3" style={{width: "45px", height: "45px"}}><IoMdSave className="venderImg" style={{width: "75%", height:"75%"}}/></div>
                                                              <Link className="text-decoration-none" to={"/editarProducto/" + producto.id}><div onMouseOver={() => ponerColor("editar", index)} onMouseOut={() => quitarColor("editar", index)} className="editar venderDiv rounded-circle d-flex justify-content-center align-items-center mx-3" style={{width: "45px", height: "45px"}}><BsFillPencilFill className="venderImg" style={{width: "55%", height:"55%", fill: "black"}}/></div></Link>
-                                                             <div onClick={() => eliminarProducto(index)} onMouseOver={() => ponerColor("eliminar", index)} onMouseOut={() => quitarColor("eliminar", index)} className="eliminar venderDiv rounded-circle d-flex justify-content-center align-items-center mx-3" style={{width: "45px", height: "45px"}}><TiCancelOutline className="venderImg" style={{width: "80%", height:"80%"}}/></div>
+                                                             <div onClick={() => setearEliminarProducto(index)} data-bs-toggle="modal" data-bs-target="#modalEliminar" onMouseOver={() => ponerColor("eliminar", index)} onMouseOut={() => quitarColor("eliminar", index)} className="eliminar venderDiv rounded-circle d-flex justify-content-center align-items-center mx-3" style={{width: "45px", height: "45px"}}><TiCancelOutline className="venderImg" style={{width: "80%", height:"80%"}}/></div>
                                                          </div>
                                                      } 
                                                  </div>
-                                               
-                                               
                                             </div>
                                         </div>
                                     )
@@ -305,32 +310,51 @@ const Productos = () => {
                         
                     </div>
                 </div>
+
                 <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div className="modal-dialog">
+                    <div className="modal-dialog modal-dialog-centered">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLabel">Producto Vendido</h5>
+                                <h3 className="modal-title" id="exampleModalLabel">Producto Vendido</h3>
                                 <button type="button" id="close" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div className="modal-body">
-                                <h6>¿A quien se lo has vendido?</h6>
+                            <div className="modal-body d-flex flex-column text-center">
+                                <h4>¿A quien se lo has vendido?</h4>
 
                                 {conversaciones.map((conversaciones) => {
                                     return (
-                                        <div key={conversaciones.id}>
+                                        <>
                                             {conversaciones.usuario1_id == usuarioConectado.usuario_id &&
-                                                <span className="name mt-2" style={{cursor: "pointer"}} onClick={() => venderProducto(conversaciones.usuario2_id)} data-bs-dismiss="modal">{conversaciones.nombre_usuario2}</span>   
+                                                <span key={conversaciones.id} className="name liUsuarios fs-5 py-2" style={{cursor: "pointer"}} onClick={() => venderProducto(conversaciones.usuario2_id)} data-bs-dismiss="modal">{conversaciones.nombre_usuario2}</span>   
                                             }
             
                                             {conversaciones.usuario2_id == usuarioConectado.usuario_id &&
-                                                <span className="name" style={{cursor: "pointer"}} onClick={() => venderProducto(conversaciones.usuario1_id)} data-bs-dismiss="modal">{conversaciones.nombre_usuario1}</span>      
+                                                <span key={conversaciones.id} className="name liUsuarios fs-5 py-2" style={{cursor: "pointer"}} onClick={() => venderProducto(conversaciones.usuario1_id)} data-bs-dismiss="modal">{conversaciones.nombre_usuario1}</span>      
                                             }
-                                        </div>
+                                        </>
                                     )
                                     })
                                 
                                 }
-                                <span className="text-danger" style={{cursor: "pointer"}} onClick={() => venderProducto(null)} data-bs-dismiss="modal">Lo he vendido en otro lado</span>
+                                <span className="liVender fs-5 py-2" style={{cursor: "pointer"}} onClick={() => venderProducto(0)} data-bs-dismiss="modal">Lo he vendido en otro lado</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="modal fade" id="modalEliminar" tabIndex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h3 className="modal-title" id="modalEliminarLabel">Eliminar producto</h3>
+                                <button type="button" id="close" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div className="modal-body ">
+                                <h5>¿Estás seguro que quieres eliminar el producto?</h5>
+                                <div className="d-flex justify-content-end mt-5">
+                                    <button className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button className="btn btn-danger mx-2" onClick={() => eliminarProducto(indexEliminarProducto)} data-bs-dismiss="modal">Eliminar</button>
+                                </div>
                             </div>
                         </div>
                     </div>
