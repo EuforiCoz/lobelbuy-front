@@ -1,13 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 import io from 'socket.io-client';
 import "./styles/chats.css"
 import axios from "axios";
 import {AiOutlineSend} from 'react-icons/ai';
 
-const socket = io('https://backend-lobelbuy.onrender.com/');
+const socket = io('http://localhost:5000/');
 
 function Chats() {
+  const location = useLocation();
   const usuarioConectado = JSON.parse(window.localStorage.getItem('usuario'));
+  const [usuario, setUsuario] = useState(new URLSearchParams(location.search).get('usuario'))
   const [conversacionElegida, setConversacionElegida] = useState();
   const [conversaciones, setConversaciones] = useState([]);
   const [roomId, setRoomId] = useState('');
@@ -17,10 +20,12 @@ function Chats() {
   const [recibe, setRecibe] = useState();
   const [messageText, setMessageText] = useState('');
   const [messages, setMessages] = useState([]);
+  const [liElegido, setLiElegido] = useState(0);
 
   const messageListRef = useRef();
   
   useEffect(() => {
+    window.history.pushState(null, '',"http://localhost:3000/cuenta/chats"); // Modifica la URL utilizando pushState
     obtenerDatos();
   }, []);
 
@@ -29,12 +34,40 @@ function Chats() {
         usuario_id: usuarioConectado.usuario_id
     }
 
-    axios.post("https://backend-lobelbuy.onrender.com/obtenerConversaciones", datos)
+    axios.post("http://localhost:5000/obtenerConversaciones", datos)
     .then(res => {
 
         //setProductos(res.data)
         if(res.data != "No hay conversaciones"){
           setConversaciones(res.data);
+
+          if(usuario != null){
+            
+              for (let i = 0; i < res.data.length; i++) {
+                if(res.data[i].usuario1_id == usuarioConectado.usuario_id && res.data[i].usuario2_id == usuario){
+                 
+                  setRoomId(res.data[i].id);
+                  setMessages([]);
+
+                  setOtraPersona(res.data[i].nombre_usuario2);
+                  setOtraPersonaImagen(res.data[i].foto_usuario2);
+                  setConversacionElegida(res.data[i].nombre_usuario2);
+                  setRecibe(res.data[i].nombre_usuario2);
+                 
+                  obtenerMensajes(res.data[i].id);
+                  socket.emit('joinRoom', res.data[i].id);
+                } else if(res.data[i].usuario2_id == usuarioConectado.usuario_id && res.data[i].usuario1_id == usuario){
+                  setRoomId(res.data[i].id);
+                  setMessages([]);
+                  setOtraPersona(res.data[i].nombre_usuario1);
+                  setOtraPersonaImagen(res.data[i].foto_usuario1);
+                  setConversacionElegida(res.data[i].nombre_usuario1);
+                  setRecibe(res.data[i].nombre_usuario1);
+                  obtenerMensajes(res.data[i].id);
+                  socket.emit('joinRoom', res.data[i].id);
+                }
+              }
+          }
         }
         
         setUsername(usuarioConectado.nombre);
@@ -71,6 +104,10 @@ function Chats() {
 
   const handleJoinRoom = (conversacion, persona) => {
     
+    document.getElementsByClassName("liConversacion")[liElegido].classList.remove("active");
+    
+    document.getElementsByClassName("liConversacion")[persona].classList.add("active");
+    setLiElegido(persona);
     setRoomId(conversacion.id);
   
     setMessages([]);
@@ -98,7 +135,7 @@ function Chats() {
       conversacion: sala
     }
     
-    axios.post("https://backend-lobelbuy.onrender.com/obtenerMensajes", datos)
+    axios.post("http://localhost:5000/obtenerMensajes", datos)
     .then(res => {
         setMessages(res.data);
         setTimeout(() => {
@@ -142,86 +179,16 @@ function Chats() {
 
  
   return (
-    /*
-    <div className='row d-flex flex-row py-5"' style={{background: "linear-gradient(to bottom, #1E90FF,#87CEEB)"}}>
-        <div className='col-3 py-5 px-5'>
-            
-            {conversaciones.map((conversaciones) => {
-                return (
-                    <div className='mt-3'  onClick={() => handleJoinRoom(conversaciones)} style={{width: "100%", height: "100px", background: "linear-gradient(to bottom, #e6f2ff, #99ccff)", borderRadius: "10px ", cursor: "pointer"}}>
-                       
-                        {conversaciones.usuario1_id == usuarioConectado.usuario_id &&
-                          <span className='mx-2'>Usuario: {conversaciones.nombre_usuario2}</span>
-                        }
-
-                        {conversaciones.usuario2_id == usuarioConectado.usuario_id &&
-                          <span className='mx-2'>Usuario: {conversaciones.nombre_usuario1}</span>
-                        }
-
-                        <span className='mx-2'>Room id: {conversaciones.id}</span>
-                    </div>
-                )
-            })
-            }
-            
-        </div>
-        <div className="col-9 container py-5 px-5">
-            <div className="row">
-                <div className="col-12">
-                <h1>Chat</h1>
-                </div>
-            </div>
-            <div className="row">
-              {conversacionElegida == null ? (
-                 <h4>Ninguna conversación elegida</h4>
-                ) : (
-                  <h4>{conversacionElegida}</h4>
-                )
-              }
-             
-            </div>
-            <div className="row">
-                <div className="col-12">
-                <ul className="list-group" style={{ height: '600px', overflowY: 'scroll' }} ref={messageListRef}>
-                    {messages.map((messages, index) => (
-                    <div>
-                      {messages.recibe == recibe ? (
-                        <li className="list-group-item" key={index}>
-                          <strong>{messages.envia}: </strong>{messages.mensaje}
-                        </li>
-                      ) : (
-                        <li className="list-group-item" key={index} style={{background: "lightblue"}}>
-                          <strong>{messages.envia}: </strong>{messages.mensaje}
-                        </li>
-                        )
-                      }
-                    </div>
-                    
-                    ))}
-                </ul>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-md-6">
-                <div className="form-group">
-                    <input type="text" className="form-control" placeholder="Message" value={messageText} onChange={e => setMessageText(e.target.value)} onKeyPress={handleKeyPress} />
-                </div>
-                </div>
-                <div className="col-md-6">
-                <button className="btn btn-primary" onClick={handleSend}>Send</button>
-                </div>
-            </div>
-        </div>
-    </div>*/
+    
     <div id="chats" className='d-flex justify-content-center align-items-center' style={{minHeight: "80%",background: "linear-gradient(to bottom, #1E90FF,#87CEEB)"}}>
       <div class="container pt-5 ">
-      <div class="row clearfix" >
+      <div class="row clearfix">
           <div class="col-lg-12">
-              <div class="card chat-app" style={{backgroundColor:"aliceblue"}}>
+              <div class="card chat-app">
                   <div class="row">
 
                   
-                  <div id="plist" class="people-list col-md-4 col-xs-12">
+                  <div id="plist" class="people-list col-md-4 col-xs-12" style={{background:"linear-gradient(to bottom, #e6f2ff, #99ccff)"}}>
                       <div class="input-group">
                           <h2>Chats</h2>
                       </div>
@@ -232,26 +199,24 @@ function Chats() {
                       }
 
                       {conversaciones.length != 0 &&
-                            conversaciones.map((conversaciones) => {
+                            conversaciones.map((conversaciones, index) => {
                               return (
-                                  <div onClick={() => handleJoinRoom(conversaciones, this)}>
+                                  <div onClick={() => handleJoinRoom(conversaciones, index)}>
                                       {conversaciones.usuario1_id == usuarioConectado.usuario_id &&
                                         //<span className='mx-2'>Usuario: {conversaciones.nombre_usuario2}</span>
-                                        <li class="clearfix">
+                                        <li class={"liConversacion clearfix d-flex align-items-center "} style={{borderTop: "1px solid white", borderBottom: "1px solid white"}}>
                                             <img src={conversaciones.foto_usuario2} alt="avatar" style={{width: "45px", height: "45px"}}/>
                                             <div class="about">
                                                 <div class="name">{conversaciones.nombre_usuario2}</div>
-                                                <div class="status"> <i class="fa fa-circle offline"></i> online </div>                                            
                                             </div>
                                         </li>
                                       }
       
                                       {conversaciones.usuario2_id == usuarioConectado.usuario_id &&
-                                        <li class="clearfix">
-                                            <img src={conversaciones.foto_usuario1} alt="avatar"/>
+                                        <li class={"liConversacion clearfix d-flex align-items-center"}  style={{borderTop: "1px solid white", borderBottom: "1px solid white"}}>
+                                            <img src={conversaciones.foto_usuario1} alt="avatar" style={{width: "45px", height: "45px"}}/>
                                             <div class="about">
                                                 <div class="name">{conversaciones.nombre_usuario1}</div>
-                                                <div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>                                            
                                             </div>
                                         </li>
                                       }
@@ -264,7 +229,7 @@ function Chats() {
                         
                       </ul>
                   </div>
-                  <div class="chat col-md-8 col-xs-12">
+                  <div class="chat col-md-8 col-xs-12" style={{backgroundColor:"aliceblue"}}>
                       <div class="chat-header clearfix">
                           <div class="row">
                               <div class="col-lg-6">
@@ -295,7 +260,7 @@ function Chats() {
                               
                               ) : (
                                 <li class="clearfix" key={index}>
-                                  <div class="message my-message"> {messages.mensaje}</div>
+                                  <div class="message my-message" style={{backgroundColor:"#99ccff"}}> {messages.mensaje}</div>
                               </li>
                               
                                 )
