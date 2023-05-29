@@ -6,7 +6,7 @@ import axios from "axios";
 import {AiOutlineSend} from 'react-icons/ai';
 import Skeleton from '@mui/material/Skeleton';
 
-const socket = io('https://backend-lobelbuy.onrender.com/');
+const socket = io('https://backend-lobelbuy-iex3.onrender.com/');
 
 function Chats() {
   const location = useLocation();
@@ -35,7 +35,7 @@ function Chats() {
         usuario_id: usuarioConectado.usuario_id
     }
 
-    axios.post("https://backend-lobelbuy.onrender.com/obtenerConversaciones", datos)
+    axios.post("https://backend-lobelbuy-iex3.onrender.com/obtenerConversaciones", datos)
     .then(res => {
 
         //setProductos(res.data)
@@ -136,7 +136,7 @@ function Chats() {
       conversacion: sala
     }
     
-    axios.post("https://backend-lobelbuy.onrender.com/obtenerMensajes", datos)
+    axios.post("https://backend-lobelbuy-iex3.onrender.com/obtenerMensajes", datos)
     .then(res => {
         setMessages(res.data);
         setTimeout(() => {
