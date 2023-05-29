@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 import "./styles/chats.css"
 import axios from "axios";
 import {AiOutlineSend} from 'react-icons/ai';
+import Skeleton from '@mui/material/Skeleton';
 
 const socket = io('https://backend-lobelbuy.onrender.com/');
 
@@ -21,6 +22,7 @@ function Chats() {
   const [messageText, setMessageText] = useState('');
   const [messages, setMessages] = useState([]);
   const [liElegido, setLiElegido] = useState(0);
+  const [loaded, setLoaded] = useState(false);
 
   const messageListRef = useRef();
   
@@ -70,7 +72,7 @@ function Chats() {
         }
         
         setUsername(usuarioConectado.nombre);
-        
+        setLoaded(true);
     })
     .catch(({response}) => {
       
@@ -191,9 +193,20 @@ function Chats() {
                       <div class="input-group">
                           <h2>Chats</h2>
                       </div>
-                      <ul class="list-unstyled chat-list mt-2 mb-0">
+                      <ul class="list-unstyled chat-list mt-2 mb-0" style={{overflow: "auto"}}>
                         {console.log(conversaciones)}
-                      {conversaciones.length == 0 &&
+                        {!loaded &&
+                                      Array.from({ length: 6 }, (_, index) => (
+                                        <li class="clearfix d-flex flex-row justify-content-start align-items-center">
+                                          <Skeleton variant="circular" sx={{width: "45px", height: "45px", bgcolor: 'lightblue' }}/>
+                                          <div class="about">
+                                          <Skeleton variant="text" sx={{width: 150, fontSize: '1rem' , bgcolor: 'lightblue'}}/>  
+                                                                          
+                                          </div>
+                                      </li>
+                                      ))
+                                    }
+                      {conversaciones.length == 0 && loaded &&
                           <h6>No hay conversaciones</h6>
                       }
 
@@ -203,7 +216,7 @@ function Chats() {
                                   <div onClick={() => handleJoinRoom(conversaciones, index)}>
                                       {conversaciones.usuario1_id == usuarioConectado.usuario_id &&
                                         //<span className='mx-2'>Usuario: {conversaciones.nombre_usuario2}</span>
-                                        <li class={"liConversacion clearfix d-flex align-items-center "} style={{borderTop: "1px solid white", borderBottom: "1px solid white"}}>
+                                        <li class={"liConversacion clearfix d-flex align-items-center "} style={{borderTop: "1px solid aliceblue", borderBottom: "1px solid aliceblue"}}>
                                             <img src={conversaciones.foto_usuario2} alt="avatar" style={{width: "45px", height: "45px"}}/>
                                             <div class="about">
                                                 <div class="name">{conversaciones.nombre_usuario2}</div>
@@ -212,7 +225,7 @@ function Chats() {
                                       }
       
                                       {conversaciones.usuario2_id == usuarioConectado.usuario_id &&
-                                        <li class={"liConversacion clearfix d-flex align-items-center"}  style={{borderTop: "1px solid white", borderBottom: "1px solid white"}}>
+                                        <li class={"liConversacion clearfix d-flex align-items-center"}  style={{borderTop: "1px solid aliceblue", borderBottom: "1px solid aliceblue"}}>
                                             <img src={conversaciones.foto_usuario1} alt="avatar" style={{width: "45px", height: "45px"}}/>
                                             <div class="about">
                                                 <div class="name">{conversaciones.nombre_usuario1}</div>
