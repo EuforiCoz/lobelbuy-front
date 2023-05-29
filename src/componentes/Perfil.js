@@ -13,7 +13,6 @@ import {CloudinaryImage} from '@cloudinary/url-gen';
 import {MdModeEditOutline} from 'react-icons/md';
 import Skeleton from '@mui/material/Skeleton';
 import PantallaLoad from "./PantallaLoad";
-import fotoUsuario from "./iconos/usuario.png"
 
 const Perfil = () => {
     const navigate = useNavigate()
