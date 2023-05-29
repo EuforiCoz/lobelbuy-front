@@ -48,7 +48,7 @@ const Inicio = () => {
 
     const obtenerDatos = () => {
 
-        axios.get("https://backend-lobelbuy.onrender.com/")
+        axios.get("https://backend-lobelbuy-iex3.onrender.com/")
         .then(res => {
             setProductos(res.data);
             setLoaded(true);
