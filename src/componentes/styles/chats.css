@@ -164,18 +164,18 @@
     width: 0;
     position: absolute;
     pointer-events: none;
-    border-bottom-color: #efefef;
+    border-bottom-color: #99ccff;
     border-width: 10px;
     margin-left: -10px
 }
 
 #chats .chat .chat-history .other-message {
-    background: #e8f1f3;
+    background: #d7eaff;
     text-align: right
 }
 
 #chats .chat .chat-history .other-message:after {
-    border-bottom-color: #e8f1f3;
+    border-bottom-color: #d7eaff;
     left: 75%
 }
 
