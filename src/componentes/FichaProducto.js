@@ -155,50 +155,19 @@ const FichaProducto = () => {
     }
    
     return(
-        <div id="fichaProducto" className="py-5" style={{minHeight: "80%"}}>
+        <div id="fichaProducto" className="py-3 d-flex align-items-center" style={{minHeight: "80%"}}>
             <div class="container p-3 con">
                 <div class="row">
-                    <div className="col-md-12">
-                        <div className="ms-3 d-flex flex-row justify-content-between align-items-center">
-                            {!loaded &&
-                                <>
-                                <div className="d-flex flex-row justify-content-between align-items-center">
-                                    <Skeleton variant="circular" sx={{width: "60px", height: "60px", bgcolor: 'white.100'}}/>
-                                    <Skeleton className="mx-1" variant="text" sx={{width: "120px", fontSize: '1rem' , bgcolor: 'white.100'}}/>
+                    
+                    
+                        <div  class=" col-md-6 d-flex justify-content-center align-items-center position-relative" style={{borderRadius: "20px"}}>
+                           
+                                <div class="" style={{borderRadius: "20px", width: "100%", height: "50vh", backgroundColor: "black"}}>
+                                    <img src={producto.imagen} class="d-block img-fluid  " alt="..." style={{borderRadius: "20px", width: "100%", height: "100%"}}/>
                                 </div>
-                               
-                                <Skeleton variant="text" sx={{width: "100px", fontSize: '2rem' , bgcolor: 'white.100'}}/>
-                                </>
-                                
-                            }
 
-                            {loaded &&
-                                <>
-                                    <div>
-                                        <Link to={"/vendedor/" + producto.usuario_id}><img src={producto.foto} className="rounded-circle" style={{width: "60px", height: "60px"}} /></Link>
-                                        <span className="mx-1"></span>
-                                        <span className="fs-5">{producto.nombre_usuario}</span>
-                                    </div>
-                                    {producto.usuario_id != usuario &&
-                                        <button className="btnVerProducto"  onClick={crearConversacion}>Chatear</button>
-
-                                    }
-                                </>
-                                
-                            }
-                           
-                        </div>
-                    </div>
-                    <div className="col-md-12">
-                        <div id="carouselExampleIndicators" class=" mt-2 position-relative" style={{borderRadius: "20px"}}>
-                           
-                                <div class="c-item position-relative" style={{borderRadius: "20px"}}>
-                                    <img src={producto.imagen} class="d-block  c-img" alt="..." style={{borderRadius: "20px"}}/>
-                                </div>{
-                                    console.log(producto.reservado)
-                                }
                                 {producto.reservado == 1 &&
-                                    <span className="span-reservar position-absolute" style={{left: 5, top: 15}}>
+                                    <span className="span-reservar position-absolute" style={{left: 30, top: 30}}>
                                         <input className="input-reservar" type="number" value={1} hidden/>
                                         <div class="mask">
                                             <div class="d-flex justify-content-start align-items-end h-100">
@@ -211,93 +180,126 @@ const FichaProducto = () => {
                                     </span>
                                 }
                         </div>
-                    </div>
-                    <div className="mt-3 d-flex flex-row justify-content-between">
-                        {!loaded &&
-                            <>
-                                <Skeleton variant="text" sx={{width: "120px", fontSize: '1rem' , bgcolor: 'white.100'}}/>
-                                <div className="justify-content-end">                              
-                                    <Skeleton variant="rounded" sx={{width: "50px", height: "50px", bgcolor: 'white.100'}}/>                               
-                                </div>
-                            </>
-                        }
-
-                        {loaded && 
-                            <>
-                                <span className="fs-3 fw-bold">{producto.nombre}</span>
-                                <div className="justify-content-end">
-                                {producto.usuario_id != usuario &&
-                                    <AiFillHeart id="boton-me-gusta" onClick={meGusta} style={{width: "50px", height: "50px", fill: "black", cursor: "pointer"}}/>
-                                }
-                                </div>
-                            </>
-                        }
-                       
-                       
-                    </div>
-                    <div className="d-flex flex-column">
-                    {!loaded && 
-                        <>
-                            <Skeleton variant="text" sx={{width: "60px", fontSize: '1rem' , bgcolor: 'white.100'}}/>
-                            <Skeleton variant="text" sx={{width: "80px", fontSize: '1rem' , bgcolor: 'white.100'}}/>
-                            <Skeleton variant="text" sx={{width: "100%", fontSize: '5rem' , bgcolor: 'white.100'}}/>
-                        </>
-                    }
-                    {loaded && 
-                        <>
-                        <span className="fs-5 fw-bold">{producto.precio}€</span>
-                        <h6 className="">{producto.categoria}</h6>
-                        <p className="fs-5">{producto.descripcion}</p>
-                        </>
-                    }
-                    </div>
-                
-                    <div>
-                        {!loaded && 
-                            <>
-                                <Skeleton variant="text" sx={{width: "150px", fontSize: '2rem' , bgcolor: 'white.100'}}/>
-                                <Skeleton variant="rounded" sx={{width: "100%", height: "180px" , bgcolor: 'white.100'}}/>                
-                            </>
-                        }
-                        {loaded && 
-                            <>
-                                <h2>Detalles</h2>
-                                {detalles.length == 0 && 
-                                    <p>No ha dado ningún detalle</p>
+                   
+                    <div className="col-md-6">
+                        <div className="col-md-12">
+                            <div className="ms-3 mt-3 d-flex flex-row justify-content-between align-items-center">
+                                {!loaded &&
+                                    <>
+                                    <div className="d-flex flex-row justify-content-between align-items-center">
+                                        <Skeleton variant="circular" sx={{width: "60px", height: "60px", bgcolor: 'white.100'}}/>
+                                        <Skeleton className="mx-1" variant="text" sx={{width: "120px", fontSize: '1rem' , bgcolor: 'white.100'}}/>
+                                    </div>
+                                
+                                    <Skeleton variant="text" sx={{width: "100px", fontSize: '2rem' , bgcolor: 'white.100'}}/>
+                                    </>
+                                    
                                 }
 
-                                {detalles.length != 0 && 
-                                    <ul>
-                                        {
-                                            detalles.map((detalles) => {
-                                                return(<li>{detalles}</li>)  
-                                            })
+                                {loaded &&
+                                    <>
+                                        <div>
+                                            <Link to={"/vendedor/" + producto.usuario_id}><img src={producto.foto} className="rounded-circle" style={{width: "60px", height: "60px"}} /></Link>
+                                            <span className="mx-1"></span>
+                                            <span className="fs-5">{producto.nombre_usuario}</span>
+                                        </div>
+                                        {producto.usuario_id != usuario &&
+                                            <AiFillHeart id="boton-me-gusta" onClick={meGusta} style={{width: "50px", height: "50px", fill: "black", cursor: "pointer"}}/>
                                         }
-                                    </ul>
+                                    </>
+                                    
                                 }
-                            </>
-                        }
-                    </div>
-                    <div >
+                            
+                            </div>
+                        </div>
+                        <div className="ms-3 mt-3 d-flex flex-row justify-content-between">
+                            {!loaded &&
+                                <>
+                                    <Skeleton variant="text" sx={{width: "120px", fontSize: '1rem' , bgcolor: 'white.100'}}/>
+                                    <div className="justify-content-end">                              
+                                        <Skeleton variant="rounded" sx={{width: "50px", height: "50px", bgcolor: 'white.100'}}/>                               
+                                    </div>
+                                </>
+                            }
+
+                            {loaded && 
+                                <>
+                                    <h4 className="">{producto.nombre}</h4>
+                                    
+                                </>
+                            }
+                        
+                        
+                        </div>
+                        <div className="ms-3 d-flex flex-column">
                         {!loaded && 
                             <>
-                                <Skeleton variant="text" sx={{width: "150px", fontSize: '2rem' , bgcolor: 'white.100'}}/>
-                                <Skeleton variant="rounded" sx={{width: "100%", height: "80px" , bgcolor: 'white.100'}}/>                
+                                <Skeleton variant="text" sx={{width: "60px", fontSize: '1rem' , bgcolor: 'white.100'}}/>
+                                <Skeleton variant="text" sx={{width: "80px", fontSize: '1rem' , bgcolor: 'white.100'}}/>
+                                <Skeleton variant="text" sx={{width: "100%", fontSize: '5rem' , bgcolor: 'white.100'}}/>
                             </>
                         }
-
                         {loaded && 
                             <>
-                                <h2>Método de envío</h2>
-                                <ul>
-                                    {producto.envio == 0 && <li>En mano</li>}
-                                    {producto.envio == 1 && <li>Envío a casa</li>}
-                                    {producto.envio == 2 && <><li>En mano</li><li>Envío a casa</li></>}
-                                </ul>
-                           </>
+                            <h1 className=" fw-bold">{producto.precio}€</h1>
+                            <h6 className="">{producto.categoria}</h6>
+                            {producto.usuario_id != usuario &&
+                                <button style={{width: "100%"}} className="btnVerProducto mt-3"  onClick={crearConversacion}>Chatear</button>
+                            }
+                            <h5 className="mt-3">Descripción</h5>
+                            <p>{producto.descripcion}</p>
+                            </>
                         }
-                        
-                    </div>               
+                        </div>
+                    
+                        <div className="ms-3">
+                            {!loaded && 
+                                <>
+                                    <Skeleton variant="text" sx={{width: "150px", fontSize: '2rem' , bgcolor: 'white.100'}}/>
+                                    <Skeleton variant="rounded" sx={{width: "100%", height: "180px" , bgcolor: 'white.100'}}/>                
+                                </>
+                            }
+                            {loaded && 
+                                <>
+                                    <h5>Detalles</h5>
+                                    {detalles.length == 0 && 
+                                        <p>No ha dado ningún detalle</p>
+                                    }
+
+                                    {detalles.length != 0 && 
+                                        <ul>
+                                            {
+                                                detalles.map((detalles) => {
+                                                    return(<li>{detalles}</li>)  
+                                                })
+                                            }
+                                        </ul>
+                                    }
+                                </>
+                            }
+                        </div>
+                        <div className="ms-3">
+                            {!loaded && 
+                                <>
+                                    <Skeleton variant="text" sx={{width: "150px", fontSize: '2rem' , bgcolor: 'white.100'}}/>
+                                    <Skeleton variant="rounded" sx={{width: "100%", height: "80px" , bgcolor: 'white.100'}}/>                
+                                </>
+                            }
+
+                            {loaded && 
+                                <>
+                                    <h5>Método de envío</h5>
+                                    
+                                    <ul>
+                                        {producto.envio == 0 && <li>En mano</li>}
+                                        {producto.envio == 1 && <li>Envío a casa</li>}
+                                        {producto.envio == 2 && <><li>En mano</li><li>Envío a casa</li></>}
+                                    </ul>
+                            </>
+                            }
+                            
+                        </div>    
+                    </div>           
                 </div>
             </div>
         </div>
