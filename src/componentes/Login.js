@@ -72,10 +72,10 @@ const Login = () => {
                 <input type="text" id="name" name="correoLogin" required  class="form-control" onChange={inputChangeLogin}/>
             </div>
             <div class="col-md-12 col-xs-12 form-group mb-3">
-                <label htmlFor="password" className="mb-2">Contrasena</label>
+                <label htmlFor="password" className="mb-2">Contraseña</label>
                 <input type="password" id="email" name="contrasenaLogin"  class="form-control" onChange={inputChangeLogin}/>
             </div>
-            <p>¿No tienes cuenta?<Link to="/registro"> Registrate</Link></p>
+            <p>¿No tienes cuenta?<Link to="/registro"> Regístrate</Link></p>
             <div className="col-md-12 col-xs-12 d-flex flex-column justify-content-center align-items-center">
                 {!error &&
                     <span className="text-danger mb-3">Correo o contraseña incorrecta</span>
