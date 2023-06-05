@@ -10,6 +10,7 @@ import iconoMensajes from "./iconos/chat.svg"
 import {AiFillHeart} from "react-icons/ai";
 import Avatar from '@mui/material/Avatar';
 import { deepOrange, deepPurple } from '@mui/material/colors';
+import fotoUsuario from "./iconos/usuario.png"
 
 const Header = () => {
     const navigate = useNavigate();
@@ -32,7 +33,7 @@ const Header = () => {
 
     
     useEffect(()=>{
-        if(currentUrl == "https://frontend-lobelbuy-pa8s.onrender.com/"){
+        if(currentUrl == "https://frontend-lobelbuy-pa8s.onrender.com/" || currentUrl == "https://frontend-lobelbuy-pa8s.onrender.com/#/"){
             console.log("inicio")
             //document.getElementById("busca").hidden = true;
             //document.getElementById("nombreBuscador").hidden = true;
@@ -51,6 +52,12 @@ const Header = () => {
         const ruta = "/listadoProductos?nombre=" + nombreBuscador;
         navigate(ruta)
     }
+
+    const handleKeyPress = e => {
+        if (e.key === 'Enter') {
+          buscarProducto();
+        }
+      };
     
     return(
         <div id="header" className="container-fluid py-4">
@@ -65,7 +72,7 @@ const Header = () => {
                 <div className="col-lg-5 col-md-5 col-sm-6 col-6">
                     <div id="buscador" className="buscador text-white d-flex flex-row-reverse align-items-center">
                         {/*<input id="nombreBuscador" type="text" placeholder="Buscar producto" className="inputBuscar form-control w-100 rounded-pill"/>*/}
-                        <input id="nombreBuscador" type="text" placeholder="Buscar producto" className="inputBuscar form-control w-100"/>
+                        <input id="nombreBuscador" type="text" onKeyPress={handleKeyPress} placeholder="Buscar producto" className="inputBuscar form-control w-100"/>
                         <img id="busca" src={iconoBuscar} className="iconoBuscar me-2" alt="buscar" onClick={buscarProducto}/>
                     </div>
                 </div>
