@@ -4,6 +4,7 @@ import axios from "axios"
 import "./styles/login.css"
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useAppContext } from "../AppProvider";
+import PantallaLoad from "./PantallaLoad";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -31,6 +32,7 @@ const Login = () => {
     }
 
     const enviarDatosLogin = () => {
+        document.getElementById("modalEntrarLogin").style.display = "block";
         axios.post("https://backend-lobelbuy-iex3.onrender.com/api/login", datosLogin)
         .then(({data}) => {
             dispatch({
@@ -38,11 +40,13 @@ const Login = () => {
                 value: data
             })
             window.localStorage.setItem("usuario", JSON.stringify(data));
-            navigate("/cuenta/productos")
+            navigate("/cuenta/productos");
+            document.getElementById("modalEntrarLogin").style.display = "none";
         })
         .catch(({response}) => {
             console.log(response.data);
             setError(false)
+            document.getElementById("modalEntrarLogin").style.display = "none";
         })
        }
 
@@ -50,12 +54,18 @@ const Login = () => {
         target.parentElement.style.visibility = "hidden";
     }
 
+    const handleKeyPress = e => {
+        if (e.key === 'Enter') {
+          enviarDatosLogin();
+        }
+      };
+
    
 
     return (
       
 
-<div id="login" className="container-fluid d-flex flex-column justify-content-center align-items-center" style={{minHeight: "80%", background: "linear-gradient(to bottom, #1E90FF,#87CEEB)"}}>
+<div id="login" onKeyPress={handleKeyPress} className="container-fluid d-flex flex-column justify-content-center align-items-center" style={{minHeight: "80%", background: "linear-gradient(to bottom, #1E90FF,#87CEEB)"}}>
 <div className="">
 {state?.registered ? (
                  <div id="alerta" class="alert alert-success w-100 position-absolute top-0 start-0" role="alert">
@@ -85,6 +95,9 @@ const Login = () => {
         </div>
     </form>
 </div>
+<div id="modalEntrarLogin" style={{display: "none"}}>
+    <PantallaLoad texto="Verificando datos"/>
+</div> 
 </div>
     )
 }
