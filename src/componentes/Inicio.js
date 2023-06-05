@@ -68,6 +68,12 @@ const Inicio = () => {
          navigate(ruta)
      }
 
+     const handleKeyPress = e => {
+        if (e.key === 'Enter') {
+          buscarProducto();
+        }
+      };
+
     return(
         
         <div id="inicio" style={{minHeight: "80%"}}>
@@ -77,7 +83,7 @@ const Inicio = () => {
                         <h1 className="text-center">Compre a terceros en Lobelbuy</h1>
                         <p className="text-center">Tú página de compra y venta de confianza</p>
                         <div className="buscador text-white d-flex align-items-center flex-row-reverse" style={{width: "40%"}}>
-                            <input id="buscadorInicio" type="text" placeholder="Buscar producto" className=" form-control" style={{left: "0"}}/>
+                            <input id="buscadorInicio" type="text" onKeyPress={handleKeyPress} placeholder="Buscar producto" className=" form-control" style={{left: "0"}}/>
                             <img id="busca" src={iconoBuscar} className="iconoBuscar me-2" alt="buscar" onClick={buscarProducto}/>
                         </div>
                         <div className="row mx-auto pt-5 d-flex justify-content-center">
