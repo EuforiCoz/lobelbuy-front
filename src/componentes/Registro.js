@@ -3,6 +3,7 @@ import {useState, useEffect} from "react";
 import axios from "axios"
 import "./styles/registro.css"
 import { useNavigate, Link } from 'react-router-dom';
+import PantallaLoad from "./PantallaLoad";
 
 const Registro = () => {
     const navigate = useNavigate();
@@ -75,6 +76,7 @@ const Registro = () => {
         } 
 
         if (validarNombre(datosRegistro.nombreRegistro) && validarEmail(datosRegistro.correoRegistro) && validarPassword(datosRegistro.contrasenaRegistro)) {
+            document.getElementById("modalRegistrarse").style.display = "block";
             setErrorCorreo(true);
             setErrorContrasena(true);
             axios.post("https://backend-lobelbuy-iex3.onrender.com/api/registrarse", datosRegistro)
@@ -84,12 +86,19 @@ const Registro = () => {
                         registered: true
                     }
                 });
+                document.getElementById("modalRegistrarse").style.display = "none";
             })
         }
     }
 
+    const handleKeyPress = e => {
+        if (e.key === 'Enter') {
+            enviarDatosRegistro();
+        }
+      };
+
     return (
-        <div id="registro" className="container-fluid d-flex flex-column justify-content-center align-items-center" style={{minHeight: "80%", background: "linear-gradient(to bottom, #1E90FF,#87CEEB)"}}>
+        <div id="registro" onKeyPress={handleKeyPress} className="container-fluid d-flex flex-column justify-content-center align-items-center" style={{minHeight: "80%", background: "linear-gradient(to bottom, #1E90FF,#87CEEB)"}}>
             <div className="">
                 <form className="w-75 p-5 mx-auto" style={{background: "linear-gradient(to bottom, #e6f2ff, #99ccff)", borderRadius: "10px"}}>
                     <div className="row ">
@@ -125,6 +134,9 @@ const Registro = () => {
                     </div>
                 </form>
             </div>
+            <div id="modalRegistrarse" style={{display: "none"}}>
+                <PantallaLoad texto="Creando cuenta"/>
+            </div> 
         </div>
     )
 }
