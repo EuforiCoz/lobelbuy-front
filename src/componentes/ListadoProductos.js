@@ -24,9 +24,11 @@ const ListadoProductos = () => {
     const nombre = new URLSearchParams(location.search).get('nombre');
     const categoria = new URLSearchParams(location.search).get('categoria');
     const estado = new URLSearchParams(location.search).get('estado');
+    const precio = new URLSearchParams(location.search).get('precio');
     
     //const { nombreProducto } = useParams();
     const [productos, setProductos] = useState([]);
+    const [statePrecio, setStatePrecio] = useState();
     const [stateCategoria, setStateCategoria] = useState();
     const [stateEstado, setStateEstado] = useState();
     const [loaded, setLoaded] = useState(false);
@@ -39,6 +41,7 @@ const ListadoProductos = () => {
     }, [location])
 
     const obtenerDatos = () => {
+        document.getElementById("precio").value = "porDefectoPrecio";
         document.getElementById("categoria").value = "porDefectoCategoria";
         document.getElementById("estado").value = "porDefectoEstado";
         var productoEstado;
@@ -62,18 +65,25 @@ const ListadoProductos = () => {
         const datos =  {
             nombre: nombre,
             categoria: productoCategoria,
-            estado: productoEstado
+            estado: productoEstado,
+            precio: precio
         }
 
         console.log(datos);
 
-        axios.post("https://backend-lobelbuy-iex3.onrender.com/buscarProducto", datos)
+        axios.post("http://localhost:5000/buscarProducto", datos)
         .then(res => {
             console.log(res.data)
             setProductos(res.data)
             setLoaded(true);
             console.log(stateCategoria)
             console.log(stateEstado)
+
+            if(precio == 99999 || precio == "porDefectoPrecio" || precio == null) {
+                document.getElementById("precio").value = "porDefectoPrecio";
+            } else{
+                document.getElementById("precio").value = precio;
+            }
 
             if(categoria == null || categoria == "porDefectoCategoria"){
                 document.getElementById("categoria").value = "porDefectoCategoria";
@@ -93,10 +103,7 @@ const ListadoProductos = () => {
             }
             else{
                 document.getElementById("estado").value = stateEstado;
-            }
-            
-       
-            
+            }   
         })
         .catch(({response}) => {
             setLoaded(true);
@@ -105,17 +112,20 @@ const ListadoProductos = () => {
 
     const filtrar = () => {
         setLoaded(false);
+        var precio = document.getElementById("precio").value;
         var categoria = document.getElementById("categoria").value;
         var estado = document.getElementById("estado").value;
+        document.getElementById("precio").value = "porDefectoPrecio";
         document.getElementById("categoria").value = "porDefectoCategoria";
         document.getElementById("estado").value = "porDefectoEstado";
+        setStatePrecio(precio);
         setStateCategoria(categoria);
         setStateEstado(estado);
 
         if(nombre == null){
-            navigate("/listadoProductos?categoria=" + categoria + "&estado=" + estado);
+            navigate("/listadoProductos?categoria=" + categoria + "&estado=" + estado + "&precio=" + precio);
         } else{
-            navigate("/listadoProductos?nombre=" + nombre + "&categoria=" + categoria + "&estado=" + estado);
+            navigate("/listadoProductos?nombre=" + nombre + "&categoria=" + categoria + "&precio=" + precio);
         }
     }
 
@@ -142,6 +152,23 @@ const ListadoProductos = () => {
                                     </div>
                                 </div>
                                     */}
+                                <div className="mb-3">
+                                    <span>Precio</span>
+                                    <span className="mx-3"></span>
+                                    <select id="precio"  className="form-control" onChange={event => setStatePrecio(event.target.value)}>
+                                        <option value="porDefectoPrecio" disabled>Selecciona un precio</option>
+                                        <option value="10">Menos de 10€</option>
+                                        <option value="25">Menos de 25€</option>
+                                        <option value="50">Menos de 50€</option>
+                                        <option value="100">Menos de 100€</option>
+                                        <option value="200">Menos de 200€</option>
+                                        <option value="500">Menos de 500€</option>
+                                        <option value="1000">Menos de 1000€</option>
+                                        <option value="2000">Menos de 2000€</option>
+                                        <option value="5000">Menos de 5000€</option>
+                                        <option value="10000">Menos de 10000€</option>
+                                    </select>
+                                </div>
                                 <div className="mb-3">
                                     <span>Categorías</span>
                                     <span className="mx-3"></span>
