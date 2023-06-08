@@ -71,7 +71,7 @@ const ListadoProductos = () => {
 
         console.log(datos);
 
-        axios.post("https://backend-lobelbuy-iex3.onrender.com/buscarProducto", datos)
+        axios.post("http://localhost:5000/buscarProducto", datos)
         .then(res => {
             console.log(res.data)
             setProductos(res.data)
@@ -125,7 +125,7 @@ const ListadoProductos = () => {
         if(nombre == null){
             navigate("/listadoProductos?categoria=" + categoria + "&estado=" + estado + "&precio=" + precio);
         } else{
-            navigate("/listadoProductos?nombre=" + nombre + "&categoria=" + categoria + "&precio=" + precio);
+            navigate("/listadoProductos?nombre=" + nombre + "&categoria=" + categoria + "&precio=" + precio + "&estado=" + estado);
         }
     }
 
