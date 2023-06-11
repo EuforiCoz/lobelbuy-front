@@ -143,7 +143,7 @@ const Productos = () => {
 
                         {loaded &&
                             <>
-                                <img src={usuario.imagen} className="rounded-circle img-fluid img-overlay" width="150" height="150"/>
+                                <img src={usuario.imagen} className="rounded-circle img-fluid img-overlay" style={{width: "150px", height: "150px"}}/>
                                 <h1 className="mt-3 text-white">{usuario.nombre}</h1>
                             </>
                         }
