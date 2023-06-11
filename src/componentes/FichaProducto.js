@@ -10,6 +10,7 @@ import imgProducto from "./iconos/crash.jpg";
 import {RiKakaoTalkLine} from "react-icons/ri"
 import {AiFillHeart} from "react-icons/ai";
 import Skeleton from '@mui/material/Skeleton';
+import PantallaLoad from "./PantallaLoad";
 
 const FichaProducto = () => {
 
@@ -37,7 +38,7 @@ const FichaProducto = () => {
             producto_id: params.id
         }
 
-        axios.post("https://backend-lobelbuy-iex3.onrender.com/saberFavorito", datos)
+        axios.post("http://localhost:5000/saberFavorito", datos)
         .then(res => {
             if(res.data.esta_en_favoritos == 1){
                 document.getElementById("boton-me-gusta").style.fill = "red";
@@ -60,7 +61,7 @@ const FichaProducto = () => {
             id: params.id
         }
 
-        axios.post("https://backend-lobelbuy-iex3.onrender.com/mostrarFichaProducto", datos)
+        axios.post("http://localhost:5000/mostrarFichaProducto", datos)
         .then(res => {
             console.log(res.data);
             setLoaded(true);
@@ -83,6 +84,8 @@ const FichaProducto = () => {
     }
 
     const crearConversacion = () => {
+        document.getElementById("modalRedirigirChat").style.display = "block";
+
         console.log(usuario);
         if(usuario == 0){
             navigate("/login");
@@ -93,13 +96,17 @@ const FichaProducto = () => {
                 usuario2_id: producto.usuario_id
             }
     
-            axios.post("https://backend-lobelbuy-iex3.onrender.com/crearConversacion", datos)
+            axios.post("http://localhost:5000/crearConversacion", datos)
             .then(res => {
                
                     navigate("/cuenta/chats?usuario=" + producto.usuario_id);
+                    document.getElementById("modalRedirigirChat").style.display = "none";
+
                 
             })
             .catch(res => {
+                document.getElementById("modalRedirigirChat").style.display = "none";
+
                 console.log(res);
             })
         }
@@ -130,7 +137,7 @@ const FichaProducto = () => {
             producto_id: producto.id
         }
 
-        axios.post("https://backend-lobelbuy-iex3.onrender.com/guardarFavorito", datos)
+        axios.post("http://localhost:5000/guardarFavorito", datos)
         .then(res => {
             //setProducto(res.data) 
         })
@@ -145,7 +152,7 @@ const FichaProducto = () => {
             producto_id: params.id
         }
 
-        axios.post("https://backend-lobelbuy-iex3.onrender.com/eliminarFavorito", datos)
+        axios.post("http://localhost:5000/eliminarFavorito", datos)
         .then(res => {
             //setProducto(res.data) 
         })
@@ -301,6 +308,9 @@ const FichaProducto = () => {
                         </div>    
                     </div>           
                 </div>
+            </div>
+            <div id="modalRedirigirChat" style={{display: "none"}}>
+                <PantallaLoad texto="Redirigiriendo al chat"/>
             </div>
         </div>
     )  
